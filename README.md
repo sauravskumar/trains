@@ -8,6 +8,7 @@
 [![PayPal donate button](https://img.shields.io/badge/donate-paypal-brightgreen.svg?style=flat-square)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=E2LK57ZQ9YRMN)
 
 ---
+API_HOST=192.168.43.216 HOST=192.168.43.216 npm run dev
 
 ## About
 

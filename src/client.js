@@ -10,7 +10,7 @@ import io from 'socket.io-client';
 import {Provider} from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import { ReduxAsyncConnect } from 'redux-async-connect';
+import { ReduxAsyncConnect } from 'redux-connect';
 import useScroll from 'scroll-behavior/lib/useStandardScroll';
 
 import getRoutes from './routes';
@@ -36,6 +36,7 @@ function initSocket() {
 
 global.socket = initSocket();
 
+
 const component = (
   <Router render={(props) =>
         <ReduxAsyncConnect {...props} helpers={{client}} filter={item => !item.deferred} />
@@ -59,15 +60,15 @@ if (process.env.NODE_ENV !== 'production') {
   }
 }
 
-if (__DEVTOOLS__ && !window.devToolsExtension) {
-  const DevTools = require('./containers/DevTools/DevTools');
-  ReactDOM.render(
-    <Provider store={store} key="provider">
-      <div>
-        {component}
-        <DevTools />
-      </div>
-    </Provider>,
-    dest
-  );
-}
+// if (__DEVTOOLS__ && !window.devToolsExtension) {
+//   const DevTools = require('./containers/DevTools/DevTools');
+//   ReactDOM.render(
+//     <Provider store={store} key="provider">
+//       <div>
+//         {component}
+//         <DevTools />
+//       </div>
+//     </Provider>,
+//     dest
+//   );
+// }

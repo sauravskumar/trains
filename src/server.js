@@ -14,7 +14,7 @@ import http from 'http';
 
 import { match } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import { ReduxAsyncConnect, loadOnServer } from 'redux-async-connect';
+import { ReduxAsyncConnect, loadOnServer } from 'redux-connect';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import {Provider} from 'react-redux';
 import getRoutes from './routes';
@@ -85,7 +85,7 @@ app.use((req, res) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (error) {
-      console.error('ROUTER ERROR:', pretty.render(error));
+      // console.error('ROUTER ERROR:', pretty.render(error));
       res.status(500);
       hydrateOnClient();
     } else if (renderProps) {
@@ -95,7 +95,8 @@ app.use((req, res) => {
             <ReduxAsyncConnect {...renderProps} />
           </Provider>
         );
-
+        // console.log(renderProps);
+        // console.log(component);
         res.status(200);
 
         global.navigator = {userAgent: req.headers['user-agent']};

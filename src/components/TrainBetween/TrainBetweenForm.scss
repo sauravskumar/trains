@@ -1,0 +1,19 @@
+
+.trainsBetweenForm{
+  margin: 0 auto;
+  display: block;
+  input[type=text] {
+    width: 200px !important;
+  }
+  input[type=checkbox]{
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+  }
+  button {
+    width: 100px;
+    //background: indianred;
+  }
+}
+.trainsBetweenForm > *{
+  margin: 5px;
+}

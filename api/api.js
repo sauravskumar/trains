@@ -24,6 +24,11 @@ app.use(session({
 }));
 app.use(bodyParser.json());
 
+let trains = require('./action/index')();
+app.use('/check', (req,res)=>{
+  res.send('check')
+})
+app.use('/', trains);
 
 app.use((req, res) => {
   const splittedUrlPath = req.url.split('?')[0].split('/').slice(1);

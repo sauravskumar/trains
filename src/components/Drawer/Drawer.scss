@@ -1,0 +1,46 @@
+.drawer {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  display: block;
+  background: white;
+  z-index: 10;
+  padding: 0;
+  transition-duration: .4s;
+  border-right: 1px solid lightgrey;
+  opacity: 1;
+  ul {
+    list-style: none;
+    margin: 0;
+    margin-top: 100px;
+    padding: 0;
+    li {
+      padding-left: 20px;
+      width: 100%;
+      background: white;
+      height: 44px;
+      font-size: 1.7rem;
+      line-height: 44px;
+      vertical-align: middle;
+    }
+    li:hover {
+      font-weight: 600;
+      background: #EFEFEF;
+    }
+  }
+}
+
+.hideDrawer {
+  @extend .drawer;
+  margin-left: -250px;
+  opacity: 0;
+}
+
+.backgroundBlur {
+  width: 100%;
+  background: rgba(0,0,0,0.3);
+  height: 100%;
+  position: fixed;
+  display: block;
+  z-index: 9;
+}

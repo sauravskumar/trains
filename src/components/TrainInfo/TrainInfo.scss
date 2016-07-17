@@ -1,0 +1,30 @@
+$brand-primary:         #2196F3 !default;
+$brand-success:         #4CAF50 !default;
+$brand-info:            #9C27B0 !default;
+$brand-warning:         #ff9800 !default;
+$brand-danger:          #e51c23 !default;
+
+.days {
+  padding: 0;
+  margin: 0;
+  //border: 1px solid black;
+}
+.days > span{
+  height: 16px;
+  width: 16px;
+  line-height: 16px;
+  vertical-align: middle;
+  border: 1px dotted $brand-primary;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  border-radius: 2px;
+}
+.days > span:first-child, .days > span:last-child{
+  border: 1px dotted $brand-danger;
+}
+
+table {
+  max-width: 650px;
+}

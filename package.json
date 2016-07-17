@@ -61,8 +61,8 @@
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "development",
-        "PORT": 3000,
-        "APIPORT": 3030
+        "PORT": 4000,
+        "APIPORT": 4030
       }
     },
     "start-dev-api": {
@@ -70,7 +70,7 @@
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "development",
-        "APIPORT": 3030
+        "APIPORT": 4030
       }
     },
     "watch-client": {
@@ -78,8 +78,8 @@
       "env": {
         "UV_THREADPOOL_SIZE": 100,
         "NODE_PATH": "./src",
-        "PORT": 3000,
-        "APIPORT": 3030
+        "PORT": 4000,
+        "APIPORT": 4030
       }
     },
     "build": {
@@ -107,6 +107,7 @@
     "express": "^4.13.3",
     "express-session": "^1.12.1",
     "file-loader": "^0.8.5",
+    "google-map-react": "^0.15.1",
     "hoist-non-react-statics": "^1.0.3",
     "http-proxy": "^1.12.0",
     "invariant": "^2.2.0",
@@ -114,21 +115,24 @@
     "less-loader": "^2.2.1",
     "lru-memoize": "^1.0.0",
     "map-props": "^1.0.0",
+    "mongodb": "^2.2.0",
     "multireducer": "^2.0.0",
+    "neo4j-driver": "^1.0.3",
     "piping": "^0.3.0",
     "pretty-error": "^1.2.0",
-    "react": "^0.14.2",
-    "react-bootstrap": "^0.28.1",
-    "react-dom": "^0.14.1",
-    "react-helmet": "^2.2.0",
+    "react": "^15.0.2",
+    "react-bootstrap": "^0.29.5",
+    "react-dom": "^15.0.2",
+    "react-helmet": "^3.1.0",
     "react-inline-css": "^2.0.0",
     "react-redux": "^4.0.0",
-    "react-router": "2.0.0",
-    "react-router-bootstrap": "^0.20.1",
+    "react-router": "2.4.0",
+    "react-router-bootstrap": "^0.23.0",
     "react-router-redux": "^4.0.0",
     "redux": "^3.0.4",
-    "redux-async-connect": "^1.0.0-rc2",
+    "redux-connect": "^2.1.0",
     "redux-form": "^3.0.12",
+    "request": "^2.73.0",
     "scroll-behavior": "^0.3.2",
     "serialize-javascript": "^1.1.2",
     "serve-favicon": "^2.3.0",
@@ -171,8 +175,8 @@
     "node-sass": "^3.4.2",
     "phantomjs": "^1.9.18",
     "phantomjs-polyfill": "0.0.1",
-    "react-a11y": "^0.2.6",
-    "react-addons-test-utils": "^0.14.0",
+    "react-a11y": "^0.3.3",
+    "react-addons-test-utils": "^15.0.2",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
     "redbox-react": "^1.1.1",

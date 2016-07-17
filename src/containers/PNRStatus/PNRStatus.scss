@@ -1,0 +1,14 @@
+.PNRStatusForm{
+  margin: 0 auto;
+  display: block;
+  input {
+    width: 250px !important;
+  }
+  button {
+    width: 200px;
+    //background: indianred;
+  }
+}
+.PNRStatusForm > *{
+  margin: 5px;
+}
