@@ -5,12 +5,12 @@ var neo4j = require('neo4j-driver').v1;
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
-var constant = require('./../../const')
+var constant = require('./../const')
 var url = constant.url;
 var collection = 'stations_all';
 
 // Create a driver instance, for the user neo4j with password neo4j.
-var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "nike"));
+var driver = constant.neo_driver
 // const source = 'TATA', dest = 'RNC'
 let express = require('express'),
   router = express.Router();

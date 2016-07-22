@@ -4,7 +4,7 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
-var constant = require('./../../const')
+var constant = require('./../const')
 var url = constant.url;
 
 let express = require('express'),

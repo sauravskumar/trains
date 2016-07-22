@@ -3,10 +3,10 @@
  */
 var neo4j = require('neo4j-driver').v1;
 var assert = require('assert');
-
+var constant = require('./../const')
 // var trains = 'trains'
 // Create a driver instance, for the user neo4j with password neo4j.
-var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "nike"));
+var driver = constant.neo_driver;
 // const source = 'TATA', dest = 'RNC'
 let express = require('express'),
   router = express.Router();

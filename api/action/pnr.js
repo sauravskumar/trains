@@ -2,11 +2,8 @@
  * Created by saurav on 11/7/16.
  */
 var http = require("http");
-var neo4j = require('neo4j-driver').v1;
 var assert = require('assert');
 
-// Create a driver instance, for the user neo4j with password neo4j.
-var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "nike"));
 var request = require("request");
 // const source = 'TATA', dest = 'RNC'
 let express = require('express'),

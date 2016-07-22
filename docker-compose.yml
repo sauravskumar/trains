@@ -2,10 +2,15 @@ version: '2'
 
 services:
   trains:
-    images: sauravskumar/trains
+    image: sauravskumar/trains
     container_name: trains
   mongo:
-    images: sauravskumar/trains_mongo
+    image: mongo
     container_name: trains_mongo
     volumes:
       - /data/docker/trains_mongo:/data/db
+  neo4j:
+    image: neo4j
+    container_name: trains_neo4j
+    volumes:
+      - /data/docker/trains_neo4j:/data
