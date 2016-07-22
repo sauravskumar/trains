@@ -42,6 +42,14 @@ app.use('/ws', (req, res) => {
   proxy.web(req, res, {target: targetUrl + '/ws'});
 });
 
+app.use('/trains/api', (req, res) => {
+  proxy.web(req, res, {target: targetUrl});
+});
+
+app.use('/trains/ws', (req, res) => {
+  proxy.web(req, res, {target: targetUrl + '/ws'});
+});
+
 server.on('upgrade', (req, socket, head) => {
   proxy.ws(req, socket, head);
 });

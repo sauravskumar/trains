@@ -39,7 +39,7 @@ export default class StationInfo extends Component {
               </div>
               <div className="col-xs-6">
                 <div className={style.pimg}
-                     style={{backgroundImage: 'url(/images/placeholder/taj.jpg)'}}/>
+                     style={{backgroundImage: 'url(/trains-images/placeholder/taj.jpg)'}}/>
               </div>
             </div>
           </div>
