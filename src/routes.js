@@ -2,21 +2,21 @@ import React from 'react';
 import {IndexRoute, Route} from 'react-router';
 // import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
-    App,
-    // Chat,
-    // Widgets,
-    // Login,
-    // LoginSuccess,
-    // Survey,
-    NotFound,
-    // Home,
-    About,
+  App,
+  // Chat,
+  // Widgets,
+  // Login,
+  // LoginSuccess,
+  // Survey,
+  NotFound,
+  // Home,
+  About,
 
-    Train,
-    TrainsBetween,
-    Station,
-    PNRStatus
-  } from 'containers';
+  Train,
+  TrainsBetween,
+  Station,
+  PNRStatus
+} from 'containers';
 
 // export default (store) => {
 export default () => {
@@ -42,30 +42,32 @@ export default () => {
    */
   return (
     <Route path="/" component={App}>
-      { /* Home (main) route */ }
-      <IndexRoute component={TrainsBetween}/>
+      <Route path="/trains" component={App}>
+        { /* Home (main) route */ }
+        <IndexRoute component={TrainsBetween}/>
 
-      { /* Routes requiring login */ }
-      {/* <Route onEnter={requireLogin}>
-        <Route path="chat" component={Chat}/>
-        <Route path="loginSuccess" component={LoginSuccess}/>
-      </Route> */}
+        { /* Routes requiring login */ }
+        {/* <Route onEnter={requireLogin}>
+         <Route path="chat" component={Chat}/>
+         <Route path="loginSuccess" component={LoginSuccess}/>
+         </Route> */}
 
-      { /* Routes */ }
-      {/* <Route path="login" component={Login}/>
-      <Route path="survey" component={Survey}/>
-      <Route path="widgets" component={Widgets}/> */}
-      <Route path="station" component={Station}/>
-      <Route path="about" component={About}/>
-      <Route path="station/:param" component={Station}/>
-      <Route path="train" component={Train}/>
-      <Route path="train/:param" component={Train}/>
-      <Route path="trains" component={TrainsBetween}/>
-      <Route path="trains/:param" component={TrainsBetween}/>
-      <Route path="pnr-status" component={PNRStatus}/>
+        { /* Routes */ }
+        {/* <Route path="login" component={Login}/>
+         <Route path="survey" component={Survey}/>
+         <Route path="widgets" component={Widgets}/> */}
+        <Route path="station" component={Station}/>
+        <Route path="about" component={About}/>
+        <Route path="station/:param" component={Station}/>
+        <Route path="train" component={Train}/>
+        <Route path="train/:param" component={Train}/>
+        <Route path="trains" component={TrainsBetween}/>
+        <Route path="trains/:param" component={TrainsBetween}/>
+        <Route path="pnr-status" component={PNRStatus}/>
 
-      { /* Catch all route */ }
-      <Route path="*" component={NotFound} status={404} />
+        { /* Catch all route */ }
+        <Route path="*" component={NotFound} status={404}/>
+      </Route>
     </Route>
   );
 };

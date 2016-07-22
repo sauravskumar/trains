@@ -1,0 +1,3 @@
+docker build -t trains_img .
+
+npm run build && docker rmi trains_img && docker build -t trains_img . && docker run --rm -it --name trains --entrypoint /bin/bash -p 8080:8080 -p 3000:3000 -p 3030:3030 --net=at_network trains_img

@@ -5,8 +5,9 @@ var neo4j = require('neo4j-driver').v1;
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
-var url = 'mongodb://localhost:27017/trains';
-var collection = 'stations_all';
+var constant = require('./../../const')
+var url = constant.url;
+
 // var trains = 'trains'
 // Create a driver instance, for the user neo4j with password neo4j.
 var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "nike"));

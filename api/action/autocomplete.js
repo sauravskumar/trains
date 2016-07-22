@@ -4,8 +4,9 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
-var url = 'mongodb://localhost:27017/trains';
-var collection = 'stations_all';
+var constant = require('./../../const')
+var url = constant.url;
+
 let express = require('express'),
   router = express.Router();
 let trainCache = [], stationCache = [];
