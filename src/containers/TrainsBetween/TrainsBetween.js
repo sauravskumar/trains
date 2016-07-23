@@ -43,6 +43,14 @@ export default class TrainsBetween extends Component {
 
   render() {
     const {trainBetweenList, params} = this.props;
+    let url = params.param;
+    console.log(url);
+    url = url.split('-');
+    const codes = url.splice(0, 3);
+    console.log(url);
+    const to = url.indexOf('to');
+    url.splice(to, 1);
+    const heading = `${codes[0]} ${url.slice(0, to).join(' ')} to ${codes[2]} ${url.slice(to).join(' ')}`;
     if (!params || !params.param) {
       return (
         <div className="row">
@@ -60,7 +68,7 @@ export default class TrainsBetween extends Component {
           <div className="col-xs-12 col-sm-8">
             <TrainBetweenForm/>
             <br/>
-            <div className="text-center">No Trains Between {params.param.replace(/-/g, ' ')}</div>
+            <div className="text-center">No Trains Between {heading}</div>
             <PlaceHolder/>
           </div>
         </div>
@@ -73,7 +81,7 @@ export default class TrainsBetween extends Component {
           <br/>
           <h5 className="text-center"
               style={{background: '#4285F4', fontSize: '20px', color: '#FFFFFF', padding: '10px'}}>
-            {trainBetweenList.json.length} Trains for {params.param.replace(/-/g, ' ')}
+            {trainBetweenList.json.length} Trains for {heading}
           </h5>
           <div className="panel panel-default">
             <div className="panel-body">

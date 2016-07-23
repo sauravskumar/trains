@@ -26,9 +26,12 @@ export default class TrainBetweenForm extends Component {
     let dest = this.refs.destSt.getWrappedInstance().refs.searchInput.value;
     const nearby = this.refs.nearby.checked;
     console.log(nearby);
-    source = source.replace(/ /g, '-').replace(/-+/, '-' );
-    dest = dest.replace(/ /g, '-').replace(/-+/, '-' );
-    const path = `/trains/between/${source}-to-${dest}`;
+    source = source.replace(/ /g, '-').replace(/-+/, '-' ).split('-');
+    dest = dest.replace(/ /g, '-').replace(/-+/, '-' ).split('-');
+    let path = `/trains/between/${source[0]}-to-${dest[0]}`;
+    source.shift();
+    dest.shift();
+    path += `-${source.join('-')}-to-${dest.join('-')}`;
     this.context.router.push(path);
   };
   render() {

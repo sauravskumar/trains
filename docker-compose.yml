@@ -4,11 +4,15 @@ services:
   trains:
     image: sauravskumar/trains
     container_name: trains
-    command: bash -c "npm install && npm run start"
+    command: npm run dev
     depends_on:
       - neo4j
     volumes:
       - .:/usr/src/app
+    ports:
+      - 4000:4000
+      - 4001:4001
+      - 4030:4030
   mongo:
     image: mongo
     container_name: trains_mongo
