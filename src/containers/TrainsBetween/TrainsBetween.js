@@ -41,16 +41,18 @@ export default class TrainsBetween extends Component {
     params: PropTypes.object
   };
 
-  render() {
-    const {trainBetweenList, params} = this.props;
-    let url = params.param;
-    console.log(url);
-    url = url.split('-');
+  heading = (param) => {
+    // console.log(url);
+    const url = param.split('-');
     const codes = url.splice(0, 3);
-    console.log(url);
     const to = url.indexOf('to');
     url.splice(to, 1);
-    const heading = `${codes[0]} ${url.slice(0, to).join(' ')} to ${codes[2]} ${url.slice(to).join(' ')}`;
+    return `${codes[0]} ${url.slice(0, to).join(' ')} to ${codes[2]} ${url.slice(to).join(' ')}`;
+  };
+
+  render() {
+    const {trainBetweenList, params} = this.props;
+    const url = params.param;
     if (!params || !params.param) {
       return (
         <div className="row">
@@ -68,7 +70,7 @@ export default class TrainsBetween extends Component {
           <div className="col-xs-12 col-sm-8">
             <TrainBetweenForm/>
             <br/>
-            <div className="text-center">No Trains Between {heading}</div>
+            <div className="text-center">No Trains Between {this.heading(url)}</div>
             <PlaceHolder/>
           </div>
         </div>
@@ -81,7 +83,7 @@ export default class TrainsBetween extends Component {
           <br/>
           <h5 className="text-center"
               style={{background: '#4285F4', fontSize: '20px', color: '#FFFFFF', padding: '10px'}}>
-            {trainBetweenList.json.length} Trains for {heading}
+            {trainBetweenList.json.length} Trains for {this.heading(url)}
           </h5>
           <div className="panel panel-default">
             <div className="panel-body">

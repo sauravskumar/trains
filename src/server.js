@@ -69,6 +69,7 @@ proxy.on('error', (error, req, res) => {
 });
 
 app.use((req, res) => {
+  console.log('targetUrl', targetUrl);
   if (__DEVELOPMENT__) {
     // Do not cache webpack stats: the script file would change since
     // hot module replacement is enabled in the development env

@@ -5,18 +5,10 @@ services:
     build: .
     image: sauravskumar/trains
     container_name: trains
-    command: npm run dev
+    command: bash -c "rm -rf /root/.pm2 && npm run start"
     depends_on:
       - neo4j
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    ports:
-      - 4000:4000
-      - 4001:4001
-      - 4030:4030
-    environment:
-        NODE_ENV: development
+      - mongo
 
   mongo:
     image: mongo
