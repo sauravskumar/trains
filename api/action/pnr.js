@@ -3,9 +3,8 @@
  */
 var http = require("http");
 var assert = require('assert');
-
 var request = require("request");
-// const source = 'TATA', dest = 'RNC'
+
 let express = require('express'),
   router = express.Router();
 

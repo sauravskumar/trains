@@ -1,7 +1,6 @@
 /**
  * Created by saurav on 11/7/16.
  */
-var neo4j = require('neo4j-driver').v1;
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
@@ -10,8 +9,7 @@ var url = constant.url;
 
 // var trains = 'trains'
 // Create a driver instance, for the user neo4j with password neo4j.
-var driver = constant.neo_driver
-// const source = 'TATA', dest = 'RNC'
+
 let express = require('express'),
   router = express.Router();
 

@@ -1,7 +1,7 @@
 /**
  * Created by saurav on 11/7/16.
  */
-var neo4j = require('neo4j-driver').v1;
+
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;

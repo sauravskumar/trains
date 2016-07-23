@@ -4,6 +4,11 @@ services:
   trains:
     image: sauravskumar/trains
     container_name: trains
+    command: npm run start
+    depends_on:
+      - neo4j
+    volumes:
+      - .:/usr/src/app
   mongo:
     image: mongo
     container_name: trains_mongo

@@ -41,10 +41,11 @@ export default () => {
    * Please keep routes in alphabetical order
    */
   return (
-    <Route path="/" component={App}>
+    <Route path="/">
       <Route path="/trains" component={App}>
         { /* Home (main) route */ }
         <IndexRoute component={TrainsBetween}/>
+        <Route path="between/:param" component={TrainsBetween}/>
 
         { /* Routes requiring login */ }
         {/* <Route onEnter={requireLogin}>
@@ -61,8 +62,7 @@ export default () => {
         <Route path="station/:param" component={Station}/>
         <Route path="train" component={Train}/>
         <Route path="train/:param" component={Train}/>
-        <Route path="trains" component={TrainsBetween}/>
-        <Route path="trains/:param" component={TrainsBetween}/>
+        {/* <Route path="trains" component={TrainsBetween}/> */}
         <Route path="pnr-status" component={PNRStatus}/>
 
         { /* Catch all route */ }
