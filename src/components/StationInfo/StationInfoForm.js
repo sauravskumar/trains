@@ -23,7 +23,7 @@ export default class StationInfoForm extends Component {
     // console.log(this.refs.stationCodeInput.getWrappedInstance().refs.searchInput.value);
     let trainInfo = this.refs.stationCodeInput.getWrappedInstance().refs.searchInput.value;
     trainInfo = trainInfo.replace(/ /g, '-').replace(/-+/, '-' );
-    const path = `/station/${trainInfo}`;
+    const path = `/trains/station/${trainInfo}`;
     this.context.router.push(path);
   };
   render() {

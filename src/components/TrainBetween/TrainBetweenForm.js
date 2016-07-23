@@ -28,7 +28,7 @@ export default class TrainBetweenForm extends Component {
     console.log(nearby);
     source = source.replace(/ /g, '-').replace(/-+/, '-' );
     dest = dest.replace(/ /g, '-').replace(/-+/, '-' );
-    const path = `/trains/${source}-to-${dest}`;
+    const path = `/trains/between/${source}-to-${dest}`;
     this.context.router.push(path);
   };
   render() {
