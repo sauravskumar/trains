@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:6
+FROM node:6.3.0
 
 RUN mkdir -p /usr/src/app
 
@@ -13,5 +13,7 @@ ENV docker true
 COPY . /usr/src/app
 
 RUN npm run build
+
+RUN npm cache clean
 
 CMD ["/bin/bash"]
