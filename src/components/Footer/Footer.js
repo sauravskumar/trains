@@ -3,7 +3,6 @@
  */
 import React, {Component} from 'react';
 import style from './Footer.scss';
-import {Link} from 'react-router';
 
 export default class Footer extends Component {
   render() {
