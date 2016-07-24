@@ -12,10 +12,10 @@ export default class Footer extends Component {
         <div className="container">
           <ul>
             <li>
-              <Link to={'/coupons'}>Coupons</Link>
+              <a href={'/coupons/'}>Coupons</a>
             </li>
             <li>
-              <Link to={'/about'}>About</Link>
+              <a href={'/about/'}>About</a>
             </li>
           </ul>
         </div>

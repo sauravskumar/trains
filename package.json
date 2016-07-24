@@ -24,7 +24,7 @@
   ],
   "main": "bin/server.js",
   "scripts": {
-    "start": "concurrent --kill-others \"./node_modules/pm2/bin/pm2 stop api\" \"npm run start-prod\" \"npm run start-prod-api\"",
+    "start": "concurrent --kill-others \"npm run start-prod\" \"npm run start-prod-api\"",
     "start-prod": "better-npm-run start-prod",
     "start-prod-api": "better-npm-run start-prod-api",
     "build": "better-npm-run build",
@@ -49,7 +49,7 @@
       }
     },
     "start-prod-api": {
-      "command": "node_modules/pm2/bin/pm2 start ./bin/api.js",
+      "command": "node_modules/pm2/bin/pm2 restart ./bin/api.js",
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "production",
