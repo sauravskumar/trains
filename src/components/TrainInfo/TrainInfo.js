@@ -4,18 +4,24 @@
 import React, {Component, PropTypes} from 'react';
 import TrainInfoForm from './TrainInfoForm';
 import style from './TrainInfo.scss';
+import { AppHelmet } from 'components';
 
 export default class TrainInfo extends Component {
   static propTypes = {
     params: PropTypes.object,
-    train: PropTypes.object
+    train: PropTypes.object,
+    fullUrl: PropTypes.string
   };
 
   render() {
-    const {train, params} = this.props;
+    const {train, params, fullUrl} = this.props;
     if (!params.param) {
       return (
         <div style={{maxWidth: '650px'}}>
+          <AppHelmet title={'Train Info.'}
+                     description={'Check train running status, train route, train details, seat fare of any train.'}
+                     keywords={'Train status, live status, train info, train details, seat fare, seat availability'}
+                     url={fullUrl}/>
           <TrainInfoForm/>
           <br/>
           <br/>
@@ -25,6 +31,10 @@ export default class TrainInfo extends Component {
     }
     return (
       <div style={{maxWidth: '650px'}}>
+        <AppHelmet title={'Train Info.'}
+                   description={'Check train running status, train route, train details, seat fare of any train.'}
+                   keywords={'Train status, live status, train info, train details, seat fare, seat availability'}
+                   url={fullUrl}/>
         <TrainInfoForm/>
         <br/>
         <div className="panel panel-default" itemScope itemType="http://schema.org/TrainTrip">

@@ -10,7 +10,6 @@ import { StationInfo } from 'components';
 import {asyncConnect} from 'redux-connect';
 import {loadStationInfo} from 'redux/modules/search';
 import {connect} from 'react-redux';
-import { AppHelmet } from 'components';
 @asyncConnect([{
   promise: ({store: {dispatch}, params: {param}}) => {
     const promises = [];
@@ -35,11 +34,7 @@ export default class Station extends Component {
     const fullUrl = location.pathname;
     return (
       <div style={{maxWidth: '650px'}}>
-        <AppHelmet title={'PNR Status'}
-                   description={'Check train PNR Number Status. Get seat availability and register for train alerts.'}
-                   keywords={'pnr status, pnr status check, pnr number check, pnr number status, berth availability'}
-                   url={fullUrl}/>
-        <StationInfo stationInfo={stationInfo} params={params}/>
+        <StationInfo stationInfo={stationInfo} params={params} fullUrl={fullUrl}/>
       </div>
     );
   }

@@ -4,16 +4,17 @@
 import React, {Component, PropTypes} from 'react';
 import StationInfoForm from './StationInfoForm';
 import style from './StationInfo.scss';
+import {AppHelmet} from 'components';
 
 export default class StationInfo extends Component {
   static propTypes = {
     params: PropTypes.object,
-    stationInfo: PropTypes.object
+    stationInfo: PropTypes.object,
+    fullUrl: PropTypes.object
   };
 
   render() {
-    const {stationInfo, params} = this.props;
-    // console.log('stationInfo', station[0]._fields[1]);
+    const {stationInfo, params, fullUrl} = this.props;
     let station = {};
     if (stationInfo) {
       station = stationInfo.station.properties;
@@ -21,16 +22,25 @@ export default class StationInfo extends Component {
     if (!params.param) {
       return (
         <div>
+          <AppHelmet title={'Station Info.'}
+                     description={'Get station details, trains visiting station, trains between stations for any station you want'}
+                     keywords={'station information, trains visiting station, station details'}
+                     url={fullUrl}/>
           <StationInfoForm/>
         </div>
       );
     }
     return (
       <div style={{maxWidth: '650px'}}>
+        <AppHelmet title={station.station_code + ' ' + station.station_name + ' Station Info.'}
+                   description={'Station: ' + station.station_code + ' ' + station.station_name + ' station details, Division: ' + station.division + ', Zone: ' + station.zone}
+                   keywords={station.station_code + ', ' + station.station_name + ', ' + station.division + ' station details, station information, trains visiting station'}
+                   url={fullUrl}/>
         <StationInfoForm/>
         <br/>
         <div className="panel panel-default">
-          <div className="panel-heading" style={{background: '#4285F4', margin: '0px', fontSize: '20px', color: '#FFFFFF', padding: '10px'}}>
+          <div className="panel-heading"
+               style={{background: '#4285F4', margin: '0px', fontSize: '20px', color: '#FFFFFF', padding: '10px'}}>
             {station.station_code} - {station.station_name}<br/>
           </div>
           <div className="panel-body">
