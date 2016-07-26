@@ -61,8 +61,8 @@
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "development",
-        "PORT": 4000,
-        "APIPORT": 4030
+        "PORT": 3000,
+        "APIPORT": 3030
       }
     },
     "start-dev-api": {
@@ -70,7 +70,7 @@
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "development",
-        "APIPORT": 4030
+        "APIPORT": 3030
       }
     },
     "watch-client": {
@@ -78,8 +78,8 @@
       "env": {
         "UV_THREADPOOL_SIZE": 100,
         "NODE_PATH": "./src",
-        "PORT": 4000,
-        "APIPORT": 4030
+        "PORT": 3000,
+        "APIPORT": 3030
       }
     },
     "build": {
