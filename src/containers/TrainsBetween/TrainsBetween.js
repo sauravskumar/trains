@@ -81,7 +81,10 @@ export default class TrainsBetween extends Component {
             to {codes[2]} {url.slice(to).join(' ')}</h1>
         </div>
         <div style={{background: '#3367D6', padding: '1px'}}>
-          {journey.json.length ? <h2 style={{fontSize: '13px', color: '#C2D2F3'}}>{journey.json.length} Trains · Best Train {journey.bestTrain.train.train_code} {journey.bestTrain.train.train_name} · Duration {journey.bestTrain.duration}</h2> : <h2 style={{fontSize: '14px', color: '#C2D2F3'}}>{journey.json.length} Trains</h2>}
+          {journey.json.length ? <h2 style={{fontSize: '13px', color: '#C2D2F3'}}>{journey.json.length} Trains · Best
+            Train {journey.bestTrain.train.train_code} {journey.bestTrain.train.train_name} ·
+            Duration {journey.bestTrain.duration}</h2> :
+            <h2 style={{fontSize: '14px', color: '#C2D2F3'}}>{journey.json.length} Trains</h2>}
         </div>
       </div>
     );
@@ -125,17 +128,21 @@ export default class TrainsBetween extends Component {
           <br/>
           <div className="panel panel-default">
             {this.panelHeading(url, trainBetweenList)}
+          </div>
+          <div className="panel panel-default">
             <div className="panel-body">
               {trainBetweenList.json.map(journey => {
                 return (
                   <div key={Date.now() + Math.random()} className={'row ' + style.journey} itemScope
                        itemType="http://schema.org/TrainTrip">
                     <div className="col-xs-3 text-left">
-                      <div itemProp="departureStation"><h5>{journey.src.station_code}</h5><span
-                        className="hidden"> - </span>{journey.src.station_name}</div>
-                      <span className={style.tbSmall}>
-                      {journey.src.dist_from_src > 0 ? journey.src.dist_from_src + '* km. ' + trainBetweenList.actual_src.station_code : ''}
-                    </span>
+                      <div itemProp="departureStation">
+                        <h5>{journey.src.station_code}</h5>
+                        <span className="hidden"> - </span>{journey.src.station_name}
+                      </div>
+                      <div className={style.tbSmall}>
+                        {journey.src.dist_from_src > 0 ? journey.src.dist_from_src + '* km. ' + trainBetweenList.actual_src.station_code : ''}
+                      </div>
                     </div>
                     <div className="col-xs-6 text-center">
                       <div className="row">
@@ -178,11 +185,13 @@ export default class TrainsBetween extends Component {
                       </div>
                     </div>
                     <div className="col-xs-3 text-left">
-                      <div itemProp="arrivalStation"><h5>{journey.dest.station_code}</h5><span
-                        className="hidden"> - </span>{journey.dest.station_name}</div>
-                      <span className={style.tbSmall}>
-                      {journey.dest.dist_from_dest > 0 ? journey.dest.dist_from_dest + '* km. ' + trainBetweenList.actual_dest.station_code : ''}
-                    </span>
+                      <div itemProp="arrivalStation">
+                        <h5>{journey.dest.station_code}</h5>
+                        <span className="hidden"> - </span>{journey.dest.station_name}
+                      </div>
+                      <div className={style.tbSmall}>
+                        {journey.dest.dist_from_dest > 0 ? journey.dest.dist_from_dest + '* km. ' + trainBetweenList.actual_dest.station_code : ''}
+                      </div>
                     </div>
                   </div>
                 );

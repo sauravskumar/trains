@@ -34,9 +34,7 @@ export default class Train extends Component {
     const {trainInfo, params, location} = this.props;
     const fullUrl = location.pathname;
     return (
-      <div style={{maxWidth: '650px'}}>
         <TrainInfo train={trainInfo} params={params} fullUrl={fullUrl}/>
-      </div>
     );
   }
 }

@@ -42,7 +42,7 @@ export default class TrainBetweenForm extends Component {
         <div className={ 'form-inline text-center ' + style.trainsBetweenForm }>
           <SearchInput ref="sourceSt" placeholder={'Source Station'} list={ stationList } type="station"/>
           <SearchInput ref="destSt"placeholder={'Dest. Station'} list={ stationList } type="station"/>
-          <input type="checkbox" ref="nearby" defaultChecked/>
+          <input type="checkbox" ref="nearby" title="Nearby Stations" defaultChecked/>
           <button className="btn btn-primary" onClick={this.search}>Search</button>
         </div>
       </div>

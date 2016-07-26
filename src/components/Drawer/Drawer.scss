@@ -4,7 +4,7 @@
   position: fixed;
   display: block;
   background: white;
-  z-index: 10;
+  z-index: 100000;
   padding: 0;
   transition-duration: .4s;
   border-right: 1px solid lightgrey;
@@ -28,6 +28,10 @@
       background: #EFEFEF;
     }
   }
+}
+
+.drawer a:hover {
+  text-decoration: none;
 }
 
 .hideDrawer {

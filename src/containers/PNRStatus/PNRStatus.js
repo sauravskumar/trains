@@ -3,7 +3,7 @@
  */
 import React, {Component, PropTypes} from 'react';
 // import { Link } from 'react-router';
-import { AppHelmet } from 'components';
+import {AppHelmet} from 'components';
 // import config from '../../config';
 // import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
@@ -32,7 +32,8 @@ export default class PNRStatus extends Component {
     const fullUrl = location.pathname;
     if (!pnr) {
       return (
-        <div style={{maxWidth: '650px'}}>
+        <div className="row">
+        <div className="col-xs-12 col-sm-8">
           <AppHelmet title={'PNR Status'}
                      description={'Check train PNR Number Status. Get seat availability and register for train alerts.'}
                      keywords={'pnr status, pnr status check, pnr number check, pnr number status, berth availability'}
@@ -42,18 +43,29 @@ export default class PNRStatus extends Component {
                    placeholder="Enter PNR Number"/>
             <button className="btn btn-primary" onClick={this.loadPnr}>Search</button>
           </div>
-        </div>
+          <br/>
+          <div className="text-center">
+            <i className="material-icons icon-color" style={{fontSize: '300px'}}>view_compact</i>
+          </div>
+        </div></div>
       );
     }
     return (
-      <div style={{maxWidth: '650px'}}>
+      <div className="row">
+      <div className="col-xs-12 col-sm-8">
         <div className={'form-inline text-center ' + style.PNRStatusForm}>
-          <input className="form-control" ref="pnrInput" id="focusedInput" type="text" style={{margin: '0 auto'}} placeholder="Enter PNR Number"/>
+          <input className="form-control" ref="pnrInput" id="focusedInput" type="text" style={{margin: '0 auto'}}
+                 placeholder="Enter PNR Number"/>
           <button className="btn btn-primary" onClick={this.loadPnr}>Search</button>
         </div>
         <br/>
         <div className="panel panel-default">
-          <div className="panel-body">
+          <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
+            <div style={{background: '#4285F4', padding: '1px'}}>
+              <h1 style={{fontSize: '20px', color: '#FFFFFF'}}>PNR Status</h1>
+            </div>
+          </div>
+          <div className="panel-body" style={{margin: '5px 15px 15px 15px'}}>
             <div>
               Boarding: {pnr.boarding_point.code} - {pnr.boarding_point.name}
             </div>
@@ -68,7 +80,7 @@ export default class PNRStatus extends Component {
             </div>
           </div>
         </div>
-        <div className="panel panel-default">
+        <div className="panel panel-default" style={{padding: '15px'}}>
           <div className="panel-body">
             <h5>Passengers List</h5>
             <table className="table table-striped table-hover">
@@ -95,7 +107,7 @@ export default class PNRStatus extends Component {
             </table>
           </div>
         </div>
-      </div>
+      </div></div>
     );
   }
 }

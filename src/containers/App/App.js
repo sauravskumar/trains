@@ -74,7 +74,7 @@ export default class App extends Component {
         <div className={loading ? styles.loader : styles.hidden}>{loading}</div>
         <Navbar fixedTop>
           <Navbar.Header>
-            <i className="fa fa-bars fa-1x hidden-sm hidden-md hidden-lg" style={{float: 'left'}} onClick={this.toggleNav}/>
+            <i className="material-icons md-dark hidden-sm hidden-md hidden-lg" style={{float: 'left'}} onClick={this.toggleNav}>menu</i>
             <Navbar.Brand>
               <IndexLink to="/trains" activeStyle={{color: '#33e0ff'}}>
                 <span>{config.app.title}</span>

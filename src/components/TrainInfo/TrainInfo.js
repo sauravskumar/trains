@@ -4,7 +4,7 @@
 import React, {Component, PropTypes} from 'react';
 import TrainInfoForm from './TrainInfoForm';
 import style from './TrainInfo.scss';
-import { AppHelmet } from 'components';
+import {AppHelmet} from 'components';
 
 export default class TrainInfo extends Component {
   static propTypes = {
@@ -17,29 +17,33 @@ export default class TrainInfo extends Component {
     const {train, params, fullUrl} = this.props;
     if (!params.param) {
       return (
-        <div style={{maxWidth: '650px'}}>
-          <AppHelmet title={'Train Info.'}
+        <div className="row">
+        <div className="col-xs-12 col-sm-8">
+          <AppHelmet title={'Train Running Status | Train Route | Train Info.'}
                      description={'Check train running status, train route, train details, seat fare of any train.'}
                      keywords={'Train status, live status, train info, train details, seat fare, seat availability'}
                      url={fullUrl}/>
           <TrainInfoForm/>
           <br/>
-          <br/>
-          {/* <i className="fa fa-train fa-30x text-center" aria-hidden="true" style={{color: '#FAFAFA', display: 'block', fontSize: '150px'}}/> */}
-        </div>
+          <div style={{width: '100%', textAlign: 'center'}}>
+            <i className="material-icons icon-color" style={{fontSize: '300px'}}>directions_railway</i>
+          </div>
+        </div></div>
       );
     }
     return (
-      <div style={{maxWidth: '650px'}}>
-        <AppHelmet title={'Train Info.'}
-                   description={'Check train running status, train route, train details, seat fare of any train.'}
-                   keywords={'Train status, live status, train info, train details, seat fare, seat availability'}
+      <div className="row">
+      <div className="col-xs-12 col-sm-8">
+        <AppHelmet title={train.code + '-' + train.name + ' Train Running Status | Train Route'}
+                   description={'Name: ' + train.code + '-' + train.name + ', Start:' + train.all_data[10].replace('.', ':') + ', End: ' + train.all_data[11].replace('.', ':') + ' train running status, seat availability, train route, train details, seat fare.'}
+                   keywords={'Train status, running status, live status, train info, train details, seat fare, seat availability'}
                    url={fullUrl}/>
         <TrainInfoForm/>
         <br/>
         <div className="panel panel-default" itemScope itemType="http://schema.org/TrainTrip">
-          <div className="panel-heading" style={{background: '#4285F4', margin: '0px', fontSize: '20px', color: '#FFFFFF', padding: '10px'}}>
-            <span itemProp="trainNumber">{train.code}</span> - <span itemProp="trainName">{train.name}</span><br/>
+          <div className="panel-heading"
+               style={{background: '#4285F4', padding: '10px 15px 15px 15px'}}>
+            <h1 style={{fontSize: '20px', color: '#FFFFFF'}}><span itemProp="trainNumber">{train.code}</span> - <span itemProp="trainName">{train.name}</span></h1>
           </div>
           <div className="panel-body" style={{margin: '15px'}}>
             <span itemProp="departureStation">{train.all_data[3]} - {train.all_data[2]}</span> To&nbsp;
@@ -94,7 +98,7 @@ export default class TrainInfo extends Component {
             </table>
           </div>
         </div>
-      </div>
+      </div></div>
     );
   }
 }
