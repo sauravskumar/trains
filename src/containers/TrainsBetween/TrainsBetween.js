@@ -11,6 +11,7 @@ import {TrainBetweenForm, PlaceHolder} from 'components';
 import {asyncConnect} from 'redux-connect';
 import {loadTrainsBetween} from 'redux/modules/search';
 import style from './TrainsBetween.scss';
+import Helmet from 'react-helmet';
 
 @asyncConnect([{
   promise: ({store: {dispatch}, params: {param}}) => {
@@ -39,6 +40,15 @@ export default class TrainsBetween extends Component {
   static propTypes = {
     trainBetweenList: PropTypes.object,
     params: PropTypes.object
+  };
+
+  headTitle = (param, number) => {
+    const url = param.split('-');
+    const codes = url.splice(0, 3);
+    // const to = url.indexOf('to');
+    const first = url.join(' ');
+    const second = codes.join(' ');
+    return `${first} | ${second} - ${number} Trains`;
   };
 
   heading = (param) => {
@@ -78,20 +88,27 @@ export default class TrainsBetween extends Component {
     }
     return (
       <div className="row">
+        <Helmet title={this.headTitle(url, trainBetweenList.json.length)}/>
         <div className="col-xs-12 col-sm-8">
           <TrainBetweenForm/>
           <br/>
           <div className="panel panel-default">
-            <div className="panel-heading text-center"
-                  style={{background: '#4285F4', fontSize: '20px', color: '#FFFFFF', padding: '10px'}}>
-                {trainBetweenList.json.length} Trains for {this.heading(url)}
+            <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
+              <div style={{background: '#4285F4', fontSize: '20px', color: '#FFFFFF', padding: '10px'}}>
+                {this.heading(url)}
+              </div>
+              <div style={{background: '#3367D6', fontSize: '13px', color: '#C2D2F3', padding: '3px'}}>
+                {trainBetweenList.json.length} Trains
+              </div>
             </div>
             <div className="panel-body">
               {trainBetweenList.json.map(journey => {
                 return (
-                  <div key={Date.now() + Math.random()} className={'row ' + style.journey} itemScope itemType="http://schema.org/TrainTrip">
+                  <div key={Date.now() + Math.random()} className={'row ' + style.journey} itemScope
+                       itemType="http://schema.org/TrainTrip">
                     <div className="col-xs-3 text-left">
-                      <div itemProp="departureStation"><h5>{journey.src.station_code}</h5><span className="hidden"> - </span>{journey.src.station_name}</div>
+                      <div itemProp="departureStation"><h5>{journey.src.station_code}</h5><span
+                        className="hidden"> - </span>{journey.src.station_name}</div>
                       <span className={style.tbSmall}>
                       {journey.src.dist_from_src > 0 ? journey.src.dist_from_src + '* km. ' + trainBetweenList.actual_src.station_code : ''}
                     </span>
@@ -99,14 +116,17 @@ export default class TrainsBetween extends Component {
                     <div className="col-xs-6 text-center">
                       <div className="row">
                         <div className={'col-xs-12 ' + style.trainName}>
-                          <nobr><span itemProp="trainNumber">{journey.train.train_code}</span> - <span itemProp="trainName">{journey.train.train_name}</span></nobr>
+                          <nobr><span itemProp="trainNumber">{journey.train.train_code}</span> - <span
+                            itemProp="trainName">{journey.train.train_name}</span></nobr>
                         </div>
                       </div>
                       <div className="row">
                         <div className="col-xs-12">
                           <b>
-                            <span itemProp="departureTime">{journey.src_route.departure_time.toFixed(2).replace('.', ':')}&nbsp;</span>
-                            - <span itemProp="arrivalTime">{journey.dest_route.arrival_time.toFixed(2).replace('.', ':')}</span>
+                            <span
+                              itemProp="departureTime">{journey.src_route.departure_time.toFixed(2).replace('.', ':')}&nbsp;</span>
+                            - <span
+                            itemProp="arrivalTime">{journey.dest_route.arrival_time.toFixed(2).replace('.', ':')}</span>
                           </b>
                         </div>
                       </div>
@@ -134,7 +154,8 @@ export default class TrainsBetween extends Component {
                       </div>
                     </div>
                     <div className="col-xs-3 text-left">
-                      <div itemProp="arrivalStation"><h5>{journey.dest.station_code}</h5><span className="hidden"> - </span>{journey.dest.station_name}</div>
+                      <div itemProp="arrivalStation"><h5>{journey.dest.station_code}</h5><span
+                        className="hidden"> - </span>{journey.dest.station_name}</div>
                       <span className={style.tbSmall}>
                       {journey.dest.dist_from_dest > 0 ? journey.dest.dist_from_dest + '* km. ' + trainBetweenList.actual_dest.station_code : ''}
                     </span>
