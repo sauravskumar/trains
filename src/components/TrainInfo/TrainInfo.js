@@ -27,9 +27,11 @@ export default class TrainInfo extends Component {
       <div style={{maxWidth: '650px'}}>
         <TrainInfoForm/>
         <br/>
-        <div className="panel panel-default">
-          <div className="panel-body" itemScope itemType="http://schema.org/TrainTrip">
+        <div className="panel panel-default" itemScope itemType="http://schema.org/TrainTrip">
+          <div className="panel-heading" style={{background: '#4285F4', margin: '0px', fontSize: '20px', color: '#FFFFFF', padding: '10px'}}>
             <span itemProp="trainNumber">{train.code}</span> - <span itemProp="trainName">{train.name}</span><br/>
+          </div>
+          <div className="panel-body" style={{margin: '15px'}}>
             <span itemProp="departureStation">{train.all_data[3]} - {train.all_data[2]}</span> To&nbsp;
             <span itemProp="arrivalStation">{train.all_data[5]} - {train.all_data[4]}</span><br/>
             Start: <span itemProp="arrivalTime">{train.all_data[10].replace('.', ':')}</span><br/>

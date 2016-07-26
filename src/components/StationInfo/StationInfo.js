@@ -30,10 +30,12 @@ export default class StationInfo extends Component {
         <StationInfoForm/>
         <br/>
         <div className="panel panel-default">
+          <div className="panel-heading" style={{background: '#4285F4', margin: '0px', fontSize: '20px', color: '#FFFFFF', padding: '10px'}}>
+            {station.station_code} - {station.station_name}<br/>
+          </div>
           <div className="panel-body">
             <div className="row">
               <div className="col-xs-6">
-                Name: {station.station_code} - {station.station_name}<br/>
                 Division: {station.division}<br/>
                 Zone: {station.zone}
               </div>

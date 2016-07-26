@@ -81,11 +81,11 @@ export default class TrainsBetween extends Component {
         <div className="col-xs-12 col-sm-8">
           <TrainBetweenForm/>
           <br/>
-          <h5 className="text-center"
-              style={{background: '#4285F4', fontSize: '20px', color: '#FFFFFF', padding: '10px'}}>
-            {trainBetweenList.json.length} Trains for {this.heading(url)}
-          </h5>
           <div className="panel panel-default">
+            <div className="panel-heading text-center"
+                  style={{background: '#4285F4', fontSize: '20px', color: '#FFFFFF', padding: '10px'}}>
+                {trainBetweenList.json.length} Trains for {this.heading(url)}
+            </div>
             <div className="panel-body">
               {trainBetweenList.json.map(journey => {
                 return (
