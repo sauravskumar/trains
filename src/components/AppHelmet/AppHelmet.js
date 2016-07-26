@@ -19,7 +19,7 @@ export default class AppHelmet extends Component {
         {name: 'keywords', content: keywords},
         {name: 'og:title', content: title},
         {name: 'og:description', content: description},
-        {property: 'og:url', content: 'https://www.atmed.co' + url}
+        {name: 'og:url', content: 'https://www.atmed.co' + url}
       ]}/>
     );
   }

@@ -3,7 +3,7 @@
  */
 import React, {Component, PropTypes} from 'react';
 // import { Link } from 'react-router';
-// import { CounterButton, GithubButton } from 'components';
+import { AppHelmet } from 'components';
 // import config from '../../config';
 // import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
@@ -18,7 +18,9 @@ import style from './PNRStatus.scss';
 export default class PNRStatus extends Component {
   static propTypes = {
     pnr: PropTypes.object,
-    loadPnr: PropTypes.func
+    loadPnr: PropTypes.func,
+    params: PropTypes.object,
+    location: PropTypes.object
   };
   loadPnr = () => {
     // console.log(this.refs.pnrInput.value, event);
@@ -26,10 +28,15 @@ export default class PNRStatus extends Component {
   };
 
   render() {
-    const {pnr} = this.props;
+    const {pnr, location} = this.props;
+    const fullUrl = location.pathname;
     if (!pnr) {
       return (
         <div style={{maxWidth: '650px'}}>
+          <AppHelmet title={'PNR Status'}
+                     description={'Check train PNR Number Status. Get seat availability and register for train alerts.'}
+                     keywords={'pnr status, pnr status check, pnr number check, pnr number status, berth availability'}
+                     url={fullUrl}/>
           <div className={'form-inline text-center ' + style.PNRStatusForm}>
             <input className="form-control" ref="pnrInput" id="focusedInput" type="text" style={{margin: '0 auto'}}
                    placeholder="Enter PNR Number"/>

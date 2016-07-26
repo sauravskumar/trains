@@ -59,7 +59,7 @@ export default class TrainsBetween extends Component {
     const {fullName, codeName} = this.splitUrl(param);
     const number = journey.json.length;
     const bestTrain = journey.bestTrain;
-    return `${number} trains for ${codeName} - ${fullName}.Best Train ${bestTrain.train.all_data[0]} - ${bestTrain.train.all_data[1]}, takes ${bestTrain.duration}`;
+    return `${number} trains for ${codeName} - ${fullName}. Best Train ${bestTrain.train.all_data[0]} - ${bestTrain.train.all_data[1]}, takes ${bestTrain.duration}`;
   };
 
   keywords = (param, number) => {
