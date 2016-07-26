@@ -3,15 +3,13 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-// import { Link } from 'react-router';
-// import { CounterButton, GithubButton } from 'components';
-// import config from '../../config';
-// import Helmet from 'react-helmet';
-import {TrainBetweenForm, PlaceHolder} from 'components';
+import {TrainBetweenForm, PlaceHolder, AppHelmet} from 'components';
 import {asyncConnect} from 'redux-connect';
 import {loadTrainsBetween} from 'redux/modules/search';
 import style from './TrainsBetween.scss';
-import Helmet from 'react-helmet';
+
+// import { Link } from 'react-router';
+// import config from '../../config';
 
 @asyncConnect([{
   promise: ({store: {dispatch}, params: {param}}) => {
@@ -39,30 +37,60 @@ import Helmet from 'react-helmet';
 export default class TrainsBetween extends Component {
   static propTypes = {
     trainBetweenList: PropTypes.object,
-    params: PropTypes.object
+    params: PropTypes.object,
+    location: PropTypes.object
   };
 
-  headTitle = (param, number) => {
+  splitUrl = (param) => {
     const url = param.split('-');
     const codes = url.splice(0, 3);
     // const to = url.indexOf('to');
-    const first = url.join(' ');
-    const second = codes.join(' ');
-    return `${first} | ${second} - ${number} Trains`;
+    const fullName = url.join(' ');
+    const codeName = codes.join(' ');
+    return {fullName: fullName, codeName: codeName};
   };
 
-  heading = (param) => {
+  headTitle = (param, number) => {
+    const {fullName, codeName} = this.splitUrl(param);
+    return `${fullName} | ${codeName} - ${number} Trains`;
+  };
+
+  description = (param, journey) => {
+    const {fullName, codeName} = this.splitUrl(param);
+    const number = journey.json.length;
+    const bestTrain = journey.bestTrain;
+    return `${number} trains for ${codeName} - ${fullName}.Best Train ${bestTrain.train.all_data[0]} - ${bestTrain.train.all_data[1]}, takes ${bestTrain.duration}`;
+  };
+
+  keywords = (param, number) => {
+    const {fullName, codeName} = this.splitUrl(param);
+    return `${fullName} Trains, ${codeName} Trains, ${number} Trains from ${fullName}, Trains between ${fullName},  Trains between ${codeName}`;
+  };
+
+  panelHeading = (param, journey) => {
     // console.log(url);
     const url = param.split('-');
     const codes = url.splice(0, 3);
     const to = url.indexOf('to');
     url.splice(to, 1);
-    return `${codes[0]} ${url.slice(0, to).join(' ')} to ${codes[2]} ${url.slice(to).join(' ')}`;
+    // return `${codes[0]} ${url.slice(0, to).join(' ')} to ${codes[2]} ${url.slice(to).join(' ')}`;
+    return (
+      <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
+        <div style={{background: '#4285F4', padding: '1px'}}>
+          <h1 style={{fontSize: '20px', color: '#FFFFFF'}}>{codes[0]} {url.slice(0, to).join(' ')}
+            to {codes[2]} {url.slice(to).join(' ')}</h1>
+        </div>
+        <div style={{background: '#3367D6', padding: '1px'}}>
+          {journey.json.length ? <h2 style={{fontSize: '13px', color: '#C2D2F3'}}>{journey.json.length} Trains · Best Train {journey.bestTrain.train.train_code} {journey.bestTrain.train.train_name} · Duration {journey.bestTrain.duration}</h2> : <h2 style={{fontSize: '14px', color: '#C2D2F3'}}>{journey.json.length} Trains</h2>}
+        </div>
+      </div>
+    );
   };
 
   render() {
-    const {trainBetweenList, params} = this.props;
+    const {trainBetweenList, params, location} = this.props;
     const url = params.param;
+    const fullUrl = location.pathname;
     if (!params || !params.param) {
       return (
         <div className="row">
@@ -80,7 +108,7 @@ export default class TrainsBetween extends Component {
           <div className="col-xs-12 col-sm-8">
             <TrainBetweenForm/>
             <br/>
-            <div className="text-center">No Trains Between {this.heading(url)}</div>
+            {this.panelHeading(url, null)}
             <PlaceHolder/>
           </div>
         </div>
@@ -88,19 +116,15 @@ export default class TrainsBetween extends Component {
     }
     return (
       <div className="row">
-        <Helmet title={this.headTitle(url, trainBetweenList.json.length)}/>
+        <AppHelmet title={this.headTitle(url, trainBetweenList.json.length)}
+                   description={this.description(url, trainBetweenList)}
+                   keywords={this.keywords(url, trainBetweenList.json.length)}
+                   url={fullUrl}/>
         <div className="col-xs-12 col-sm-8">
           <TrainBetweenForm/>
           <br/>
           <div className="panel panel-default">
-            <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
-              <div style={{background: '#4285F4', fontSize: '20px', color: '#FFFFFF', padding: '10px'}}>
-                {this.heading(url)}
-              </div>
-              <div style={{background: '#3367D6', fontSize: '13px', color: '#C2D2F3', padding: '3px'}}>
-                {trainBetweenList.json.length} Trains
-              </div>
-            </div>
+            {this.panelHeading(url, trainBetweenList)}
             <div className="panel-body">
               {trainBetweenList.json.map(journey => {
                 return (

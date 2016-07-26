@@ -113,23 +113,25 @@ module.exports = function () {
         ).then(result => {
           // console.log('result-> ', result);
           // console.log('------------------------------')
-          result.records.map(record => {
-            // console.log('------------------------------')
-            // console.log(record._fields);
-            record._fields.map(field => {
-              // console.log('****')
-              // console.log(field);
-            })
-          });
+          // result.records.map(record => {
+          //   // console.log('------------------------------')
+          //   // console.log(record._fields);
+          //   record._fields.map(field => {
+          //     // console.log('****')
+          //     // console.log(field);
+          //   })
+          // });
           session.close();
           let records = result.records, json = [];
+            let bestTrain = {};
+            let maxDuration = 1000000;
           records.map(journey => {
             // console.log(journey._fields[0],
             // journey._fields[1][0],
             // journey._fields[2][0],
             // journey._fields[3][0],
             // journey._fields[4][0])
-            let newJourney = {}
+            let newJourney = {};
             const train = journey._fields[0].properties,
               src = journey._fields[1][0].properties,
               dest = journey._fields[2][0].properties;
@@ -177,7 +179,13 @@ module.exports = function () {
             const duration = newJourney.dest_route.time_spent_on_arrival.low - newJourney.src_route.time_spent_on_departure.low;
             const hours = Math.trunc(duration/ 60);
             const mins = (duration - (hours * 60));
+            newJourney.duration_num = duration;
             newJourney.duration = (hours ? hours + 'h ' : '') + (mins ? mins + 'm.': '');
+            if (duration < maxDuration) {
+              maxDuration = duration;
+              bestTrain.train = train;
+              bestTrain.duration = newJourney.duration;
+            }
             json.push(newJourney)
           });
           // json.actual_src = source;
@@ -188,7 +196,7 @@ module.exports = function () {
             else
               return -1;
           });
-          res.send({actual_src : source, actual_dest : dest, json})
+          res.send({actual_src : source, actual_dest : dest,bestTrain:bestTrain,  json})
         }).catch(err=> {
           console.log(err);
         })

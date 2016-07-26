@@ -41,33 +41,31 @@ export default () => {
    * Please keep routes in alphabetical order
    */
   return (
-    <Route path="/">
-      <Route path="/trains" component={App}>
-        { /* Home (main) route */ }
-        <IndexRoute component={TrainsBetween}/>
-        <Route path="between/:param" component={TrainsBetween}/>
+    <Route path="/trains" component={App}>
+      { /* Home (main) route */ }
+      <IndexRoute component={TrainsBetween}/>
+      <Route path="between/:param" component={TrainsBetween}/>
 
-        { /* Routes requiring login */ }
-        {/* <Route onEnter={requireLogin}>
-         <Route path="chat" component={Chat}/>
-         <Route path="loginSuccess" component={LoginSuccess}/>
-         </Route> */}
+      { /* Routes requiring login */ }
+      {/* <Route onEnter={requireLogin}>
+       <Route path="chat" component={Chat}/>
+       <Route path="loginSuccess" component={LoginSuccess}/>
+       </Route> */}
 
-        { /* Routes */ }
-        {/* <Route path="login" component={Login}/>
-         <Route path="survey" component={Survey}/>
-         <Route path="widgets" component={Widgets}/> */}
-        <Route path="station" component={Station}/>
-        <Route path="about" component={About}/>
-        <Route path="station/:param" component={Station}/>
-        <Route path="train-status" component={Train}/>
-        <Route path="train-status/:param" component={Train}/>
-        {/* <Route path="trains" component={TrainsBetween}/> */}
-        <Route path="pnr-status" component={PNRStatus}/>
+      { /* Routes */ }
+      {/* <Route path="login" component={Login}/>
+       <Route path="survey" component={Survey}/>
+       <Route path="widgets" component={Widgets}/> */}
+      <Route path="station" component={Station}/>
+      <Route path="about" component={About}/>
+      <Route path="station/:param" component={Station}/>
+      <Route path="train-status" component={Train}/>
+      <Route path="train-status/:param" component={Train}/>
+      {/* <Route path="trains" component={TrainsBetween}/> */}
+      <Route path="pnr-status" component={PNRStatus}/>
 
-        { /* Catch all route */ }
-        <Route path="*" component={NotFound} status={404}/>
-      </Route>
+      { /* Catch all route */ }
+      <Route path="*" component={NotFound} status={404}/>
     </Route>
   );
 };

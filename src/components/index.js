@@ -12,3 +12,4 @@ export Footer from './Footer/Footer';
 export GoogleMaps from './GoogleMaps/GoogleMaps';
 export PlaceHolder from './PlaceHolder/PlaceHolder';
 export Drawer from './Drawer/Drawer';
+export AppHelmet from './AppHelmet/AppHelmet';
