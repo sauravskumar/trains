@@ -28,12 +28,13 @@ export default class TrainInfo extends Component {
         <TrainInfoForm/>
         <br/>
         <div className="panel panel-default">
-          <div className="panel-body">
-            {train.code} - {train.name}<br/>
-            {train.all_data[2]} -
-            {train.all_data[3]} To&nbsp;
-            {train.all_data[4]} -
-            {train.all_data[5]}<br/>
+          <div className="panel-body" itemScope itemType="http://schema.org/TrainTrip">
+            <span itemProp="trainNumber">{train.code}</span> - <span itemProp="trainName">{train.name}</span><br/>
+            <span itemProp="departureStation">{train.all_data[3]} - {train.all_data[2]}</span> To&nbsp;
+            <span itemProp="arrivalStation">{train.all_data[5]} - {train.all_data[4]}</span><br/>
+            Start: <span itemProp="arrivalTime">{train.all_data[10].replace('.', ':')}</span><br/>
+            End: <span itemProp="departureTime">{train.all_data[11].replace('.', ':')}</span><br/>
+            <span>Duration: {train.all_data[12].replace('.', ':')}</span><br/>
             {train.type}<br/>
             <div className={style.days}>
               {train.days.map(day => {

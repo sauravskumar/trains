@@ -97,7 +97,7 @@ export default class App extends Component {
               <LinkContainer to="/trains/pnr-status">
                 <NavItem eventKey={3}>PNR Status</NavItem>
               </LinkContainer>
-              <LinkContainer to="/trains/train">
+              <LinkContainer to="/trains/train-status">
                 <NavItem eventKey={3}>Train Info</NavItem>
               </LinkContainer>
               <LinkContainer to="/trains/station">

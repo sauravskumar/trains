@@ -60,8 +60,8 @@ export default () => {
         <Route path="station" component={Station}/>
         <Route path="about" component={About}/>
         <Route path="station/:param" component={Station}/>
-        <Route path="train" component={Train}/>
-        <Route path="train/:param" component={Train}/>
+        <Route path="train-status" component={Train}/>
+        <Route path="train-status/:param" component={Train}/>
         {/* <Route path="trains" component={TrainsBetween}/> */}
         <Route path="pnr-status" component={PNRStatus}/>
 
