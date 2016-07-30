@@ -77,8 +77,8 @@ export default class TrainsBetween extends Component {
     return (
       <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
         <div style={{background: '#4285F4', padding: '1px'}}>
-          <h1 style={{fontSize: '20px', color: '#FFFFFF'}}>{codes[0]} {url.slice(0, to).join(' ')}
-            to {codes[2]} {url.slice(to).join(' ')}</h1>
+          <h1 style={{fontSize: '20px', color: '#FFFFFF'}}>{codes[0]} {url.slice(0, to).join(' ')}&nbsp;
+            to&nbsp;{codes[2]} {url.slice(to).join(' ')}</h1>
         </div>
         <div style={{background: '#3367D6', padding: '1px'}}>
           {journey.json.length ? <h2 style={{fontSize: '13px', color: '#C2D2F3'}}>{journey.json.length} Trains · Best

@@ -24,7 +24,7 @@ module.exports = Object.assign({
         {name: 'description', content: 'Find trains between your favourite destinations. Get fare prices, pnr status, train info and trains running status.'},
         {name: 'keywords', content: 'trains between station, pnr status, train running status, berth availability, fare price, ticket price, pnr check'},
         {charset: 'utf-8'},
-        {property: 'og:site_name', content: 'Atmed.co'},
+        {property: 'og:site_name', content: 'Atmed Trains'},
         {property: 'og:image', content: 'https://react-redux.herokuapp.com/logo.jpg'},
         {property: 'og:locale', content: 'en_US'},
         // {property: 'og:card', content: 'summary'},
@@ -35,7 +35,7 @@ module.exports = Object.assign({
         {property: 'og:type', content: 'website'},
         {property: 'og:title', content: 'Atmed Trains'},
         {property: 'og:description', content: 'Find trains between your favourite destinations. Get fare prices, pnr status, train info and train running status.'},
-        {property: 'og:url', content: 'https://www.atmed.co'}
+        {property: 'og:url', content: 'https://www.atmed.co/trains'}
       ]
     }
   },

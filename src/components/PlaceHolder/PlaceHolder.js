@@ -11,12 +11,12 @@ export default class PlaceHolder extends Component {
 
   render() {
     const list = [
-      {name: 'red_fort_new_delhi', title: 'Red Fort, New Delhi', subTitle: '', color: '#F84007'},
-      {name: 'taj_mahal_agra', title: 'Taj Mahal, Agra', subTitle: 'Shopping · Temples · Art', color: '#B4B6A4'},
-      {name: 'mysore_palace_mysore', title: 'Mysore Palace, Mysore', subTitle: '', color: '#C9BF13'},
-      {name: 'kerela', title: 'Light House Beach, Kerela', subTitle: '', color: '#1F141C'},
-      {name: 'rann_of_kutch_gujrat', title: 'Rann of Kutch, Gujrat', subTitle: '', color: '#95A0D8'},
-      {name: 'city_palace_udaipur', title: 'City Palace, Udaipur', subTitle: '', color: '#ADAA7D'},
+      {name: 'red_fort_new_delhi', title: 'Red Fort, New Delhi', subTitle: 'Monument · Fashion · Art · Capital · Night Life', color: '#F84007'},
+      {name: 'taj_mahal_agra', title: 'Taj Mahal, Agra', subTitle: 'Shopping · Temples · Art · Monument', color: '#B4B6A4'},
+      {name: 'mysore_palace_mysore', title: 'Mysore Palace, Mysore', subTitle: 'Palace · Yoga · Spiritual · Art · Tourism · Silk', color: '#C9BF13'},
+      {name: 'kerela', title: 'Light House Beach, Kerela', subTitle: 'Night Life · Beach · Yaoga · Church · Water Sports', color: '#1F141C'},
+      {name: 'rann_of_kutch_gujrat', title: 'Rann of Kutch, Gujrat', subTitle: 'Seaports · Ports · Trading · Museums · Religious · Shopping', color: '#95A0D8'},
+      {name: 'city_palace_udaipur', title: 'City Palace, Udaipur', subTitle: 'Palace · Temples · Shopping · Yoga · Architecture', color: '#ADAA7D'},
     ];
     return (
       <div className="panel panel-default">

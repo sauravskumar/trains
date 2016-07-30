@@ -12,7 +12,7 @@ import {Footer, Drawer} from 'components';
 // import {push} from 'react-router-redux';
 import config from '../../config';
 // import {asyncConnect} from 'redux-connect';
-
+import styles from './App.scss';
 // @asyncConnect([{
 //   promise: ({store: {dispatch, getState}}) => {
 //     const promises = [];
@@ -65,8 +65,6 @@ export default class App extends Component {
 
   render() {
     const {user, loading} = this.props;
-    const styles = require('./App.scss');
-
     return (
       <div className={styles.app}>
         <Drawer ref="drawer"/>
