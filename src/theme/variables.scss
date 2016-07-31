@@ -8,7 +8,7 @@
 
 @import "paper/variables";
 // Custom Colors
-$cyan: #33e0ff;
+$cyan: #fff;
 $humility: #777;
 
 // Bootstrap Variables
@@ -27,4 +27,30 @@ $panel-body-padding:          2px !important;
 
 .material-icons.icon-color{
   color: #EFEFEF;
+}
+
+html,
+body {
+  margin:0;
+  padding:0;
+  height:100%;
+}
+
+#content {
+  min-height:100%;
+  position:relative;
+}
+
+.appContent {
+  padding-bottom: 50px; /* Height of the footer element */
+}
+
+.background-icon{
+  font-size: 300px;
+}
+
+@media(max-width: 768px) {
+  .background-icon {
+    font-size: 200px;
+  }
 }

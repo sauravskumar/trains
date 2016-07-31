@@ -5,7 +5,7 @@ services:
     build: .
     image: sauravskumar/trains
     container_name: trains
-    command: npm run dev
+    command: bash -c "API_HOST=192.168.43.216 HOST=192.168.43.216 npm run dev"
     depends_on:
       - mongo
       - neo4j

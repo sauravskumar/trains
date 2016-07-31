@@ -72,10 +72,12 @@ export default class App extends Component {
         <div className={loading ? styles.loader : styles.hidden}>{loading}</div>
         <Navbar fixedTop>
           <Navbar.Header>
-            <i className="material-icons md-dark hidden-sm hidden-md hidden-lg" style={{float: 'left'}} onClick={this.toggleNav}>menu</i>
+            <i className="material-icons md-dark hidden-sm hidden-md hidden-lg" style={{float: 'left', marginRight: '10px'}} onClick={this.toggleNav}>menu</i>
             <Navbar.Brand>
-              <IndexLink to="/trains" activeStyle={{color: '#33e0ff'}}>
-                <span>{config.app.title}</span>
+              <IndexLink to="/trains/">
+                <nobr>
+                  <img src={'https://res.cloudinary.com/atmed/image/upload//c_scale,h_20,q_100/atmed_logo.png'}
+                           alt="atmed_logo" style={{maxHeight: '20px'}}/><span>&nbsp;Trains</span></nobr>
               </IndexLink>
             </Navbar.Brand>
             <Navbar.Toggle/>
@@ -95,7 +97,7 @@ export default class App extends Component {
               <LinkContainer to="/trains/pnr-status">
                 <NavItem eventKey={3}>PNR Status</NavItem>
               </LinkContainer>
-              <LinkContainer to="/trains/train-status">
+              <LinkContainer to="/trains/train-info">
                 <NavItem eventKey={3}>Train Info</NavItem>
               </LinkContainer>
               <LinkContainer to="/trains/station">
@@ -114,10 +116,11 @@ export default class App extends Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <div className="container">
+        <div className="container appContent">
           <div className={styles.appContent}>
             {this.props.children}
           </div>
+          <div className="push"></div>
         </div>
         <Footer/>
       </div>

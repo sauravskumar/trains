@@ -35,7 +35,7 @@ export default class PNRStatus extends Component {
         <div className="row">
         <div className="col-xs-12 col-sm-8">
           <AppHelmet title={'PNR Status'}
-                     description={'Check train PNR Number Status. Get seat availability and register for train alerts.'}
+                     description={'Check train PNR Status. Get seat availability, PNR Number status and register for train alerts.'}
                      keywords={'pnr status, pnr status check, pnr number check, pnr number status, berth availability'}
                      url={fullUrl}/>
           <div className={'form-inline text-center ' + style.PNRStatusForm}>
@@ -45,7 +45,7 @@ export default class PNRStatus extends Component {
           </div>
           <br/>
           <div className="text-center">
-            <i className="material-icons icon-color" style={{fontSize: '300px'}}>view_compact</i>
+            <i className="material-icons icon-color background-icon">&#xE42B;</i>
           </div>
         </div></div>
       );

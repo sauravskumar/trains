@@ -10,8 +10,7 @@ import {
   // Survey,
   NotFound,
   // Home,
-  About,
-
+  // About,
   Train,
   TrainsBetween,
   Station,
@@ -57,10 +56,9 @@ export default () => {
        <Route path="survey" component={Survey}/>
        <Route path="widgets" component={Widgets}/> */}
       <Route path="station" component={Station}/>
-      <Route path="about" component={About}/>
       <Route path="station/:param" component={Station}/>
-      <Route path="train-status" component={Train}/>
-      <Route path="train-status/:param" component={Train}/>
+      <Route path="train-info" component={Train}/>
+      <Route path="train-info/:param" component={Train}/>
       {/* <Route path="trains" component={TrainsBetween}/> */}
       <Route path="pnr-status" component={PNRStatus}/>
 

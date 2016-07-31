@@ -30,7 +30,7 @@ export default class StationInfo extends Component {
             <StationInfoForm/>
             <br/>
             <div style={{width: '100%', textAlign: 'center'}}>
-              <i className="material-icons icon-color" style={{fontSize: '300px'}}>location_on</i>
+              <i className="material-icons icon-color background-icon">&#xE0C8;</i>
             </div>
           </div>
         </div>

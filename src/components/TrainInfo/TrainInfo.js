@@ -26,7 +26,7 @@ export default class TrainInfo extends Component {
           <TrainInfoForm/>
           <br/>
           <div style={{width: '100%', textAlign: 'center'}}>
-            <i className="material-icons icon-color" style={{fontSize: '300px'}}>directions_railway</i>
+            <i className="material-icons icon-color background-icon">&#xE534;</i>
           </div>
         </div></div>
       );

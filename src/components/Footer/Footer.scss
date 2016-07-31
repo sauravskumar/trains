@@ -1,8 +1,17 @@
-.footer {
-  height: 100px;
-  background: #f2f2f2;
-  color: #aaa;
-  max-width: 100%;
+footer {
+    background: #F2F2F2;
+    //height: 50px;
+    border-top: 1px solid #E4E4E4;
+    margin-bottom: 0;
+    width: 100%;
+    overflow: hidden;
+    font-size: 13px;
+    height: 100px;
+    position:absolute;
+    bottom:0;
+    left:0;
+    color: #6A7796 !important;
+
   ul {
     padding-top: 30px;
     list-style: none;
@@ -16,4 +25,8 @@
   ul > li:first-child {
     margin-left: 0;
   }
+}
+
+footer a, footer a:hover {
+  color: #6A7796 !important;
 }

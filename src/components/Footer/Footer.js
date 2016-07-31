@@ -8,7 +8,7 @@ import style from './Footer.scss';
 export default class Footer extends Component {
   render() {
     return (
-      <footer className={style.footer}>
+      <footer className={style.footer + ' footer' }>
         <div className="container">
           <ul>
             <li>
