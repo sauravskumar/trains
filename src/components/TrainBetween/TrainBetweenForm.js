@@ -20,14 +20,12 @@ export default class TrainBetweenForm extends Component {
     router: React.PropTypes.object
   };
   search = () => {
-    // console.log(this.refs.sourceSt.getWrappedInstance().refs.searchInput.value);
-    // console.log(this.refs.destSt.getWrappedInstance().refs.searchInput.value);
     let source = this.refs.sourceSt.getWrappedInstance().refs.searchInput.value;
     let dest = this.refs.destSt.getWrappedInstance().refs.searchInput.value;
-    const nearby = this.refs.nearby.checked;
-    console.log(nearby);
-    source = source.replace(/ /g, '-').replace(/-+/, '-' ).split('-');
-    dest = dest.replace(/ /g, '-').replace(/-+/, '-' ).split('-');
+    // const nearby = this.refs.nearby.checked;
+    // console.log(nearby);
+    source = source.replace(/ /g, '-').replace(/-+/, '-' ).toLowerCase().split('-');
+    dest = dest.replace(/ /g, '-').replace(/-+/, '-' ).toLowerCase().split('-');
     let path = `/trains/between/${source[0]}-to-${dest[0]}`;
     source.shift();
     dest.shift();
