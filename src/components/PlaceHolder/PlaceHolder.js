@@ -29,7 +29,7 @@ export default class PlaceHolder extends Component {
               return (
                 <div key={Date.now() + Math.random()} className={'col-xs-12 col-sm-4 ' + style.imgDiv}>
                   <div className={style.pimg}
-                       style={{backgroundImage: 'url(/trains-images/placeholder/' + obj.name + '.jpg)'}}></div>
+                       style={{backgroundImage: 'url(https://res.cloudinary.com/atmed/image/upload/trains/' + obj.name + ')'}}></div>
                   <div style={{height: '115px', width: '100%', background: obj.color}}>
                     <div style={{fontSize: '15px', lineHeight: '30px'}}><b>{obj.title}</b></div>
                     <div style={{fontSize: '13px', lineHeight: '17px'}}>{obj.subTitle}</div>

@@ -23,10 +23,10 @@ export default class Drawer extends Component {
 
   render() {
     const menuList = [
-      {_id: '', name: 'Trains'},
-      {_id: 'pnr-status', name: 'Pnr Status'},
-      {_id: 'running-status-route', name: 'Train Status & Route'},
-      {_id: 'station-info', name: 'Station Info'},
+      {_id: '', name: 'Trains', logo_id: '&#xE534;'},
+      {_id: 'pnr-status', name: 'Pnr Status', logo_id: '&#xE42B;'},
+      {_id: 'running-status-route', name: 'Train Status & Route', logo_id: '&#xE534;'},
+      {_id: 'station-info', name: 'Station Info', logo_id: '&#xE0C8;'},
     ]; // eslint-disable-line no-shadow
     const {showDrawer} = this.state;
     return (
@@ -37,7 +37,8 @@ export default class Drawer extends Component {
               return (
                 <li className="text-capitalize" key={Date.now() + Math.random()} onClick={this.closeDrawer}>
                   <Link to={'/trains/' + obj._id.toLowerCase().replace(' ', '-')}>
-                    <div style={{width: '100%'}}>{obj.name}</div>
+                    <div style={{width: '100%'}}>{obj.name}
+                    </div>
                   </Link>
                 </li>
               );

@@ -13,8 +13,23 @@ export default class StationInfo extends Component {
     fullUrl: PropTypes.object
   };
 
+
   render() {
     const {stationInfo, params, fullUrl} = this.props;
+    let trainsx = []; //eslint-disable-line
+    stationInfo.trains.forEach((obj, index) => {
+      const trains = obj.properties; // eslint-disable-line no-param-reassign
+      trainsx.push(
+        <tr key={Date.now() + Math.random()} itemScope
+            itemType="http://schema.org/TrainTrip">
+          <td itemProp="trainNumber">{trains.train_code}</td>
+          <td itemProp="trainName">{trains.train_name}</td>
+          <td itemProp="arrivalTime">{stationInfo.route[index].properties.departure_time.toFixed(2).replace('.', ':')}</td>
+          <td itemProp="departureTime">{stationInfo.route[index].properties.arrival_time.toFixed(2).replace('.', ':')}</td>
+          <td>{trains.all_data[50]}</td>
+        </tr>
+      );
+    });
     let station = {};
     if (stationInfo) {
       station = stationInfo.station.properties;
@@ -23,8 +38,8 @@ export default class StationInfo extends Component {
       return (
         <div className="row">
           <div className="col-xs-12 col-sm-8">
-            <AppHelmet title={'Atmed Trains: Station Info., Trains visiting station'}
-                       description={'Get station details, station code, trains visiting station, trains between stations, station name for any railway station you want'}
+            <AppHelmet title={'Atmed Trains: Station Info.| Trains visiting station'}
+                       description={'Get station details, station code, trains visiting station, trains between stations for any railway station you want'}
                        keywords={'station information, trains visiting station, station details'}
                        url={fullUrl}/>
             <StationInfoForm/>
@@ -39,10 +54,11 @@ export default class StationInfo extends Component {
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-8">
-          <AppHelmet title={station.station_code + ' ' + station.station_name + ' Station Info.'}
-                     description={'Station Code: ' + station.station_code + ', Station Name: ' + station.station_name + ' station details, Division: ' + station.division + ', Zone: ' + station.zone}
-                     keywords={station.station_code + ', ' + station.station_name + ', ' + station.division + ' station details, station information, trains visiting station'}
-                     url={fullUrl}/>
+          <AppHelmet
+            title={`${station.station_name} (${station.station_code}) | Div: ${station.division} | ${stationInfo.trains.length} Trains | Station Info.`}
+            description={'Station Code: ' + station.station_code + ', Station Name: ' + station.station_name + ' station details, Division: ' + station.division + ', Zone: ' + station.zone}
+            keywords={station.station_code + ', ' + station.station_name + ', ' + station.division + ' station details, station information, trains visiting station'}
+            url={fullUrl}/>
           <StationInfoForm/>
           <br/>
           <div className="panel panel-default">
@@ -56,41 +72,23 @@ export default class StationInfo extends Component {
                   <h2 style={{fontSize: '13px', paddingLeft: '15px', color: '#C2D2F3'}}>Division: {station.division} ·
                     Zone: {station.zone}</h2>
                 </div>
-                {/* <div className="col-xs-6">
-                 <div className={style.pimg}
-                 style={{backgroundImage: 'url(/trains-images/placeholder/taj.jpg)'}}/>
-                 </div> */}
               </div>
             </div>
           </div>
-          <div className="panel panel-default">
+          <div className="panel panel-default" style={{fontSize: '13px'}}>
             <div className="panel-body">
               <table className="table table-striped table-hover ">
                 <thead>
                 <tr>
                   <td>Number</td>
                   <td>Name</td>
-                  <td>Days</td>
+                  <td>Arrival</td>
+                  <td className={style.x}>Dep.</td>
                   <td>Type</td>
                 </tr>
                 </thead>
                 <tbody>
-                {stationInfo.trains.map(trains => {
-                  trains = trains.properties; // eslint-disable-line no-param-reassign
-                  return (
-                    <tr key={Date.now() + Math.random()}>
-                      <td>{trains.train_code}</td>
-                      <td>{trains.train_name}</td>
-                      <td className={style.days}>
-                        {trains.days.map(day => {
-                          return (
-                            <span key={Date.now() + Math.random()}>{day ? day : ''}</span>
-                          );
-                        })}</td>
-                      <td>{trains.all_data[50]}</td>
-                    </tr>
-                  );
-                })}
+                {trainsx}
                 </tbody>
               </table>
             </div>

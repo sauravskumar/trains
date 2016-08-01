@@ -27,6 +27,7 @@ export default class Html extends Component {
     return (
       <html lang="en-us">
         <head>
+          <meta name="google-site-verification" content="XVf4pkYO1BCYjCCATmONSj01BuMcDthXjUhDRCXfWTE" />
           {head.base.toComponent()}
           {head.title.toComponent()}
           {head.meta.toComponent()}

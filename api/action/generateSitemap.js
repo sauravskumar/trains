@@ -28,10 +28,10 @@ var tag = (suburl, url) => {
 let writeSitemapIndex = (fileName) => {
   let sitemapStructure = `
 <sitemap>
-    <loc>https://www.atmed.co/trains/files/sitemap/sitemap.xml</loc>
-    <lastmod>2004-10-01T18:23:17+00:00</lastmod>
+    <loc>https://www.atmed.co/trains/files/sitemap/${fileName}.xml</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
 </sitemap>`;
-  fs.appendFile(`/usr/src/app/static/files/sitemap/sitemap.xml`, sitemapStructure, 'utf8')
+  fs.appendFile(`/usr/src/app/static/trains/files/sitemap/sitemap.xml`, sitemapStructure, 'utf8')
 };
 
 
@@ -54,9 +54,10 @@ let writeSitemap = (db_name, file_name) => {
             console.log('train and station sitemap made');
             writeData += `\n</urlset>`;
             // console.log(writeData)
-            fs.writeFile('/usr/src/app/static/files/sitemap/' + file_name + '.xml', writeData, 'utf8', (err, data) => {
+            fs.writeFile('/usr/src/app/static/trains/files/sitemap/' + file_name + '.xml', writeData, 'utf8', (err, data) => {
               // console.log(err);
               // console.log(data);
+              writeSitemapIndex(file_name);
               writeData = topTag;
               i++;
               resolve();
@@ -74,7 +75,7 @@ let writeSitemap = (db_name, file_name) => {
 let writeToFile = (file_name, writeData) => {
   return new Promise((resolve, reject) => {
     console.log('writeToFile', file_name);
-    fs.writeFile('/usr/src/app/static/files/sitemap/' + file_name + '.xml', writeData, 'utf8', (err, data) => {
+    fs.writeFile('/usr/src/app/static/trains/files/sitemap/' + file_name + '.xml', writeData, 'utf8', (err, data) => {
       resolve()
     })
   })
@@ -134,9 +135,11 @@ let writeTrainsBetweenSitmap = (db_name) => {
                 writeToFile(fileCount > 1 ? 'trains-between-' + fileCount : 'trains-between', writeData);
                 writeData = '';
                 resolve()
+                writeSitemapIndex(fileCount > 1 ? 'trains-between-' + fileCount : 'trains-between')
               } else {
                 writeToFile(fileCount > 1 ? 'trains-between-' + fileCount : 'trains-between', writeData);
                 writeData = ''
+                writeSitemapIndex(fileCount > 1 ? 'trains-between-' + fileCount : 'trains-between')
               }
             }
           })
@@ -148,11 +151,11 @@ let writeTrainsBetweenSitmap = (db_name) => {
 
 module.exports = function () {
   router.get('/updatesitemap', (req, res) => {
-    fs.write('/usr/src/app/static/files/sitemap/sitemap.xml', sitemapIndexTag, 'utf8');
+    fs.writeFile('/usr/src/app/static/trains/files/sitemap/sitemap.xml', sitemapIndexTag, 'utf8');
     writeSitemap('trains_routes', 'trains').then(()=> {
       writeSitemap('stations_all', 'stations').then(()=> {
         writeTrainsBetweenSitmap('trains_routes').then(()=> {
-          fs.appendFile(`/usr/src/app/static/files/sitemap/sitemap.xml`, `</sitemapindex>`, 'utf8');
+          fs.appendFile(`/usr/src/app/static/trains/files/sitemap/sitemap.xml`, `\n</sitemapindex>`, 'utf8');
           res.send('done');
         })
       })

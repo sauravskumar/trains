@@ -20,7 +20,7 @@ export default class TrainInfo extends Component {
         <div className="row">
           <div className="col-xs-12 col-sm-8">
             <AppHelmet title={'Atmed Trains: Train Running Status | Train Route | Train Info.'}
-                       description={'Check train running status, train route, train details, seat fare of any train.'}
+                       description={'Check Train running status, Berth availability, Train Route and seat fare of any train.'}
                        keywords={'Train status, live status, train info, train details, seat fare, seat availability'}
                        url={fullUrl}/>
             <TrainInfoForm/>
@@ -36,7 +36,7 @@ export default class TrainInfo extends Component {
       <div className="row">
         <div className="col-xs-12 col-sm-8">
           <AppHelmet title={`${train.name} - (${train.code}) | ${train.all_data[2]} to ${train.all_data[4]}`}
-                     description={'Name: ' + train.code + '-' + train.name + '. Dep: ' + train.all_data[10].replace('.', ':') + '. Arr: ' + train.all_data[11].replace('.', ':') + ' train running status, seat availability, train route, train schedule, seat fare.'}
+                     description={'Name: ' + train.code + '-' + train.name + '. Dep: ' + train.all_data[10].replace('.', ':') + '. Arr: ' + train.all_data[11].replace('.', ':') + ' Get ' + train.code + '-' + train.name + ' running status, seat availability, route, train schedule, seat fare.'}
                      keywords={'Train running status, train info, seat fare, berth availability'}
                      url={fullUrl}/>
           <TrainInfoForm/>
@@ -49,11 +49,13 @@ export default class TrainInfo extends Component {
             </div>
             <div style={{background: '#3367D6', margin: '0px'}}>
               <div className="row">
-                <div className="col-xs-6">
-              <h2 style={{fontSize: '15px', paddingLeft: '15px', color: '#C2D2F3'}}>
-                <span itemProp="departureStation">{train.all_data[3]} - {train.all_data[2]}</span> To&nbsp;
-                <span itemProp="arrivalStation">{train.all_data[5]} - {train.all_data[4]}</span>
-              </h2></div></div>
+                <div className="col-xs-12">
+                  <h2 style={{fontSize: '15px', paddingLeft: '15px', color: '#C2D2F3'}}>
+                    <span itemProp="departureStation"><b>{train.all_data[3]}</b> - {train.all_data[2]}</span> To&nbsp;
+                    <span itemProp="arrivalStation"><b>{train.all_data[5]}</b> - {train.all_data[4]}</span>
+                  </h2>
+                </div>
+              </div>
             </div>
             <div className="panel-body" style={{margin: '15px'}}>
               Start: <span itemProp="arrivalTime">{train.all_data[10].replace('.', ':')}</span><br/>
@@ -76,7 +78,7 @@ export default class TrainInfo extends Component {
               </div>
             </div>
           </div>
-          <div className="panel panel-default">
+          <div className="panel panel-default" style={{fontSize: '13px'}}>
             <div className="panel-body" style={{padding: '0px', margin: '0px', overflow: 'hidden'}}>
               <table className="table table-striped table-hover">
                 <thead>

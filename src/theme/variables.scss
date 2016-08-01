@@ -45,6 +45,11 @@ body {
   padding-bottom: 50px; /* Height of the footer element */
 }
 
+a, a:visited, a:hover {
+  color: black !important;
+  cursor: pointer;
+  cursor: hand;
+}
 
 .backgroundIcon{
   font-size: 300px !important;
@@ -55,3 +60,8 @@ body {
     font-size: 200px !important;
   }
 }
+//@media(max-width: 768px) {
+//  body {
+//    background: #FEFEFE !important;
+//  }
+//}

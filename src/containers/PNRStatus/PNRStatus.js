@@ -34,12 +34,12 @@ export default class PNRStatus extends Component {
       return (
         <div className="row">
           <div className="col-xs-12 col-sm-8">
-            <AppHelmet title={'Atmed Trains: PNR Status'}
+            <AppHelmet title={'Atmed Trains: PNR Status | PNR Number Status'}
                        description={'Check train PNR Status. Get seat availability, PNR Number status, train schedule and register for train alerts.'}
                        keywords={'pnr status, pnr status check, pnr number check, pnr number status, berth availability'}
                        url={fullUrl}/>
             <div className={'form-inline text-center ' + style.PNRStatusForm}>
-              <input className="form-control" ref="pnrInput" id="focusedInput" type="text" style={{margin: '0 auto'}}
+              <input className="form-control" ref="pnrInput" id="focusedInput" type="text" style={{margin: '0 auto', marginBottom: '10px'}}
                      placeholder="Enter PNR Number"/>
               <button className="btn btn-primary" onClick={this.loadPnr}>Search</button>
             </div>
