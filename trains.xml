@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://www.atmed.co/trains/status-route/01003-cstm-krmi-spl</loc>
+        <lastmod>2016-08-01T03:12:45.465Z</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.atmed.co/trains/status-route/01004-krmi-cstm--spl</loc>
+        <lastmod>2016-08-01T03:12:45.465Z</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+</urlset>

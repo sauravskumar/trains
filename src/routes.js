@@ -55,10 +55,10 @@ export default () => {
       {/* <Route path="login" component={Login}/>
        <Route path="survey" component={Survey}/>
        <Route path="widgets" component={Widgets}/> */}
-      <Route path="station" component={Station}/>
-      <Route path="station/:param" component={Station}/>
-      <Route path="train-info" component={Train}/>
-      <Route path="train-info/:param" component={Train}/>
+      <Route path="station-info" component={Station}/>
+      <Route path="station-info/:param" component={Station}/>
+      <Route path="running-status-route" component={Train}/>
+      <Route path="running-status-route/:param" component={Train}/>
       {/* <Route path="trains" component={TrainsBetween}/> */}
       <Route path="pnr-status" component={PNRStatus}/>
 

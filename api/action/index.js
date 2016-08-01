@@ -7,5 +7,6 @@ module.exports = function () {
   const trainInfo = require('./trainInfo')();
   const stationInfo = require('./stationInfo')();
   const pnr = require('./pnr')();
-  return [trainsBetween, autocomplete, trainInfo, stationInfo, pnr];
+  const generateSitemap = require('./generateSitemap')();
+  return [trainsBetween, autocomplete, trainInfo, stationInfo, pnr, generateSitemap];
 };

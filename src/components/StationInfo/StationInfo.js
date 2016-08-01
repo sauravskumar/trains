@@ -23,14 +23,14 @@ export default class StationInfo extends Component {
       return (
         <div className="row">
           <div className="col-xs-12 col-sm-8">
-            <AppHelmet title={'Station Info.'}
+            <AppHelmet title={'Atmed Trains: Station Info., Trains visiting station'}
                        description={'Get station details, station code, trains visiting station, trains between stations, station name for any railway station you want'}
                        keywords={'station information, trains visiting station, station details'}
                        url={fullUrl}/>
             <StationInfoForm/>
             <br/>
             <div style={{width: '100%', textAlign: 'center'}}>
-              <i className="material-icons icon-color background-icon">&#xE0C8;</i>
+              <i className={'material-icons icon-color backgroundIcon'}>&#xE0C8;</i>
             </div>
           </div>
         </div>
@@ -52,7 +52,7 @@ export default class StationInfo extends Component {
             </div>
             <div style={{background: '#3367D6', margin: '0px'}}>
               <div className="row">
-                <div className="col-xs-6">
+                <div className="col-xs-8">
                   <h2 style={{fontSize: '13px', paddingLeft: '15px', color: '#C2D2F3'}}>Division: {station.division} ·
                     Zone: {station.zone}</h2>
                 </div>

@@ -15,7 +15,7 @@ module.exports = function () {
   router.get('/station-info', function (req, res) {
     // console.log('api ', req.query.code)
     let queryParams = {
-      station_code: req.query.code
+      station_code: req.query.code.toUpperCase()
     }
     let session = driver.session()
     session.run("match (station:station{ station_code: {station_code} })<-[route:route]-(train:train) " +

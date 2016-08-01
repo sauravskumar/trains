@@ -23,10 +23,10 @@ export default class Drawer extends Component {
 
   render() {
     const menuList = [
-      {_id: 'between', name: 'Trains'},
+      {_id: '', name: 'Trains'},
       {_id: 'pnr-status', name: 'Pnr Status'},
-      {_id: 'train-status', name: 'Train Info'},
-      {_id: 'station', name: 'Station Info'},
+      {_id: 'running-status-route', name: 'Train Status & Route'},
+      {_id: 'station-info', name: 'Station Info'},
     ]; // eslint-disable-line no-shadow
     const {showDrawer} = this.state;
     return (

@@ -8,7 +8,7 @@
 
 @import "paper/variables";
 // Custom Colors
-$cyan: #fff;
+$cyan: #33e0ff;
 $humility: #777;
 
 // Bootstrap Variables
@@ -45,12 +45,13 @@ body {
   padding-bottom: 50px; /* Height of the footer element */
 }
 
-.background-icon{
-  font-size: 300px;
+
+.backgroundIcon{
+  font-size: 300px !important;
 }
 
 @media(max-width: 768px) {
-  .background-icon {
-    font-size: 200px;
+  .backgroundIcon {
+    font-size: 200px !important;
   }
 }

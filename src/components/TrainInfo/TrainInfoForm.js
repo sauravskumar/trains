@@ -23,7 +23,7 @@ export default class TrainBetweenForm extends Component {
     console.log(this.refs.trainNoInput.getWrappedInstance().refs.searchInput.value);
     let trainInfo = this.refs.trainNoInput.getWrappedInstance().refs.searchInput.value;
     trainInfo = trainInfo.replace(/ /g, '-').replace(/-+/, '-' );
-    const path = `/trains/train-info/${trainInfo}`;
+    const path = `/trains/running-status-route/${trainInfo}`;
     this.context.router.push(path);
   };
   render() {

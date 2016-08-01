@@ -4,7 +4,7 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
-var constant = require('./../const')
+var constant = require('./../const');
 var url = constant.url;
 
 let express = require('express'),
@@ -12,25 +12,25 @@ let express = require('express'),
 let trainCache = [], stationCache = [];
 
 let search = (q, cache) => {
-  return new Promise((res, rej)=>{
+  return new Promise((res, rej)=> {
     // console.log('from cache ', cache);
-    const result = []
-    for(let i = 0;i<cache.length;i++) {
+    const result = [];
+    for (let i = 0; i < cache.length; i++) {
       // console.log('name-> ', cache[i]);
-      if (cache[i].code_name.toLowerCase().includes(q.toLowerCase())){
-        result.push(cache[i])
+      if (cache[i].code_name.toLowerCase().includes(q.toLowerCase())) {
+        result.push(cache[i]);
         if (result.length > 6) {
-          res(result)
+          res(result);
           break
         }
       }
-      if (i==cache.length-1){
+      if (i == cache.length - 1) {
         res(result)
       }
     }
     // res('now')
   })
-}
+};
 
 module.exports = function () {
   router.get('/train-complete', function (req, res) {
@@ -40,7 +40,7 @@ module.exports = function () {
       }).catch(err => {
         console.log(err);
       })
-    }else {
+    } else {
       MongoClient.connect(url)
         .then(db => {
           db.collection('trains_all').find({}).toArray().then(result => {
@@ -51,14 +51,14 @@ module.exports = function () {
             //   cache.push(train)
             // }
             res.send('cache updated at ' + new Date())
-          }).catch(err=>{
+          }).catch(err=> {
             console.log(err);
           })
-        }).catch(err=>{
+        }).catch(err=> {
         console.log(err);
       })
     }
-  })
+  });
 
   router.get('/station-complete', (req, res) => {
     if (stationCache.length > 0) {
@@ -67,21 +67,22 @@ module.exports = function () {
       }).catch(err => {
         console.log(err);
       })
-    }else {
+    } else {
       MongoClient.connect(url)
         .then(db => {
           db.collection('stations_all').find({}).toArray().then(result => {
             stationCache = result;
             // console.log(result);
-            res.send([])
-          }).catch(err=>{
+            res.send([]);
+            db.close()
+          }).catch(err=> {
             console.log(err);
           })
-        }).catch(err=>{
+        }).catch(err=> {
         console.log(err);
       })
     }
 
-  })
+  });
   return router
-}
+};

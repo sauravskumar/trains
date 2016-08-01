@@ -74,7 +74,7 @@ export default class App extends Component {
           <Navbar.Header>
             <i className="material-icons md-dark hidden-sm hidden-md hidden-lg" style={{float: 'left', marginRight: '10px'}} onClick={this.toggleNav}>menu</i>
             <Navbar.Brand>
-              <IndexLink to="/trains/">
+              <IndexLink to="/trains/" title="Atmed Trains Home">
                 <nobr>
                   <img src={'https://res.cloudinary.com/atmed/image/upload//c_scale,h_20,q_100/atmed_logo.png'}
                            alt="atmed_logo" style={{maxHeight: '20px'}}/><span>&nbsp;Trains</span></nobr>
@@ -95,13 +95,13 @@ export default class App extends Component {
                <NavItem eventKey={3}>Survey</NavItem>
                </LinkContainer> */}
               <LinkContainer to="/trains/pnr-status">
-                <NavItem eventKey={3}>PNR Status</NavItem>
+                <NavItem eventKey={3} alt="PNR Status">PNR Status</NavItem>
               </LinkContainer>
-              <LinkContainer to="/trains/train-info">
-                <NavItem eventKey={3}>Train Info</NavItem>
+              <LinkContainer to="/trains/running-status-route">
+                <NavItem eventKey={3} alt="Train Running status and Route">Train Live Status & Route</NavItem>
               </LinkContainer>
-              <LinkContainer to="/trains/station">
-                <NavItem eventKey={3}>Station Info</NavItem>
+              <LinkContainer to="/trains/station-info">
+                <NavItem eventKey={3} alt="Station Information">Station Info</NavItem>
               </LinkContainer>
               {/* {!user &&
                <LinkContainer to="/login">
