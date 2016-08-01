@@ -12,6 +12,7 @@ let express = require('express'),
   router = express.Router();
 
 let topTag = `<?xml version="1.0" encoding="UTF-8"?>\n\t<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+let sitemapIndexTag = `<?xml version="1.0" encoding="UTF-8"?>\n\t<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
 
 var tag = (suburl, url) => {
   return `
@@ -22,6 +23,17 @@ var tag = (suburl, url) => {
         <priority>0.8</priority>
     </url>`;
 };
+
+
+let writeSitemapIndex = (fileName) => {
+  let sitemapStructure = `
+<sitemap>
+    <loc>https://www.atmed.co/trains/files/sitemap/sitemap.xml</loc>
+    <lastmod>2004-10-01T18:23:17+00:00</lastmod>
+</sitemap>`;
+  fs.appendFile(`/usr/src/app/static/files/sitemap/sitemap.xml`, sitemapStructure, 'utf8')
+};
+
 
 let writeSitemap = (db_name, file_name) => {
   return new Promise((resolve, reject) => {
@@ -70,7 +82,7 @@ let writeToFile = (file_name, writeData) => {
 
 let normalizeString = (x) => {
   return x.toLowerCase().replace(/ /g, '-').replace(/-+/g, '-')
-}
+};
 
 let loopOverStations = (result) => {
   return new Promise((resolve, reject)=> {
@@ -115,12 +127,12 @@ let writeTrainsBetweenSitmap = (db_name) => {
             if (index === new_result.length || index % 45000 === 0) {
               fileCount++;
               console.log('index===length writetofile call');
-              writeData = topTag + writeData
+              writeData = topTag + writeData;
               writeData += `\n</urlset>`;
               if (index === new_result.length) {
-                console.log('set ended')
+                console.log('set ended');
                 writeToFile(fileCount > 1 ? 'trains-between-' + fileCount : 'trains-between', writeData);
-                writeData = ''
+                writeData = '';
                 resolve()
               } else {
                 writeToFile(fileCount > 1 ? 'trains-between-' + fileCount : 'trains-between', writeData);
@@ -136,9 +148,11 @@ let writeTrainsBetweenSitmap = (db_name) => {
 
 module.exports = function () {
   router.get('/updatesitemap', (req, res) => {
+    fs.write('/usr/src/app/static/files/sitemap/sitemap.xml', sitemapIndexTag, 'utf8');
     writeSitemap('trains_routes', 'trains').then(()=> {
       writeSitemap('stations_all', 'stations').then(()=> {
         writeTrainsBetweenSitmap('trains_routes').then(()=> {
+          fs.appendFile(`/usr/src/app/static/files/sitemap/sitemap.xml`, `</sitemapindex>`, 'utf8');
           res.send('done');
         })
       })
