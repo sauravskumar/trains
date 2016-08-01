@@ -21,6 +21,12 @@ module.exports = function () {
     session.run("match (station:station{ station_code: {station_code} })<-[route:route]-(train:train) " +
       "return distinct(station) as station, collect(distinct(route)) as route, collect(distinct(train)) as trains",
       queryParams).then(result => {
+        console.log(result)
+      if (result.records.length < 1) {
+        session.close();
+        res.send(null);
+        return;
+      }
       const json = result.records[0]._fields
       let newJson = {};
       newJson.station = json[0]

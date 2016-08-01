@@ -67,6 +67,25 @@ export default class TrainsBetween extends Component {
     return `${fullName} Trains, ${codeName} Trains, ${number} Trains from ${fullName}, Trains between ${fullName},  Trains between ${codeName}`;
   };
 
+  trainNotFoundPanelHeading = (param) => {
+    const url = param.split('-');
+    const codes = url.splice(0, 3);
+    const to = url.indexOf('to');
+    url.splice(to, 1);
+    // return `${codes[0]} ${url.slice(0, to).join(' ')} to ${codes[2]} ${url.slice(to).join(' ')}`;
+    return (
+      <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
+        <div style={{background: '#E53935', padding: '1px'}}>
+          <h1 style={{fontSize: '24px', color: '#FFFFFF'}}>{codes[0]} {url.slice(0, to).join(' ')}&nbsp;
+            to&nbsp;{codes[2]} {url.slice(to).join(' ')}</h1>
+        </div>
+        <div style={{background: '#EF5350', padding: '1px'}}>
+          <h2 style={{fontSize: '18px', color: '#FFEBEE'}}>0 Trains</h2>
+        </div>
+      </div>
+    );
+  };
+
   panelHeading = (param, journey) => {
     // console.log(url);
     const url = param.split('-');
@@ -77,14 +96,14 @@ export default class TrainsBetween extends Component {
     return (
       <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
         <div style={{background: '#4285F4', padding: '1px'}}>
-          <h1 style={{fontSize: '20px', color: '#FFFFFF'}}>{codes[0]} {url.slice(0, to).join(' ')}&nbsp;
+          <h1 style={{fontSize: '24px', color: '#FFFFFF'}}>{codes[0]} {url.slice(0, to).join(' ')}&nbsp;
             to&nbsp;{codes[2]} {url.slice(to).join(' ')}</h1>
         </div>
         <div style={{background: '#3367D6', padding: '1px'}}>
-          {journey.json.length ? <h2 style={{fontSize: '13px', color: '#C2D2F3'}}>{journey.json.length} Trains · Best
+          {journey.json.length ? <h2 style={{fontSize: '18px', color: '#C2D2F3'}}>{journey.json.length} Trains · Best
             Train {journey.bestTrain.train.train_code} {journey.bestTrain.train.train_name} ·
             Duration {journey.bestTrain.duration}</h2> :
-            <h2 style={{fontSize: '14px', color: '#C2D2F3'}}>{journey.json.length} Trains</h2>}
+            <h2 style={{fontSize: '14px', color: '#C2D2F3'}}>0 Trains</h2>}
         </div>
       </div>
     );
@@ -105,13 +124,13 @@ export default class TrainsBetween extends Component {
         </div>
       );
     }
-    if (trainBetweenList.json.length === 0) {
+    if (trainBetweenList.json.length < 1) {
       return (
         <div className="row">
           <div className="col-xs-12 col-sm-8">
             <TrainBetweenForm/>
             <br/>
-            {this.panelHeading(url, null)}
+            {this.trainNotFoundPanelHeading(url, null)}
             <PlaceHolder/>
           </div>
         </div>

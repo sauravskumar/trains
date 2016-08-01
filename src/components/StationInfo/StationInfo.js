@@ -16,24 +16,8 @@ export default class StationInfo extends Component {
 
   render() {
     const {stationInfo, params, fullUrl} = this.props;
-    let trainsx = []; //eslint-disable-line
-    stationInfo.trains.forEach((obj, index) => {
-      const trains = obj.properties; // eslint-disable-line no-param-reassign
-      trainsx.push(
-        <tr key={Date.now() + Math.random()} itemScope
-            itemType="http://schema.org/TrainTrip">
-          <td itemProp="trainNumber">{trains.train_code}</td>
-          <td itemProp="trainName">{trains.train_name}</td>
-          <td itemProp="arrivalTime">{stationInfo.route[index].properties.departure_time.toFixed(2).replace('.', ':')}</td>
-          <td itemProp="departureTime">{stationInfo.route[index].properties.arrival_time.toFixed(2).replace('.', ':')}</td>
-          <td>{trains.all_data[50]}</td>
-        </tr>
-      );
-    });
+    let trainsList = []; //eslint-disable-line
     let station = {};
-    if (stationInfo) {
-      station = stationInfo.station.properties;
-    }
     if (!params.param) {
       return (
         <div className="row">
@@ -51,6 +35,49 @@ export default class StationInfo extends Component {
         </div>
       );
     }
+    if (!stationInfo || !stationInfo.station) {
+      return (
+        <div className="row">
+          <div className="col-xs-12 col-sm-8">
+            <AppHelmet title={'Atmed Trains: Station Info.| Trains visiting station'}
+                       description={'Get station details, station code, trains visiting station, trains between stations for any railway station you want'}
+                       keywords={'station information, trains visiting station, station details'}
+                       url={fullUrl}/>
+            <StationInfoForm/>
+            <br/>
+            <div style={{width: '100%', textAlign: 'center'}}>
+              <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
+                <div style={{background: '#E53935', padding: '1px'}}>
+                  <h1 style={{fontSize: '24px', color: '#FFFFFF'}}>No Station Found</h1>
+                </div>
+              </div>
+              <div style={{background: '#EF5350', padding: '1px'}}>
+                <h2 style={{fontSize: '18px', color: '#FFEBEE'}}>{params.param}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    if (stationInfo) {
+      station = stationInfo.station.properties;
+    }
+
+    stationInfo.trains.forEach((obj, index) => {
+      const trains = obj.properties; // eslint-disable-line no-param-reassign
+      trainsList.push(
+        <tr key={Date.now() + Math.random()} itemScope
+            itemType="http://schema.org/TrainTrip">
+          <td itemProp="trainNumber">{trains.train_code}</td>
+          <td itemProp="trainName">{trains.train_name}</td>
+          <td
+            itemProp="arrivalTime">{stationInfo.route[index].properties.departure_time.toFixed(2).replace('.', ':')}</td>
+          <td
+            itemProp="departureTime">{stationInfo.route[index].properties.arrival_time.toFixed(2).replace('.', ':')}</td>
+          <td>{trains.all_data[50]}</td>
+        </tr>
+      );
+    });
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-8">
@@ -88,7 +115,7 @@ export default class StationInfo extends Component {
                 </tr>
                 </thead>
                 <tbody>
-                {trainsx}
+                {trainsList}
                 </tbody>
               </table>
             </div>

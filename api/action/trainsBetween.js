@@ -73,7 +73,7 @@ module.exports = function () {
       getLatLong(req.query.dest.toUpperCase()).then(dest => {
         // console.log('destination', dest.station_code);
         if (source == 'not_found' || dest == 'not_found') {
-          res.send({json: []})
+          res.send({actual_src: source, actual_dest: dest, bestTrain: '', json: []})
           return
         }
         let srcLat = source.latitude, srcLong = source.longitude,
@@ -121,10 +121,11 @@ module.exports = function () {
           //     // console.log(field);
           //   })
           // });
+
           session.close();
           let records = result.records, json = [];
-            let bestTrain = {};
-            let maxDuration = 1000000;
+          let bestTrain = {};
+          let maxDuration = 1000000;
           records.map(journey => {
             // console.log(journey._fields[0],
             // journey._fields[1][0],
@@ -177,10 +178,10 @@ module.exports = function () {
             newJourney.src_route = journey._fields[3][0].properties;
             newJourney.dest_route = journey._fields[4][0].properties;
             const duration = newJourney.dest_route.time_spent_on_arrival.low - newJourney.src_route.time_spent_on_departure.low;
-            const hours = Math.trunc(duration/ 60);
+            const hours = Math.trunc(duration / 60);
             const mins = (duration - (hours * 60));
             newJourney.duration_num = duration;
-            newJourney.duration = (hours ? hours + 'h ' : '') + (mins ? mins + 'm.': '');
+            newJourney.duration = (hours ? hours + 'h ' : '') + (mins ? mins + 'm.' : '');
             if (duration < maxDuration) {
               maxDuration = duration;
               bestTrain.train = train;
@@ -190,13 +191,13 @@ module.exports = function () {
           });
           // json.actual_src = source;
           // json.actual_dest = dest;
-          json.sort((a,b)=>{
+          json.sort((a, b)=> {
             if (a.src_route.arrival_time > b.src_route.arrival_time)
               return 1;
             else
               return -1;
           });
-          res.send({actual_src : source, actual_dest : dest,bestTrain:bestTrain,  json})
+          res.send({actual_src: source, actual_dest: dest, bestTrain: bestTrain, json})
         }).catch(err=> {
           console.log(err);
         })

@@ -32,6 +32,30 @@ export default class TrainInfo extends Component {
         </div>
       );
     }
+    if (!train || !train.code) {
+      return (
+        <div className="row">
+          <div className="col-xs-12 col-sm-8">
+            <AppHelmet title={'Atmed Trains: Train Running Status | Train Route | Train Info.'}
+                       description={'Check Train running status, Berth availability, Train Route and seat fare of any train.'}
+                       keywords={'Train status, live status, train info, train details, seat fare, seat availability'}
+                       url={fullUrl}/>
+            <TrainInfoForm/>
+            <br/>
+            <div style={{width: '100%', textAlign: 'center'}}>
+              <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
+                <div style={{background: '#E53935', padding: '1px'}}>
+                  <h1 style={{fontSize: '24px', color: '#FFFFFF'}}>No Train Found</h1>
+                </div>
+              </div>
+              <div style={{background: '#EF5350', padding: '1px'}}>
+                <h2 style={{fontSize: '18px', color: '#FFEBEE'}}>{params.param}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-8">

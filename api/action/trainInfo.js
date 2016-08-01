@@ -19,7 +19,13 @@ module.exports = function () {
     MongoClient.connect(url).then(db => {
       db.collection('trains_routes').find({code: req.query.code}).toArray().then(result => {
         // const json = train[0]
-        db.close()
+        db.close();
+        console.log('result -> ', result)
+        if (result.length < 1) {
+          console.log('0 size')
+          res.send(null);
+          return;
+        }
         let train = result[0];
         let days = train.all_data[13].split('');
         train.days = [];
