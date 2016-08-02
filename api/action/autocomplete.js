@@ -44,6 +44,7 @@ module.exports = function () {
       MongoClient.connect(url)
         .then(db => {
           db.collection('trains_all').find({}).toArray().then(result => {
+            db.close();
             trainCache = result;
             // console.log(cache);
             // console.log(result);

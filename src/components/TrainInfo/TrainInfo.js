@@ -42,7 +42,7 @@ export default class TrainInfo extends Component {
                        url={fullUrl}/>
             <TrainInfoForm/>
             <br/>
-            <div style={{width: '100%', textAlign: 'center'}}>
+            <div className="panel panel-default" style={{width: '100%', textAlign: 'center'}}>
               <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
                 <div style={{background: '#E53935', padding: '1px'}}>
                   <h1 style={{fontSize: '24px', color: '#FFFFFF'}}>No Train Found</h1>
@@ -56,20 +56,57 @@ export default class TrainInfo extends Component {
         </div>
       );
     }
+
+    const capitalize_Words = (str) => {
+      return str.replace(/\w\S*/g, (txt) => {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+    };
+
+    const getRandom = (arr, number) => {
+      let result = new Array(number), // eslint-disable-line
+        len = arr.length,
+        taken = new Array(len); // eslint-disable-line
+      if (number > len) {
+        throw new RangeError('getRandom: more elements taken than available');
+      }
+      while (number--) { // eslint-disable-line
+        const number2 = Math.floor(Math.random() * len);
+        result[number] = arr[number2 in taken ? taken[number2] : number2];
+        taken[number2] = --len;
+      }
+      return result;
+    };
+    const keywords = ['trains between stations', 'pnr status',
+      'railway enquiry', 'railway reservation', 'railway enquiry',
+      'train enquiry', 'train timings', 'train running status',
+      'seat availability', 'train info', 'ticket price',
+      'indian railway enquiry', 'Train Number', 'railway fare enquiry',
+      'train no', 'rail info', 'india rail info', 'erail', 'train route',
+      'irctc train timings', 'railway ticket booking', 'railway booking', 'seat availability',
+      'indian railway time table', 'railway time table', 'seat fare', 'online train booking'];
+    const descEnd = getRandom(keywords, 3).join(', ').toLowerCase();
+    const description = 'Train No.: ' + train.code + '. Train Name: ' + train.name +
+      '. Starts from: ' + train.all_data[3].replace('.', ':') +
+      '. Departure: ' + train.all_data[10].replace('.', ':') +
+      '. Destination: ' + train.all_data[5].replace('.', ':') +
+      '. Arrival: ' + train.all_data[11].replace('.', ':') +
+      '. Get ' + descEnd + '.';
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-8">
-          <AppHelmet title={`${train.name} - (${train.code}) | ${train.all_data[2]} to ${train.all_data[4]}`}
-                     description={'Name: ' + train.code + '-' + train.name + '. Dep: ' + train.all_data[10].replace('.', ':') + '. Arr: ' + train.all_data[11].replace('.', ':') + ' Get ' + train.code + '-' + train.name + ' running status, seat availability, route, train schedule, seat fare.'}
+          <AppHelmet title={`${capitalize_Words(train.name)} (Train No. ${train.code}) | ${train.all_data[2]}/${train.all_data[3]} to ${train.all_data[4]}/${train.all_data[5]} | Atmed Trains`}
+                     description={description}
                      keywords={'Train running status, train info, seat fare, berth availability'}
                      url={fullUrl}/>
           <TrainInfoForm/>
           <br/>
-          <div className="panel panel-default" itemScope itemType="http://schema.org/TrainTrip">
+          <div className="panel panel-default text-capitalize" itemScope itemType="http://schema.org/TrainTrip">
             <div className="panel-heading"
                  style={{background: '#4285F4', padding: '10px 15px 15px 15px'}}>
-              <h1 style={{fontSize: '20px', color: '#FFFFFF'}}><span itemProp="trainNumber">{train.code}</span> - <span
-                itemProp="trainName">{train.name}</span></h1>
+              <h1 style={{fontSize: '20px', color: '#FFFFFF'}}><span itemProp="trainNumber">
+                {train.code}</span> - <span itemProp="trainName">{train.name}</span>
+              </h1>
             </div>
             <div style={{background: '#3367D6', margin: '0px'}}>
               <div className="row">

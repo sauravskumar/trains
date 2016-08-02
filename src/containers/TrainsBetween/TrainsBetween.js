@@ -41,6 +41,32 @@ export default class TrainsBetween extends Component {
     location: PropTypes.object
   };
 
+  getRandom = (arr, number) => {
+    let result = new Array(number), // eslint-disable-line
+      len = arr.length,
+      taken = new Array(len); // eslint-disable-line
+    if (number > len) {
+      throw new RangeError('getRandom: more elements taken than available');
+    }
+    while (number--) { // eslint-disable-line
+      const number2 = Math.floor(Math.random() * len);
+      result[number] = arr[number2 in taken ? taken[number2] : number2];
+      taken[number2] = --len;
+    }
+    return result;
+  };
+
+  capitalize_Words = (str) => {
+    return str.replace(/\w\S*/g, (txt) => {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  };
+
+  headTitle = (param, number) => {
+    const {fullName, codeName} = this.splitUrl(param);
+    return `${this.capitalize_Words(fullName).replace(' To ', ' to ')} | ${codeName.toUpperCase().replace(' TO ', ' to ')} - ${number} Trains | Atmed Trains`;
+  };
+
   splitUrl = (param) => {
     const url = param.split('-');
     const codes = url.splice(0, 3);
@@ -50,16 +76,20 @@ export default class TrainsBetween extends Component {
     return {fullName: fullName, codeName: codeName};
   };
 
-  headTitle = (param, number) => {
-    const {fullName, codeName} = this.splitUrl(param);
-    return `${fullName} | ${codeName} - ${number} Trains`;
-  };
-
   description = (param, journey) => {
     const {fullName, codeName} = this.splitUrl(param);
     const number = journey.json.length;
     const bestTrain = journey.bestTrain;
-    return `${number} trains for ${codeName} - ${fullName}. Best Train ${bestTrain.train.all_data[0]} - ${bestTrain.train.all_data[1]}, takes ${bestTrain.duration} Get trains between station, train timings, running status.`;
+    const keywords = ['trains between stations', 'pnr status',
+      'railway enquiry', 'railway reservation', 'railway enquiry',
+      'train enquiry', 'train timings', 'train running status',
+      'seat availability', 'train info', 'ticket price',
+      'indian railway enquiry', 'Train Number', 'railway fare enquiry',
+      'train no', 'rail info', 'india rail info', 'erail',
+      'irctc train timings', 'railway ticket booking', 'railway booking',
+      'indian railway time table', 'railway time table', 'seat fare', 'online train booking'];
+    const descEnd = this.getRandom(keywords, 3).join(', ').toLowerCase();
+    return `${number} trains for ${fullName.split(' to ')[0].toUpperCase()}/${codeName.split(' to ')[0].toUpperCase()} to ${fullName.split(' to ')[1].toUpperCase()}/${codeName.split(' to ')[1].toUpperCase()}. Best Train ${bestTrain.train.all_data[0]} - ${bestTrain.train.all_data[1]}, takes ${bestTrain.duration} Get ${descEnd}.`;
   };
 
   keywords = (param, number) => {
@@ -94,16 +124,18 @@ export default class TrainsBetween extends Component {
     url.splice(to, 1);
     // return `${codes[0]} ${url.slice(0, to).join(' ')} to ${codes[2]} ${url.slice(to).join(' ')}`;
     return (
-      <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
-        <div style={{background: '#4285F4', padding: '1px'}}>
-          <h1 style={{fontSize: '24px', color: '#FFFFFF'}}>{codes[0]} {url.slice(0, to).join(' ')}&nbsp;
-            to&nbsp;{codes[2]} {url.slice(to).join(' ')}</h1>
-        </div>
-        <div style={{background: '#3367D6', padding: '1px'}}>
-          {journey.json.length ? <h2 style={{fontSize: '18px', color: '#C2D2F3'}}>{journey.json.length} Trains · Best
-            Train {journey.bestTrain.train.train_code} {journey.bestTrain.train.train_name} ·
-            Duration {journey.bestTrain.duration}</h2> :
-            <h2 style={{fontSize: '14px', color: '#C2D2F3'}}>0 Trains</h2>}
+      <div className="panel panel-default text-capitalize">
+        <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
+          <div style={{background: '#4285F4', padding: '1px'}}>
+            <h1 style={{fontSize: '18px', color: '#FFFFFF'}}>{codes[0].toUpperCase()} {url.slice(0, to).join(' ').toUpperCase()}&nbsp;
+              to&nbsp;{codes[2].toUpperCase()} {url.slice(to).join(' ').toUpperCase()}</h1>
+          </div>
+          <div style={{background: '#3367D6', padding: '1px'}}>
+            {journey.json.length ? <h2 style={{fontSize: '14px', color: '#C2D2F3'}}>{journey.json.length} Trains · Best
+              Train {journey.bestTrain.train.train_code} {journey.bestTrain.train.train_name} ·
+              Duration {journey.bestTrain.duration}</h2> :
+              <h2 style={{fontSize: '14px', color: '#C2D2F3'}}>0 Trains</h2>}
+          </div>
         </div>
       </div>
     );
@@ -115,7 +147,7 @@ export default class TrainsBetween extends Component {
     const fullUrl = location.pathname;
     if (!params || !params.param) {
       return (
-        <div className="row">
+        <div className="row text-capitalize">
           <div className="col-xs-12 col-sm-8">
             <TrainBetweenForm/>
             <br/>
@@ -126,7 +158,7 @@ export default class TrainsBetween extends Component {
     }
     if (trainBetweenList.json.length < 1) {
       return (
-        <div className="row">
+        <div className="row text-capitalize">
           <div className="col-xs-12 col-sm-8">
             <TrainBetweenForm/>
             <br/>
@@ -137,7 +169,7 @@ export default class TrainsBetween extends Component {
       );
     }
     return (
-      <div className="row">
+      <div className="row text-capitalize">
         <AppHelmet title={this.headTitle(url, trainBetweenList.json.length)}
                    description={this.description(url, trainBetweenList)}
                    keywords={this.keywords(url, trainBetweenList.json.length)}
@@ -160,7 +192,7 @@ export default class TrainsBetween extends Component {
                         <span className="hidden"> - </span>{journey.src.station_name}
                       </div>
                       <div className={style.tbSmall}>
-                        {journey.src.dist_from_src > 0 ? journey.src.dist_from_src + '* km. ' + trainBetweenList.actual_src.station_code : ''}
+                        {journey.src.dist_from_src > 0 ? journey.src.dist_from_src + ' km. ' + trainBetweenList.actual_src.station_code : ''}
                       </div>
                     </div>
                     <div className="col-xs-6 text-center">
@@ -209,7 +241,7 @@ export default class TrainsBetween extends Component {
                         <span className="hidden"> - </span>{journey.dest.station_name}
                       </div>
                       <div className={style.tbSmall}>
-                        {journey.dest.dist_from_dest > 0 ? journey.dest.dist_from_dest + '* km. ' + trainBetweenList.actual_dest.station_code : ''}
+                        {journey.dest.dist_from_dest > 0 ? journey.dest.dist_from_dest + ' km. ' + trainBetweenList.actual_dest.station_code : ''}
                       </div>
                     </div>
                   </div>
@@ -217,6 +249,7 @@ export default class TrainsBetween extends Component {
               })}
             </div>
           </div>
+          <small style={{color: '#aaa'}}>*All nearby distances are approximations</small>
         </div>
         {/* <div className="col-xs-12 col-sm-4">
          <div className="panel panel-default">

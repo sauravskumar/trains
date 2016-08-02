@@ -20,7 +20,7 @@ module.exports = function () {
       db.collection('trains_routes').find({code: req.query.code}).toArray().then(result => {
         // const json = train[0]
         db.close();
-        console.log('result -> ', result)
+        // console.log('result -> ', result)
         if (result.length < 1) {
           console.log('0 size')
           res.send(null);

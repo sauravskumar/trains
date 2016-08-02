@@ -27,12 +27,12 @@ export default class Html extends Component {
     return (
       <html lang="en-us">
         <head>
-          <meta name="google-site-verification" content="XVf4pkYO1BCYjCCATmONSj01BuMcDthXjUhDRCXfWTE" />
           {head.base.toComponent()}
           {head.title.toComponent()}
           {head.meta.toComponent()}
           {head.link.toComponent()}
           {head.script.toComponent()}
+          <meta name="google" content="notranslate" />
 
           <link rel="shortcut icon" href="http://res.cloudinary.com/atmed/image/upload/c_scale,h_200,q_100/v1469877963/atmed_umufoy.png"/>
           <meta name="viewport" content="width=device-width, initial-scale=1" />

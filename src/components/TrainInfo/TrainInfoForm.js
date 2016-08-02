@@ -20,9 +20,9 @@ export default class TrainBetweenForm extends Component {
     router: React.PropTypes.object
   };
   search = () => {
-    console.log(this.refs.trainNoInput.getWrappedInstance().refs.searchInput.value);
+    // console.log(this.refs.trainNoInput.getWrappedInstance().refs.searchInput.value);
     let trainInfo = this.refs.trainNoInput.getWrappedInstance().refs.searchInput.value;
-    trainInfo = trainInfo.replace(/ /g, '-').replace(/-+/, '-' );
+    trainInfo = trainInfo.replace(/ /g, '-').toLowerCase().replace(/-+/, '-' );
     const path = `/trains/running-status-route/${trainInfo}`;
     this.context.router.push(path);
   };

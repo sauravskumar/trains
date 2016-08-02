@@ -20,7 +20,7 @@ export default class StationInfo extends Component {
     let station = {};
     if (!params.param) {
       return (
-        <div className="row">
+        <div className="row text-capitalize">
           <div className="col-xs-12 col-sm-8">
             <AppHelmet title={'Atmed Trains: Station Info.| Trains visiting station'}
                        description={'Get station details, station code, trains visiting station, trains between stations for any railway station you want'}
@@ -37,7 +37,7 @@ export default class StationInfo extends Component {
     }
     if (!stationInfo || !stationInfo.station) {
       return (
-        <div className="row">
+        <div className="row text-capitalize">
           <div className="col-xs-12 col-sm-8">
             <AppHelmet title={'Atmed Trains: Station Info.| Trains visiting station'}
                        description={'Get station details, station code, trains visiting station, trains between stations for any railway station you want'}
@@ -45,14 +45,14 @@ export default class StationInfo extends Component {
                        url={fullUrl}/>
             <StationInfoForm/>
             <br/>
-            <div style={{width: '100%', textAlign: 'center'}}>
+            <div className="panel panel-default" style={{width: '100%', textAlign: 'center'}}>
               <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
                 <div style={{background: '#E53935', padding: '1px'}}>
                   <h1 style={{fontSize: '24px', color: '#FFFFFF'}}>No Station Found</h1>
                 </div>
               </div>
               <div style={{background: '#EF5350', padding: '1px'}}>
-                <h2 style={{fontSize: '18px', color: '#FFEBEE'}}>{params.param}</h2>
+                <h2 className="text-capitalize" style={{fontSize: '18px', color: '#FFEBEE'}}>{params.param}</h2>
               </div>
             </div>
           </div>
@@ -78,12 +78,33 @@ export default class StationInfo extends Component {
         </tr>
       );
     });
+    const getRandom = (arr, number) => {
+      let result = new Array(number), // eslint-disable-line
+        len = arr.length,
+        taken = new Array(len); // eslint-disable-line
+      if (number > len) {
+        throw new RangeError('getRandom: more elements taken than available');
+      }
+      while (number--) { // eslint-disable-line
+        const number2 = Math.floor(Math.random() * len);
+        result[number] = arr[number2 in taken ? taken[number2] : number2];
+        taken[number2] = --len;
+      }
+      return result;
+    };
+    const keywords = ['trains between stations', 'railway enquiry',
+      'station details', 'station information', 'trains visiting station',
+      'seat availability', 'train info'];
+    const descEnd = getRandom(keywords, 4).join(', ').toLowerCase();
+    const description = 'Station Code: ' + station.station_code +
+      '. Station Name: ' + station.station_name + '. Division: ' + station.division +
+      '. Zone: ' + station.zone + '. Get ' + descEnd + '.';
     return (
-      <div className="row">
+      <div className="row text-capitalize">
         <div className="col-xs-12 col-sm-8">
           <AppHelmet
-            title={`${station.station_name} (${station.station_code}) | Div: ${station.division} | ${stationInfo.trains.length} Trains | Station Info.`}
-            description={'Station Code: ' + station.station_code + ', Station Name: ' + station.station_name + ' station details, Division: ' + station.division + ', Zone: ' + station.zone}
+            title={`${station.station_name} (Station Code: ${station.station_code}) | Divison: ${station.division} - ${stationInfo.trains.length} Trains | Atmed Trains`}
+            description={description}
             keywords={station.station_code + ', ' + station.station_name + ', ' + station.division + ' station details, station information, trains visiting station'}
             url={fullUrl}/>
           <StationInfoForm/>
