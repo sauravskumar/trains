@@ -57,7 +57,7 @@ export default class TrainInfo extends Component {
       );
     }
 
-    const capitalize_Words = (str) => {
+    const capitalizeWords = (str) => {
       return str.replace(/\w\S*/g, (txt) => {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       });
@@ -95,7 +95,7 @@ export default class TrainInfo extends Component {
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-8">
-          <AppHelmet title={`${capitalize_Words(train.name)} (Train No. ${train.code}) | ${train.all_data[2]}/${train.all_data[3]} to ${train.all_data[4]}/${train.all_data[5]} | Atmed Trains`}
+          <AppHelmet title={`${capitalizeWords(train.name)} (Train No. ${train.code}) | ${train.all_data[2]}/${train.all_data[3]} to ${train.all_data[4]}/${train.all_data[5]} | Atmed Trains`}
                      description={description}
                      keywords={'Train running status, train info, seat fare, berth availability'}
                      url={fullUrl}/>

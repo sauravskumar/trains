@@ -89,7 +89,7 @@ export default class TrainsBetween extends Component {
       'irctc train timings', 'railway ticket booking', 'railway booking',
       'indian railway time table', 'railway time table', 'seat fare', 'online train booking'];
     const descEnd = this.getRandom(keywords, 3).join(', ').toLowerCase();
-    return `${number} trains for ${fullName.split(' to ')[0].toUpperCase()}/${codeName.split(' to ')[0].toUpperCase()} to ${fullName.split(' to ')[1].toUpperCase()}/${codeName.split(' to ')[1].toUpperCase()}. Best Train ${bestTrain.train.all_data[0]} - ${bestTrain.train.all_data[1]}, takes ${bestTrain.duration} Get ${descEnd}.`;
+    return `${number} trains for ${fullName.split(' to ')[0].toUpperCase()}/${codeName.split(' to ')[0].toUpperCase()} to ${fullName.split(' to ')[1].toUpperCase()}/${codeName.split(' to ')[1].toUpperCase()}. Best Train ${bestTrain.train.all_data[0]} - ${bestTrain.train.all_data[1]}. Duration ${bestTrain.duration} Get ${descEnd}.`;
   };
 
   keywords = (param, number) => {

@@ -13,6 +13,7 @@ import {Footer, Drawer} from 'components';
 import config from '../../config';
 // import {asyncConnect} from 'redux-connect';
 import styles from './App.scss';
+import ga from 'react-ga';
 // @asyncConnect([{
 //   promise: ({store: {dispatch, getState}}) => {
 //     const promises = [];
@@ -30,12 +31,16 @@ import styles from './App.scss';
 // @connect(
 //   state => ({user: state.auth.user}),
 //   {logout, pushState: push})
+
 @connect(state => ({loading: state.search.loading}))
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    location: PropTypes.shape({
+      pathname: PropTypes.string
+    })
     // logout: PropTypes.func.isRequired,
     // pushState: PropTypes.func.isRequired
   };
@@ -58,6 +63,17 @@ export default class App extends Component {
   //   event.preventDefault();
   //   this.props.logout();
   // };
+
+  componentDidMount = () => {
+    ga.initialize('UA-81811986-1', { debug: false });
+    ga.pageview(this.props.location.pathname);
+  };
+
+  componentWillUpdate = (nextProps) => {
+    if (nextProps.location.pathname !== this.props.location.pathname) {
+      ga.pageview(nextProps.location.pathname);
+    }
+  };
 
   toggleNav = () => {
     this.refs.drawer.getWrappedInstance().closeDrawer();
