@@ -18,7 +18,7 @@ export default class Footer extends Component {
               <a href="https://support.atmed.co/trains/about" title="About Trains" rel="nofollow">About Trains</a>
             </li>
             <li>
-              Got to <a href="https://www.atmed.co" title="Atmed" rel="nofollow">Atmed.co</a>
+              Got to <a href="https://www.atmed.co" title="Atmed">Atmed.co</a>
             </li>
           </ul>
           ** Atmed Trains is in development. Credits to the respective artists will be updated soon.

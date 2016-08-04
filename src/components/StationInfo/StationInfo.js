@@ -71,9 +71,9 @@ export default class StationInfo extends Component {
           <td itemProp="trainNumber">{trains.train_code}</td>
           <td itemProp="trainName">{trains.train_name}</td>
           <td
-            itemProp="arrivalTime">{stationInfo.route[index].properties.departure_time.toFixed(2).replace('.', ':')}</td>
+            itemProp="arrivalTime">{stationInfo.route[index].properties.arrival_time.toFixed(2).replace('.', ':')}</td>
           <td
-            itemProp="departureTime">{stationInfo.route[index].properties.arrival_time.toFixed(2).replace('.', ':')}</td>
+            itemProp="departureTime">{stationInfo.route[index].properties.departure_time.toFixed(2).replace('.', ':')}</td>
           <td>{trains.all_data[50]}</td>
         </tr>
       );
@@ -92,9 +92,8 @@ export default class StationInfo extends Component {
       }
       return result;
     };
-    const keywords = ['trains between stations', 'railway enquiry',
-      'station details', 'station information', 'trains visiting station',
-      'seat availability', 'train info'];
+    const keywords = ['trains between stations', 'railway enquiry', 'trains at station',
+      'station details', 'station information', 'trains visiting station', 'train arrivals at station'];
     const descEnd = getRandom(keywords, 4).join(', ').toLowerCase();
     const description = 'Station Code: ' + station.station_code +
       '. Station Name: ' + station.station_name + '. Division: ' + station.division +

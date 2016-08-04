@@ -26,7 +26,7 @@ export default class TrainBetweenForm extends Component {
     // console.log(nearby);
     source = source.replace(/ /g, '-').replace(/-+/, '-' ).toLowerCase().split('-');
     dest = dest.replace(/ /g, '-').replace(/-+/, '-' ).toLowerCase().split('-');
-    let path = `/trains/between/${source[0]}-to-${dest[0]}`;
+    let path = `/trains/${source[0]}-to-${dest[0]}`;
     source.shift();
     dest.shift();
     path += `-${source.join('-')}-to-${dest.join('-')}`;

@@ -15,10 +15,10 @@ const zlib = require('zlib');
 let topTag = `<?xml version="1.0" encoding="UTF-8"?>\n\t<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
 let sitemapIndexTag = `<?xml version="1.0" encoding="UTF-8"?>\n\t<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
 
-var tag = (suburl, url) => {
+var tag = (suburl, url = undefined) => {
   return `
     <url>
-        <loc>${'https://www.atmed.co/trains/' + suburl + '/' + url}</loc>
+        <loc>${'https://www.atmed.co/trains/' + suburl + (url ? '/' + url : '')}</loc>
         <lastmod>${new Date().toISOString()}</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
@@ -49,7 +49,7 @@ let writeSitemap = (db_name, file_name) => {
             writeData += tag('running-status-route', obj.code + '-' + obj.name.toLowerCase().replace(/ /g, '-').replace(/-+/, '-'));
           } else if (file_name === 'stations') {
             // console.log('station')
-            writeData += tag('station-info', obj.station_code.toLowerCase() + '-' + obj.station_name.toLowerCase().replace(/ /g, '-').replace(/-+/, '-'));
+            writeData += tag('station', obj.station_code.toLowerCase() + '-' + obj.station_name.toLowerCase().replace(/ /g, '-').replace(/-+/, '-'));
           }
           if (index === result.length - 1 || index > 40000) {
             db.close();
@@ -146,7 +146,7 @@ let writeTrainsBetweenSitmap = (db_name) => {
           let writeData = '';
           let index = 0;
           new_result.forEach((obj)=> {
-            writeData += tag('between', obj);
+            writeData += tag(obj);
             index++;
             if (index === new_result.length || index % 45000 === 0) {
               fileCount++;

@@ -119,8 +119,8 @@ export default class TrainInfo extends Component {
               </div>
             </div>
             <div className="panel-body" style={{margin: '15px'}}>
-              Start: <span itemProp="arrivalTime">{train.all_data[10].replace('.', ':')}</span><br/>
-              End: <span itemProp="departureTime">{train.all_data[11].replace('.', ':')}</span><br/>
+              Start: <span itemProp="departureTime">{train.all_data[10].replace('.', ':')}</span><br/>
+              End: <span itemProp="arrivalTime">{train.all_data[11].replace('.', ':')}</span><br/>
               <span>Duration: {train.all_data[12].replace('.', ':')}</span><br/>
               {train.type}<br/>
               <div className={style.days}>
