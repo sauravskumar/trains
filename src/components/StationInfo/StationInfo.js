@@ -102,7 +102,7 @@ export default class StationInfo extends Component {
       <div className="row text-capitalize">
         <div className="col-xs-12 col-sm-8">
           <AppHelmet
-            title={`${station.station_name} (Station Code: ${station.station_code}) - ${stationInfo.trains.length} Trains | Atmed Trains`}
+            title={`${station.station_name} (Station Code: ${station.station_code}) - ${stationInfo.trains.length} Trains - Station Info. | Atmed Trains`}
             description={description}
             keywords={station.station_code + ', ' + station.station_name + ', ' + station.division + ' station details, station information, trains visiting station'}
             url={fullUrl}/>

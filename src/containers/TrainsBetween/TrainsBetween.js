@@ -18,7 +18,8 @@ import style from './TrainsBetween.scss';
       // console.log(param);
       const stations = param.split('-to-');
       // console.log(stations[0].split('-')[0], stations[1].split('-')[0]);
-      promises.push(dispatch(loadTrainsBetween(stations[0].split('-')[0], stations[1].split('-')[0])));
+      // promises.push(dispatch(loadTrainsBetween(stations[0].split('-')[0], stations[1].split('-')[0])));
+      promises.push(dispatch(loadTrainsBetween(stations[0].split('-').pop(), stations[1].split('-').pop())));
     }
 
     // if (!isInfoLoaded(getState())) {
@@ -68,12 +69,14 @@ export default class TrainsBetween extends Component {
   };
 
   splitUrl = (param) => {
-    const url = param.split('-');
-    const codes = url.splice(0, 3);
+    const url = param.split('-to-');
+    url[0] = url[0].split('-');
+    url[1] = url[1].split('-');
+    const codes = [url[0].pop(), ' to ', url[1].pop()].join('');
     // const to = url.indexOf('to');
-    const fullName = url.join(' ');
-    const codeName = codes.join(' ');
-    return {fullName: fullName, codeName: codeName};
+    const fullName = [url[0].join(' '), ' to ', url[1].join(' ')].join('');
+    // const codeName = codes.join(' ');
+    return {fullName: fullName, codeName: codes};
   };
 
   description = (param, journey) => {
@@ -89,7 +92,7 @@ export default class TrainsBetween extends Component {
       'irctc train timings', 'railway ticket booking', 'railway booking',
       'indian railway time table', 'railway time table', 'seat fare', 'online train booking'];
     const descEnd = this.getRandom(keywords, 3).join(', ').toLowerCase();
-    return `${number} trains found ${fullName.split(' to ')[0].toUpperCase()}/${codeName.split(' to ')[0].toUpperCase()} to ${fullName.split(' to ')[1].toUpperCase()}/${codeName.split(' to ')[1].toUpperCase()}. Best Train ${bestTrain.train.all_data[0]} - ${bestTrain.train.all_data[1]}. Duration ${bestTrain.duration} Get ${descEnd}.`;
+    return `${number} trains found ${codeName.split(' to ')[0].toUpperCase()}/${fullName.split(' to ')[0].toUpperCase()} to ${codeName.split(' to ')[1].toUpperCase()}/${fullName.split(' to ')[1].toUpperCase()}. Best Train ${bestTrain.train.all_data[0]} - ${bestTrain.train.all_data[1]}. Duration ${bestTrain.duration} Get ${descEnd}.`;
   };
 
   keywords = (param, number) => {
@@ -118,17 +121,22 @@ export default class TrainsBetween extends Component {
 
   panelHeading = (param, journey) => {
     // console.log(url);
-    const url = param.split('-');
-    const codes = url.splice(0, 3);
-    const to = url.indexOf('to');
-    url.splice(to, 1);
+    let url = param.split('-to-'); // eslint-disable-line
+    url[0] = url.split('-');
+    url[1] = url.split('-');
+    const codes = [url[0].pop(), url[1].pop()];
+    // const to = url.indexOf('to');
+    // url.splice(to, 1);
     // return `${codes[0]} ${url.slice(0, to).join(' ')} to ${codes[2]} ${url.slice(to).join(' ')}`;
     return (
       <div className="panel panel-default text-capitalize">
         <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
           <div style={{background: '#4285F4', padding: '1px'}}>
-            <h1 style={{fontSize: '18px', color: '#FFFFFF'}}>{codes[0].toUpperCase()} {url.slice(0, to).join(' ').toUpperCase()}&nbsp;
-              to&nbsp;{codes[2].toUpperCase()} {url.slice(to).join(' ').toUpperCase()}</h1>
+            <h1 style={{
+              fontSize: '18px',
+              color: '#FFFFFF'
+            }}><b>{codes[0].toUpperCase()}</b> {url[0].join(' ').toUpperCase()}&nbsp;
+              to&nbsp;{codes[1].toUpperCase()} <b>{url[1].join(' ').toUpperCase()}</b></h1>
           </div>
           <div style={{background: '#3367D6', padding: '1px'}}>
             {journey.json.length ? <h2 style={{fontSize: '14px', color: '#C2D2F3'}}>{journey.json.length} Trains · Best

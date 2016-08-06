@@ -120,10 +120,8 @@ let loopOverStations = (result) => {
       route.forEach(station => {
         route.forEach(station2 => {
           // console.log(station2.station_code)
-          if (station2.station_code === station.station_code) {
-
-          } else {
-            x.add(`${normalizeString(station.station_code)}-to-${normalizeString(station2.station_code)}-${normalizeString(station.station_name)}-to-${normalizeString(station2.station_name)}`)
+          if (!station2.station_code === station.station_code) {
+            x.add(`${normalizeString(station.station_name)}-${normalizeString(station.station_code)}-to-${normalizeString(station2.station_name)}-${normalizeString(station2.station_code)}`)
           }
           if (index === result.length - 1) {
             // console.log(i, x);

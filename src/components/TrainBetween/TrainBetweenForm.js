@@ -22,14 +22,16 @@ export default class TrainBetweenForm extends Component {
   search = () => {
     let source = this.refs.sourceSt.getWrappedInstance().refs.searchInput.value;
     let dest = this.refs.destSt.getWrappedInstance().refs.searchInput.value;
+    let path;
     // const nearby = this.refs.nearby.checked;
     // console.log(nearby);
     source = source.replace(/ /g, '-').replace(/-+/, '-' ).toLowerCase().split('-');
     dest = dest.replace(/ /g, '-').replace(/-+/, '-' ).toLowerCase().split('-');
-    let path = `/trains/${source[0]}-to-${dest[0]}`;
-    source.shift();
-    dest.shift();
-    path += `-${source.join('-')}-to-${dest.join('-')}`;
+    // let path = `/trains/${source[0]}-to-${dest[0]}`;
+    const sourceCode = source.shift();
+    const destCode = dest.shift();
+    // path += `-${source.join('-')}-to-${dest.join('-')}`;
+    path = `/trains/${source.join('-')}-${sourceCode}-to-${dest.join('-')}-${destCode}`;
     this.context.router.push(path);
   };
   render() {
