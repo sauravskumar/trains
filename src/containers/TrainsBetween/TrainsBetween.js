@@ -101,16 +101,18 @@ export default class TrainsBetween extends Component {
   };
 
   trainNotFoundPanelHeading = (param) => {
-    const url = param.split('-');
-    const codes = url.splice(0, 3);
-    const to = url.indexOf('to');
-    url.splice(to, 1);
+    let url = param.split('-to-'); // eslint-disable-line
+    url[0] = url[0].split('-');
+    url[1] = url[1].split('-');
+    const codes = [url[0].pop(), url[1].pop()];
     // return `${codes[0]} ${url.slice(0, to).join(' ')} to ${codes[2]} ${url.slice(to).join(' ')}`;
     return (
       <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
         <div style={{background: '#E53935', padding: '1px'}}>
-          <h1 style={{fontSize: '24px', color: '#FFFFFF'}}>{codes[0]} {url.slice(0, to).join(' ')}&nbsp;
-            to&nbsp;{codes[2]} {url.slice(to).join(' ')}</h1>
+          <h1 style={{fontSize: '24px', color: '#FFFFFF'}}>{url[0].join(' ').toUpperCase()}
+            <b>{codes[0].toUpperCase()}</b>&nbsp;&nbsp;to&nbsp;&nbsp;{url[1].join(' ').toUpperCase()}
+            <b>{codes[1].toUpperCase()}</b>
+          </h1>
         </div>
         <div style={{background: '#EF5350', padding: '1px'}}>
           <h2 style={{fontSize: '18px', color: '#FFEBEE'}}>0 Trains</h2>
@@ -120,10 +122,10 @@ export default class TrainsBetween extends Component {
   };
 
   panelHeading = (param, journey) => {
-    // console.log(url);
+    // console.log('param-> ', param);
     let url = param.split('-to-'); // eslint-disable-line
-    url[0] = url.split('-');
-    url[1] = url.split('-');
+    url[0] = url[0].split('-');
+    url[1] = url[1].split('-');
     const codes = [url[0].pop(), url[1].pop()];
     // const to = url.indexOf('to');
     // url.splice(to, 1);
@@ -135,8 +137,9 @@ export default class TrainsBetween extends Component {
             <h1 style={{
               fontSize: '18px',
               color: '#FFFFFF'
-            }}><b>{codes[0].toUpperCase()}</b> {url[0].join(' ').toUpperCase()}&nbsp;
-              to&nbsp;{codes[1].toUpperCase()} <b>{url[1].join(' ').toUpperCase()}</b></h1>
+            }}>{url[0].join(' ').toUpperCase()} <b>{codes[0].toUpperCase()}</b>&nbsp;&nbsp;
+              to&nbsp;&nbsp;{url[1].join(' ').toUpperCase()} <b>{codes[1].toUpperCase()}</b>
+            </h1>
           </div>
           <div style={{background: '#3367D6', padding: '1px'}}>
             {journey.json.length ? <h2 style={{fontSize: '14px', color: '#C2D2F3'}}>{journey.json.length} Trains · Best
