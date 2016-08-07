@@ -45,15 +45,15 @@ module.exports = function () {
       'Accept-Language': 'en-GB,en-US;q=0.8,en;q=0.6',
       'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36',
       'Accept': '*/*',
-      'Referer': 'http://enquiry.indianrail.gov.in/ntes/',
-      'X-Requested-With': 'XMLHttpRequest',
-      // 'Connection': 'keep-alive',
       'Cache-Control': 'no-cache',
-      'Cookie': 'JSESSIONID=61LHFBhG04lKDAhZaj6xaHCQ; SERVERID=sr65yufsabb2;',
-      "method":"GET"
+      'X-Requested-With': 'XMLHttpRequest',
+      'Proxy-Connection': 'keep-alive',
+      'Referer': 'http://enquiry.indianrail.gov.in/ntes/',
+      'Cookie': 'JSESSIONID=sgmknTgfUcDmDT2QUzzS1CR9; SERVERID=sr87yufsaaa1'
     };
+
     var options = {
-      url: 'http://enquiry.indianrail.gov.in/ntes/NTES?action=getTrainData&trainNo='+req.query.code+'&t=1470512891185&jz9r8sesyr=i5yk8tk7zn',
+      url: 'http://enquiry.indianrail.gov.in/ntes/NTES?action=getTrainData&trainNo=' + req.query.code+ '&t=1470558738275&gsmr9egxql=15dwjq39kh',
       headers: headers
     };
     // console.log(date);
