@@ -1,7 +1,7 @@
 /**
  * Created by saurav on 11/7/16.
  */
-'strict mode';
+// 'strict mode';
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
@@ -9,6 +9,8 @@ var constant = require('./../const');
 var url = constant.url;
 var request = require('request');
 var fs = require('fs');
+// import phantom from 'phantomjs';
+// var page = require('webpage').create();
 
 // var trains = 'trains'
 // Create a driver instance, for the user neo4j with password neo4j.
@@ -27,21 +29,31 @@ module.exports = function () {
     // eval('x[s]=data');
     // res.send(x);
 
+    // console.log(phantom);
+    // res.send(phantom)
+    // page.open('http://example.com', function(status) {
+    //   console.log("Status: " + status);
+    //   if(status === "success") {
+    //     page.render('example.png');
+    //   }
+    //   phantom.exit();
+    // });
+
     var headers = {
       'Pragma': 'no-cache',
+      // 'Accept-Encoding': 'gzip, deflate, sdch',
       'Accept-Language': 'en-GB,en-US;q=0.8,en;q=0.6',
       'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36',
       'Accept': '*/*',
-      'Cache-Control': 'no-cache',
-      'X-Requested-With': 'XMLHttpRequest',
-      'Proxy-Connection': 'keep-alive',
       'Referer': 'http://enquiry.indianrail.gov.in/ntes/',
-      'Cookie': 'JSESSIONID=E8x33SZjcgizxuno4geX5MwF; SERVERID=sr65yufsabb2'
+      'X-Requested-With': 'XMLHttpRequest',
+      // 'Connection': 'keep-alive',
+      'Cache-Control': 'no-cache',
+      'Cookie': 'JSESSIONID=61LHFBhG04lKDAhZaj6xaHCQ; SERVERID=sr65yufsabb2;',
+      "method":"GET"
     };
-    let date = Date.now();
-
     var options = {
-      url: 'http://enquiry.indianrail.gov.in/ntes/NTES?action=getTrainData&trainNo=' + req.query.code + '&t=1470473819567&1rigcacv68=17ftze0lzg',
+      url: 'http://enquiry.indianrail.gov.in/ntes/NTES?action=getTrainData&trainNo='+req.query.code+'&t=1470512891185&jz9r8sesyr=i5yk8tk7zn',
       headers: headers
     };
     // console.log(date);
@@ -52,15 +64,15 @@ module.exports = function () {
           console.log('getDas');
           return '';
         };
-        let sendData = {};
-        eval('sendData=' + body.substr(25));
-        res.send(sendData);
+        // let sendData = {};
+        // eval('sendData=' + body.substr(25));
+        res.send(body);
       }
       if (error) {
         res.send('error has occur')
       }
     }
-
+    //
     request(options, callback);
 
     // res.send({code: req.query.code})

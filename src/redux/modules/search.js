@@ -3,6 +3,7 @@
  */
 const LOAD = 'search/LOAD';
 const LOAD2 = 'search/LOAD2';
+const IS_MOBILE = 'search/IS_MOBILE';
 const LOAD_SUCCESS = 'search/LOAD_SUCCESS';
 const TRAIN_BETWEEN_LOAD_SUCCESS = 'search/TRAIN_BETWEEN_LOAD_SUCCESS';
 const TRAIN_INFO_LOAD_SUCCESS = 'search/TRAIN_INFO_LOAD_SUCCESS';
@@ -81,6 +82,11 @@ export default function search(state = initialState, action = {}) {
         loading: false,
         loaded: true,
         pnr: action.result
+      };
+    case IS_MOBILE:
+      return {
+        ...state,
+        mobile: action.mobile
       };
     case LOAD_FAIL:
       return {

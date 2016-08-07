@@ -9,6 +9,7 @@ import {reducer as reduxAsyncConnect} from 'redux-connect';
 // import info from './info';
 // import widgets from './widgets';
 import search from './search';
+import app from './app';
 
 export default combineReducers({
   routing: routerReducer,
@@ -16,6 +17,7 @@ export default combineReducers({
   // auth,
   // form,
   search,
+  app,
   // multireducer: multireducer({
   //   counter1: counter,
   //   counter2: counter,

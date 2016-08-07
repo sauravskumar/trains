@@ -11,13 +11,13 @@ import ApiClient from './helpers/ApiClient';
 import Html from './helpers/Html';
 import PrettyError from 'pretty-error';
 import http from 'http';
-
-import { match } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { ReduxAsyncConnect, loadOnServer } from 'redux-connect';
+import {match} from 'react-router';
+import {syncHistoryWithStore} from 'react-router-redux';
+import {ReduxAsyncConnect, loadOnServer} from 'redux-connect';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import {Provider} from 'react-redux';
 import getRoutes from './routes';
+import MobileDetect from 'mobile-detect';
 
 const targetUrl = 'http://' + config.apiHost + ':' + config.apiPort;
 const pretty = new PrettyError();
@@ -27,6 +27,7 @@ const proxy = httpProxy.createProxyServer({
   target: targetUrl,
   ws: true
 });
+
 
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
@@ -69,17 +70,19 @@ proxy.on('error', (error, req, res) => {
 });
 
 app.use((req, res) => {
-  console.log('targetUrl', targetUrl);
   if (__DEVELOPMENT__) {
     // Do not cache webpack stats: the script file would change since
     // hot module replacement is enabled in the development env
     webpackIsomorphicTools.refresh();
   }
+  let mobile;
+  // console.log('targetUrl', targetUrl);
+  const md = new MobileDetect(req.headers['user-agent']);
+  mobile = !!md.os();
   const client = new ApiClient(req);
   const memoryHistory = createHistory(req.originalUrl);
   const store = createStore(memoryHistory, client);
   const history = syncHistoryWithStore(memoryHistory, store);
-
   function hydrateOnClient() {
     res.send('<!doctype html>\n' +
       ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store}/>));
@@ -89,12 +92,12 @@ app.use((req, res) => {
     hydrateOnClient();
     return;
   }
-
-  match({ history, routes: getRoutes(store), location: req.originalUrl }, (error, redirectLocation, renderProps) => {
+  store.dispatch({type: 'app/IS_MOBILE', mobile: mobile});
+  match({history, routes: getRoutes(store), location: req.originalUrl}, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (error) {
-      // console.error('ROUTER ERROR:', pretty.render(error));
+      console.error('ROUTER ERROR:', pretty.render(error));
       res.status(500);
       hydrateOnClient();
     } else if (renderProps) {
@@ -111,7 +114,8 @@ app.use((req, res) => {
         global.navigator = {userAgent: req.headers['user-agent']};
 
         res.send('<!doctype html>\n' +
-          ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>));
+          ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component}
+                                        store={store}/>));
       });
     } else {
       res.status(404).send('Not found');

@@ -40,13 +40,13 @@ export default class App extends Component {
     loading: PropTypes.bool,
     location: PropTypes.shape({
       pathname: PropTypes.string
-    })
+    }),
     // logout: PropTypes.func.isRequired,
     // pushState: PropTypes.func.isRequired
   };
 
   static contextTypes = {
-    store: PropTypes.object.isRequired
+    store: PropTypes.object.isRequired,
   };
 
   // componentWillReceiveProps(nextProps) {
