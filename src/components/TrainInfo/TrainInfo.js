@@ -112,8 +112,8 @@ export default class TrainInfo extends Component {
               <div className="row">
                 <div className="col-xs-12">
                   <h2 style={{fontSize: '15px', paddingLeft: '15px', color: '#C2D2F3'}}>
-                    <span itemProp="departureStation"><b>{train.all_data[3]}</b> - {train.all_data[2]}</span> To&nbsp;
-                    <span itemProp="arrivalStation"><b>{train.all_data[5]}</b> - {train.all_data[4]}</span>
+                    <span itemProp="departureStation">{train.all_data[2]} - <b>{train.all_data[3]}</b></span>&nbsp;&nbsp;To&nbsp;&nbsp;
+                    <span itemProp="arrivalStation">{train.all_data[4]} - <b>{train.all_data[5]}</b></span>
                   </h2>
                 </div>
               </div>

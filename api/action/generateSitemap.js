@@ -46,10 +46,10 @@ let writeSitemap = (db_name, file_name) => {
         result.forEach(function (obj, index, result) {
           // console.log(index);
           if (file_name === 'trains') {
-            writeData += tag('running-status-route', obj.code + '-' + obj.name.toLowerCase().replace(/ /g, '-').replace(/-+/, '-'));
+            writeData += tag('running-status-route', (obj.code + '-' + obj.name).toLowerCase().replace(/ /g, '-').replace(/-+/g, '-'));
           } else if (file_name === 'stations') {
             // console.log('station')
-            writeData += tag('station', obj.station_code.toLowerCase() + '-' + obj.station_name.toLowerCase().replace(/ /g, '-').replace(/-+/, '-'));
+            writeData += tag('station', (obj.station_name + '-' + obj.station_code).toLowerCase().replace(/ /g, '-').replace(/-+/g, '-'));
           }
           if (index === result.length - 1 || index > 40000) {
             db.close();

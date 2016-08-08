@@ -21,9 +21,13 @@ export default class StationInfoForm extends Component {
   };
   search = () => {
     // console.log(this.refs.stationCodeInput.getWrappedInstance().refs.searchInput.value);
-    let trainInfo = this.refs.stationCodeInput.getWrappedInstance().refs.searchInput.value;
-    trainInfo = trainInfo.replace(/ /g, '-').toLowerCase().replace(/-+/, '-' );
-    const path = `/trains/station/${trainInfo}`;
+    let station = this.refs.stationCodeInput.getWrappedInstance().refs.searchInput.value;
+    station = station.replace(/ /g, '-').toLowerCase().replace(/-+/, '-' );
+    station = station.split('-');
+    let name = station.splice(1);
+    const code = station[0];
+    name = name.join('-');
+    const path = `/trains/station/${name}-${code}`;
     this.context.router.push(path);
   };
   render() {

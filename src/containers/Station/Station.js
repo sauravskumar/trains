@@ -15,7 +15,7 @@ import {connect} from 'react-redux';
     const promises = [];
     if (param) {
       console.log(param.split('-')[0]);
-      promises.push(dispatch(loadStationInfo(param.split('-')[0])));
+      promises.push(dispatch(loadStationInfo(param.split('-').pop())));
     }
     return Promise.all(promises);
   }

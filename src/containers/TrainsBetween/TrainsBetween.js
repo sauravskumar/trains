@@ -141,8 +141,8 @@ export default class TrainsBetween extends Component {
             <h1 style={{
               fontSize: '18px',
               color: '#FFFFFF'
-            }}>{url[0].join(' ').toUpperCase()} <b>{codes[0].toUpperCase()}</b>&nbsp;&nbsp;
-              to&nbsp;&nbsp;{url[1].join(' ').toUpperCase()} <b>{codes[1].toUpperCase()}</b>
+            }}>{url[0].join(' ').toUpperCase()} - <b>{codes[0].toUpperCase()}</b>&nbsp;&nbsp;
+              to&nbsp;&nbsp;{url[1].join(' ').toUpperCase()} - <b>{codes[1].toUpperCase()}</b>
             </h1>
           </div>
           <div style={{background: '#3367D6', padding: '1px'}}>

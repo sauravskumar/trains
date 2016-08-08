@@ -6,12 +6,12 @@ phantom.create().then(ph => {
   return _ph.createPage();
 }).then(page => {
   _page = page;
-  // _page.property('onResourceRequested',function(request) {
-  //   console.log('Request ' + JSON.stringify(request, undefined, 4));
-  // });
-  // _page.property('onResourceReceived', function(response) {
-  //   console.log('Receive ' + JSON.stringify(response, undefined, 4));
-  // });
+  _page.property('onResourceRequested',function(request) {
+    console.log('Request ' + JSON.stringify(request, undefined, 4));
+  });
+  _page.property('onResourceReceived', function(response) {
+    console.log('Receive ' + JSON.stringify(response, undefined, 4));
+  });
 
   return _page.open('https://www.google.co.in');
 }).then(status => {

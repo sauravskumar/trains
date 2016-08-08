@@ -16,12 +16,12 @@ module.exports = function () {
     // console.log('api ', req.query.code)
     let queryParams = {
       station_code: req.query.code.toUpperCase()
-    }
+    };
     let session = driver.session()
     session.run("match (station:station{ station_code: {station_code} })<-[route:route]-(train:train) " +
       "return distinct(station) as station, collect(distinct(route)) as route, collect(distinct(train)) as trains",
       queryParams).then(result => {
-        console.log(result)
+        // console.log(result)
       if (result.records.length < 1) {
         session.close();
         res.send(null);
