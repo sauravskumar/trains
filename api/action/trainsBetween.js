@@ -2,16 +2,14 @@
  * Created by saurav on 11/7/16.
  */
 
-var MongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
-var ObjectId = require('mongodb').ObjectID;
-var constant = require('./../const')
-var url = constant.url;
-var collection = 'stations_all';
+const assert = require('assert');
+const ObjectId = require('mongodb').ObjectID;
+const constant = require('./../const')
+const url = constant.url;
+const collection = 'stations_all';
 
 // Create a driver instance, for the user neo4j with password neo4j.
-var driver = constant.neo_driver
-// const source = 'TATA', dest = 'RNC'
+// const driver = constant.neo_driver;
 let express = require('express'),
   router = express.Router();
 
@@ -65,8 +63,13 @@ let distance = (lat1, lon1, lat2, lon2, unit = "K") => {
   return (dist);
 };
 
+const neo4j_url = process.env.docker ?
+  'bolt://trains_neo4j' : 'bolt://localhost';
 module.exports = function () {
   router.get('/trains-between', function (req, res) {
+
+    const driver = neo4j.driver(neo4j_url, neo4j.auth.basic("neo4j", "nike"));
+
     // console.log(req.query.source, req.query.dest)
     getLatLong(req.query.source.toUpperCase()).then(source => {
       // console.log('source', source.station_code);
@@ -92,7 +95,7 @@ module.exports = function () {
           destinationLongitude: destLong,
           radius: radius
         };
-        var session = driver.session();
+        const session = driver.session();
         // console.log(queryParamsMap);
         session.run(
           "MATCH (source:station)-[sourceRoute]-(train:train)-[destinationRoute]-(dest:station) " +
@@ -123,6 +126,7 @@ module.exports = function () {
           // });
 
           session.close();
+          driver.close();
           let records = result.records, json = [];
           let bestTrain = {};
           let maxDuration = 1000000;

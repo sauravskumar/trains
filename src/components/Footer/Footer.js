@@ -12,7 +12,7 @@ export default class Footer extends Component {
         <div className="container">
           <ul>
             <li>
-              <a href={'/coupons/'} title="Atmed Coupons" rel="nofollow">Coupons</a>
+              <a href={'/coupons/'} title="Atmed Coupons">Coupons</a>
             </li>
             <li>
               <a href="https://support.atmed.co/trains/about" title="About Trains" rel="nofollow">About Trains</a>

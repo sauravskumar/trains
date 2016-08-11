@@ -6,14 +6,17 @@ var assert = require('assert');
 var constant = require('./../const')
 
 // Create a driver instance, for the user neo4j with password neo4j.
-var driver = constant.neo_driver;
+// var driver = constant.neo_driver;
 
 let express = require('express'),
   router = express.Router();
 
+const neo4j_url = process.env.docker ?
+  'bolt://trains_neo4j' : 'bolt://localhost';
 module.exports = function () {
   router.get('/station-info', function (req, res) {
     // console.log('api ', req.query.code)
+    const driver = neo4j.driver(neo4j_url, neo4j.auth.basic("neo4j", "nike"));
     let queryParams = {
       station_code: req.query.code.toUpperCase()
     };
@@ -44,9 +47,10 @@ module.exports = function () {
         train.properties.days[6] = days[5].replace(1, 'S').replace(0, '');
         // train.properties.days = train.days;
         newJson.trains.push(train)
-      })
+      });
       res.send(newJson)
       session.close()
+      driver.close()
     }).catch(err => {
       session.close()
       console.log(err);
