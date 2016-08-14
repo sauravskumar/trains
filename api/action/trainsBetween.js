@@ -2,20 +2,22 @@
  * Created by saurav on 11/7/16.
  */
 
+var MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const ObjectId = require('mongodb').ObjectID;
 const constant = require('./../const')
-const url = constant.url;
-const collection = 'stations_all';
-
+const mongoUrl = constant.url;
+var collection = 'stations_all';
 // Create a driver instance, for the user neo4j with password neo4j.
-// const driver = constant.neo_driver;
+// var driver = constant.neo_driver
+
+
 let express = require('express'),
   router = express.Router();
 
 let getLatLong = (station_code) => {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(url)
+    MongoClient.connect(mongoUrl)
       .then(db => {
         db.collection(collection).find({station_code: station_code}).toArray()
           .then(result => {
@@ -63,13 +65,8 @@ let distance = (lat1, lon1, lat2, lon2, unit = "K") => {
   return (dist);
 };
 
-const neo4j_url = process.env.docker ?
-  'bolt://trains_neo4j' : 'bolt://localhost';
 module.exports = function () {
   router.get('/trains-between', function (req, res) {
-
-    const driver = neo4j.driver(neo4j_url, neo4j.auth.basic("neo4j", "nike"));
-
     // console.log(req.query.source, req.query.dest)
     getLatLong(req.query.source.toUpperCase()).then(source => {
       // console.log('source', source.station_code);
@@ -95,7 +92,8 @@ module.exports = function () {
           destinationLongitude: destLong,
           radius: radius
         };
-        const session = driver.session();
+        let driver = constant.neo4j.driver(constant.neo_url, constant.neo4j.auth.basic("neo4j", "nike"));
+        let session = driver.session();
         // console.log(queryParamsMap);
         session.run(
           "MATCH (source:station)-[sourceRoute]-(train:train)-[destinationRoute]-(dest:station) " +
@@ -203,6 +201,8 @@ module.exports = function () {
           });
           res.send({actual_src: source, actual_dest: dest, bestTrain: bestTrain, json})
         }).catch(err=> {
+          session.close();
+          driver.close();
           console.log(err);
         })
 

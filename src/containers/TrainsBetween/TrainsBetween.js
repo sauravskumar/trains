@@ -141,8 +141,8 @@ export default class TrainsBetween extends Component {
             <h1 style={{
               fontSize: '18px',
               color: '#FFFFFF'
-            }}>{url[0].join(' ').toUpperCase()} - <b>{codes[0].toUpperCase()}</b>&nbsp;&nbsp;
-              to&nbsp;&nbsp;{url[1].join(' ').toUpperCase()} - <b>{codes[1].toUpperCase()}</b>
+            }}><b>{url[0].join(' ').toUpperCase()}</b> to <b>{url[1].join(' ').toUpperCase()}</b>&nbsp;&nbsp;|&nbsp;&nbsp;
+              <b>{codes[0].toUpperCase()}</b> to <b>{codes[1].toUpperCase()}</b>
             </h1>
           </div>
           <div style={{background: '#3367D6', padding: '1px'}}>
@@ -216,7 +216,7 @@ export default class TrainsBetween extends Component {
                   </tr>
                   </thead>
                   <tbody itemScope
-                    itemType="http://schema.org/TrainTrip">
+                         itemType="http://schema.org/TrainTrip">
                   {trainBetweenList.json.map(journey => {
                     return (
                       <tr key={Date.now() + Math.random()} itemScope
@@ -231,7 +231,8 @@ export default class TrainsBetween extends Component {
                         </td>
                         <td >{journey.src_route.arrival_time.toFixed(2).replace('.', ':')}</td>
                         <td>{journey.src_route.halt_duration.low}m.</td>
-                        <td itemProp="departureTime">{journey.src_route.departure_time.toFixed(2).replace('.', ':')}</td>
+                        <td
+                          itemProp="departureTime">{journey.src_route.departure_time.toFixed(2).replace('.', ':')}</td>
                         <td itemProp="arrivalStation">{journey.dest.station_name} - {journey.dest.station_code}
                           <div className={style.tbSmall}>
                             {journey.dest.dist_from_dest > 0 ? journey.dest.dist_from_dest + ' km. ' + trainBetweenList.actual_dest.station_code : ''}

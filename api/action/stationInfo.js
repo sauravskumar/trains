@@ -3,7 +3,7 @@
  */
 var neo4j = require('neo4j-driver').v1;
 var assert = require('assert');
-var constant = require('./../const')
+var constant = require('./../const');
 
 // Create a driver instance, for the user neo4j with password neo4j.
 // var driver = constant.neo_driver;
@@ -11,30 +11,28 @@ var constant = require('./../const')
 let express = require('express'),
   router = express.Router();
 
-const neo4j_url = process.env.docker ?
-  'bolt://trains_neo4j' : 'bolt://localhost';
 module.exports = function () {
   router.get('/station-info', function (req, res) {
     // console.log('api ', req.query.code)
-    const driver = neo4j.driver(neo4j_url, neo4j.auth.basic("neo4j", "nike"));
     let queryParams = {
       station_code: req.query.code.toUpperCase()
     };
-    let session = driver.session()
+    let driver = constant.neo4j.driver(constant.neo_url, constant.neo4j.auth.basic("neo4j", "nike"));
+    let session = driver.session();
     session.run("match (station:station{ station_code: {station_code} })<-[route:route]-(train:train) " +
       "return distinct(station) as station, collect(distinct(route)) as route, collect(distinct(train)) as trains",
       queryParams).then(result => {
-        // console.log(result)
+      // console.log(result)
       if (result.records.length < 1) {
         session.close();
         res.send(null);
         return;
       }
-      const json = result.records[0]._fields
+      const json = result.records[0]._fields;
       let newJson = {};
-      newJson.station = json[0]
-      newJson.route = json[1]
-      newJson.trains = []
+      newJson.station = json[0];
+      newJson.route = json[1];
+      newJson.trains = [];
       json[2].map(train => {
         let days = train.properties.all_data[13].split('');
         train.properties.days = [];
@@ -48,11 +46,12 @@ module.exports = function () {
         // train.properties.days = train.days;
         newJson.trains.push(train)
       });
-      res.send(newJson)
-      session.close()
-      driver.close()
+      res.send(newJson);
+      session.close();
+      driver.close();
     }).catch(err => {
-      session.close()
+      session.close();
+      driver.close();
       console.log(err);
     })
   });
