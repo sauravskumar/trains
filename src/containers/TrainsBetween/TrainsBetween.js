@@ -51,7 +51,9 @@ export default class TrainsBetween extends Component {
 
   componentWillMount = () => {
     // Update status by executing redux-action
-    if (this.props.trainBetweenList.json.length < 1) {
+    if (!this.props.params.param) {
+      this.props.onPageSetStatus(200);
+    }else if (this.props.trainBetweenList.json.length < 1) {
       this.props.onPageSetStatus(404);
     }
   };
