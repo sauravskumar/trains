@@ -6,8 +6,9 @@ import {connect} from 'react-redux';
 import {TrainBetweenForm, PlaceHolder, AppHelmet} from 'components';
 import {asyncConnect} from 'redux-connect';
 import {loadTrainsBetween} from 'redux/modules/search';
+import {onPageSetStatus} from 'redux/modules/app';
 import style from './TrainsBetween.scss';
-
+import {bindActionCreators} from 'redux';
 // import { Link } from 'react-router';
 // import config from '../../config';
 
@@ -36,7 +37,8 @@ import style from './TrainsBetween.scss';
   state => ({
     trainBetweenList: state.search.trainBetweenList,
     mobile: state.app.mobile
-  })
+  }),
+  dispatch => (bindActionCreators({onPageSetStatus}, dispatch))
 )
 export default class TrainsBetween extends Component {
   static propTypes = {
@@ -44,6 +46,14 @@ export default class TrainsBetween extends Component {
     params: PropTypes.object,
     location: PropTypes.object,
     mobile: PropTypes.bool,
+    onPageSetStatus: PropTypes.func,
+  };
+
+  componentWillMount = () => {
+    // Update status by executing redux-action
+    if (this.props.trainBetweenList.json.length < 1) {
+      this.props.onPageSetStatus(404);
+    }
   };
 
   getRandom = (arr, number) => {
@@ -141,7 +151,8 @@ export default class TrainsBetween extends Component {
             <h1 style={{
               fontSize: '18px',
               color: '#FFFFFF'
-            }}><b>{url[0].join(' ').toUpperCase()}</b> to <b>{url[1].join(' ').toUpperCase()}</b>&nbsp;&nbsp;|&nbsp;&nbsp;
+            }}><b>{url[0].join(' ').toUpperCase()}</b> to <b>{url[1].join(' ').toUpperCase()}</b>&nbsp;&nbsp;
+              |&nbsp;&nbsp;
               <b>{codes[0].toUpperCase()}</b> to <b>{codes[1].toUpperCase()}</b>
             </h1>
           </div>

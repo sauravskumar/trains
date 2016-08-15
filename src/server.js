@@ -83,6 +83,7 @@ app.use((req, res) => {
   const memoryHistory = createHistory(req.originalUrl);
   const store = createStore(memoryHistory, client);
   const history = syncHistoryWithStore(memoryHistory, store);
+
   function hydrateOnClient() {
     res.send('<!doctype html>\n' +
       ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store}/>));
@@ -107,15 +108,15 @@ app.use((req, res) => {
             <ReduxAsyncConnect {...renderProps} />
           </Provider>
         );
-        // console.log(renderProps);
-        // console.log(component);
-        res.status(200);
+        // res.status(200);
+        // console.log(store.getState().app.status);
 
         global.navigator = {userAgent: req.headers['user-agent']};
-
-        res.send('<!doctype html>\n' +
+        // res.status(store.getState().app.status);
+        const html = '<!doctype html>\n' +
           ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component}
-                                        store={store}/>));
+                                        store={store}/>);
+        res.status(store.getState().app.status).send(html);
       });
     } else {
       res.status(404).send('Not found');

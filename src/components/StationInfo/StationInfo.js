@@ -5,14 +5,30 @@ import React, {Component, PropTypes} from 'react';
 import StationInfoForm from './StationInfoForm';
 import style from './StationInfo.scss';
 import {AppHelmet} from 'components';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {onPageSetStatus} from 'redux/modules/app';
 
+@connect(
+  null,
+  dispatch => (bindActionCreators({onPageSetStatus}, dispatch))
+)
 export default class StationInfo extends Component {
   static propTypes = {
     params: PropTypes.object,
     stationInfo: PropTypes.object,
-    fullUrl: PropTypes.object
+    fullUrl: PropTypes.object,
+    onPageSetStatus: PropTypes.func
   };
 
+  componentWillMount = () => {
+    // Update status by executing redux-action
+    if (!this.props.params.param) {
+      this.props.onPageSetStatus(200);
+    }else if (!this.props.stationInfo || !this.props.stationInfo.station) {
+      this.props.onPageSetStatus(404);
+    }
+  };
 
   render() {
     const {stationInfo, params, fullUrl} = this.props;
