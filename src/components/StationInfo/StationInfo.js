@@ -127,7 +127,7 @@ export default class StationInfo extends Component {
           <div className="panel panel-default">
             <div className="panel-heading"
                  style={{background: '#4285F4', padding: '10px 15px 15px 15px', margin: '0px'}}>
-              <h1 style={{fontSize: '20px', color: '#FFFFFF'}}>{station.station_code} - {station.station_name}</h1>
+              <h1 style={{fontSize: '20px', color: '#FFFFFF'}}>{station.station_name} - {station.station_code}</h1>
             </div>
             <div style={{background: '#3367D6', margin: '0px'}}>
               <div className="row">
