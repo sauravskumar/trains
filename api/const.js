@@ -8,10 +8,11 @@ const mongo_url = process.env.docker ?
 
 const neo4j_url = process.env.docker ?
   'bolt://trains_neo4j' : 'bolt://localhost';
-// const neo_driver = neo4j.driver(neo4j_url, neo4j.auth.basic("neo4j", "nike"));
+const neo_driver = neo4j.driver(neo4j_url, neo4j.auth.basic("neo4j", "nike"));
 
 module.exports = {
   url: mongo_url,
   neo4j: neo4j,
-  neo_url: neo4j_url
+  neo_url: neo4j_url,
+  neo_driver: neo_driver
 };

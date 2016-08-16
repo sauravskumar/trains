@@ -5,6 +5,7 @@ var neo4j = require('neo4j-driver').v1;
 var assert = require('assert');
 var constant = require('./../const');
 
+const driver = constant.neo_driver;
 // Create a driver instance, for the user neo4j with password neo4j.
 // var driver = constant.neo_driver;
 
@@ -17,7 +18,7 @@ module.exports = function () {
     let queryParams = {
       station_code: req.query.code.toUpperCase()
     };
-    let driver = constant.neo4j.driver(constant.neo_url, constant.neo4j.auth.basic("neo4j", "nike"));
+
     let session = driver.session();
     session.run("match (station:station{ station_code: {station_code} })<-[route:route]-(train:train) " +
       "return distinct(station) as station, collect(distinct(route)) as route, collect(distinct(train)) as trains",
@@ -48,10 +49,8 @@ module.exports = function () {
       });
       res.send(newJson);
       session.close();
-      driver.close();
     }).catch(err => {
       session.close();
-      driver.close();
       console.log(err);
     })
   });

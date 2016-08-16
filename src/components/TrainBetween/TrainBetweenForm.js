@@ -22,6 +22,8 @@ export default class TrainBetweenForm extends Component {
   search = () => {
     let source = this.refs.sourceSt.getWrappedInstance().refs.searchInput.value;
     let dest = this.refs.destSt.getWrappedInstance().refs.searchInput.value;
+    // let nearby = this.refs.nearby.value;
+    // console.log(nearby);
     let path;
     // const nearby = this.refs.nearby.checked;
     // console.log(nearby);
@@ -42,7 +44,6 @@ export default class TrainBetweenForm extends Component {
         <div className={ 'form-inline text-center ' + style.trainsBetweenForm }>
           <SearchInput ref="sourceSt" placeholder={'Source Station'} list={ stationList } type="station"/>
           <SearchInput ref="destSt"placeholder={'Dest. Station'} list={ stationList } type="station"/>
-          <input type="checkbox" ref="nearby" title="Nearby Stations" defaultChecked/>
           <button className="btn btn-primary" onClick={this.search}>Search</button>
         </div>
       </div>
