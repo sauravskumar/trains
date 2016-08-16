@@ -5,7 +5,7 @@
 var MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const ObjectId = require('mongodb').ObjectID;
-const constant = require('./../const')
+const constant = require('./../const');
 const mongoUrl = constant.url;
 var collection = 'stations_all';
 // Create a driver instance, for the user neo4j with password neo4j.
@@ -72,7 +72,7 @@ module.exports = function () {
       getLatLong(req.query.dest.toUpperCase()).then(dest => {
         // console.log('destination', dest.station_code);
         if (source == 'not_found' || dest == 'not_found') {
-          res.send({actual_src: source, actual_dest: dest, bestTrain: '', json: []})
+          res.send({actual_src: source, actual_dest: dest, bestTrain: '', json: [], exactMatch: []});
           return
         }
         let srcLat = source.latitude, srcLong = source.longitude,
@@ -129,9 +129,9 @@ module.exports = function () {
           let records = result.records, json = [], exactMatch = [];
           let bestTrain = {};
           let maxDuration = 1000000;
-          console.log(records.length);
+          // console.log(records.length);
           if (records.length <1){
-            res.send({actual_src: source, actual_dest: dest, bestTrain: bestTrain, json, exactMatch})
+            res.send({actual_src: source, actual_dest: dest, bestTrain: bestTrain, json, exactMatch});
             return
           }
           records.map((journey, indexMain, records) => {
@@ -192,7 +192,7 @@ module.exports = function () {
               train.classes[7] = classes[7].replace("1", "3E").replace(0, '');
               train.classes[8] = classes[8].replace("1", "GN").replace(0, '');
               train.classes[9] = classes[9].replace("1", "").replace(0, '');
-              train.type = train.all_data[32]
+              train.type = train.all_data[32];
 
               src.dist_from_src = distance(src.latitude,
                 src.longitude,
@@ -217,7 +217,7 @@ module.exports = function () {
                 bestTrain.train = train;
                 bestTrain.duration = newJourney.duration;
               }
-              console.log(src.dist_from_src, dest.dist_from_dest)
+              // console.log(src.dist_from_src, dest.dist_from_dest);
               if (src.dist_from_src == 0.0 && dest.dist_from_dest == 0.0) {
                 exactMatch.push(newJourney)
               } else {

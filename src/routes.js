@@ -55,6 +55,7 @@ export default () => {
        <Route path="survey" component={Survey}/>
        <Route path="widgets" component={Widgets}/> */}
 
+      <Route path="between/:param" component={TrainsBetween}/>
       <Route path="station" component={Station}/>
       <Route path="station/:param" component={Station}/>
       <Route path="running-status-route" component={Train}/>
