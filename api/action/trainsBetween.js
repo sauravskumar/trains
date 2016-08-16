@@ -129,6 +129,11 @@ module.exports = function () {
           let records = result.records, json = [], exactMatch = [];
           let bestTrain = {};
           let maxDuration = 1000000;
+          console.log(records.length);
+          if (records.length <1){
+            res.send({actual_src: source, actual_dest: dest, bestTrain: bestTrain, json, exactMatch})
+            return
+          }
           records.map((journey, indexMain, records) => {
             // console.log(journey._fields[0],
             // journey._fields[1][0],
@@ -154,8 +159,6 @@ module.exports = function () {
                 })
               })
             };
-            calc(journey._fields[1], source, journey._fields[0].properties);
-            calc(journey._fields[2], dest, journey._fields[0].properties);
             Promise.all([calc(journey._fields[1], source), calc(journey._fields[2], dest)]).then(result=> {
               let newJourney = {};
               let srcIndex = result[0];

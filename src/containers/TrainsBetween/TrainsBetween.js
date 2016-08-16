@@ -97,7 +97,7 @@ export default class TrainsBetween extends Component {
 
   description = (param, journey) => {
     const {fullName, codeName} = this.splitUrl(param);
-    const number = journey.json.length;
+    const number = journey.json.length + journey.exactMatch.length;
     const bestTrain = journey.bestTrain;
     const keywords = ['trains between stations', 'pnr status',
       'railway enquiry', 'railway reservation', 'railway enquiry',
@@ -108,7 +108,7 @@ export default class TrainsBetween extends Component {
       'irctc train timings', 'railway ticket booking', 'railway booking',
       'indian railway time table', 'railway time table', 'seat fare', 'online train booking'];
     const descEnd = this.getRandom(keywords, 3).join(', ').toLowerCase();
-    return `${number} trains found ${codeName.split(' to ')[0].toUpperCase()}/${fullName.split(' to ')[0].toUpperCase()} to ${codeName.split(' to ')[1].toUpperCase()}/${fullName.split(' to ')[1].toUpperCase()}. Best Train ${bestTrain.train.all_data[0]} - ${bestTrain.train.all_data[1]}. Duration ${bestTrain.duration} Get ${descEnd}.`;
+    return `${number} trains found ${fullName.split(' to ')[0].toUpperCase()}/${codeName.split(' to ')[0].toUpperCase()} to ${fullName.split(' to ')[1].toUpperCase()}/${codeName.split(' to ')[1].toUpperCase()}. Best Train ${bestTrain.train.all_data[0]} - ${bestTrain.train.all_data[1]}. Duration ${bestTrain.duration} Get ${descEnd}.`;
   };
 
   keywords = (param, number) => {
@@ -125,8 +125,8 @@ export default class TrainsBetween extends Component {
     return (
       <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
         <div style={{background: '#E53935', padding: '1px'}}>
-          <h1 style={{fontSize: '24px', color: '#FFFFFF'}}>{url[0].join(' ').toUpperCase()}
-            <b>{codes[0].toUpperCase()}</b>&nbsp;&nbsp;to&nbsp;&nbsp;{url[1].join(' ').toUpperCase()}
+          <h1 style={{fontSize: '24px', color: '#FFFFFF'}}>{url[0].join(' ').toUpperCase()}&nbsp;
+            <b>{codes[0].toUpperCase()}</b>&nbsp;&nbsp;to&nbsp;&nbsp;{url[1].join(' ').toUpperCase()}&nbsp;
             <b>{codes[1].toUpperCase()}</b>
           </h1>
         </div>
@@ -159,9 +159,11 @@ export default class TrainsBetween extends Component {
             </h1>
           </div>
           <div style={{background: '#3367D6', padding: '1px'}}>
-            {journey.json.length ? <h2 style={{fontSize: '14px', color: '#C2D2F3'}}>{journey.json.length} Trains · Best
-              Train {journey.bestTrain.train.train_code} {journey.bestTrain.train.train_name} ·
-              Duration {journey.bestTrain.duration}</h2> :
+            {(journey.json.length + journey.exactMatch.length) ?
+              <h2 style={{fontSize: '14px', color: '#C2D2F3'}}>{journey.json.length + journey.exactMatch.length} Trains
+                · Best
+                Train {journey.bestTrain.train.train_code} {journey.bestTrain.train.train_name} ·
+                Duration {journey.bestTrain.duration}</h2> :
               <h2 style={{fontSize: '14px', color: '#C2D2F3'}}>0 Trains</h2>}
           </div>
         </div>
@@ -185,7 +187,7 @@ export default class TrainsBetween extends Component {
         </div>
       );
     }
-    if (trainBetweenList.json.length < 1) {
+    if ((trainBetweenList.json.length + trainBetweenList.exactMatch.length) < 1) {
       return (
         <div className="row text-capitalize">
           <div className="col-xs-12 col-sm-8">
@@ -281,7 +283,9 @@ export default class TrainsBetween extends Component {
                     );
                   })}</tbody>
                   <tbody>
-                    <tr><td colSpan="100" className="text-center" style={{color: '#4285F4'}}><b>Nearby Stations</b></td></tr>
+                  <tr style={{background: '#4285F4', fontSize: '13px', color: '#fff'}}>
+                    <td colSpan="100" className="text-center"><b>Nearby Stations</b></td>
+                  </tr>
                   </tbody>
                   <tbody>
                   {trainBetweenList.json.map(journey => {
