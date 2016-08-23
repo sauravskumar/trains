@@ -71,8 +71,22 @@ proxy.on('error', (error, req, res) => {
 
 app.use((req, res) => {
   // console.log(req.url);
-  // const urlSplit = req.url.split('/');
-  // console.log(urlSplit.length);
+  const urlSplit = req.url.split('/');
+  console.log(urlSplit.length);
+  if (urlSplit[2].includes('-to-')) {
+    let lastPartSplit = urlSplit[2].split('-to-');
+    if (lastPartSplit.length == 2) {
+      // console.log(lastPartSplit[1].split('-'));
+      lastPartSplit[0] = lastPartSplit[0].split('-');
+      lastPartSplit[1] = lastPartSplit[1].split('-');
+      // const sourceStation = lastPartSplit[0].split('-').pop();
+      // const destinationStation = lastPartSplit[1].split('-').pop();
+      let newUrl = lastPartSplit[0].pop() + '-to-' + lastPartSplit[1].pop()
+        + '-' + lastPartSplit[0].join('-') + '-to-' + lastPartSplit[1].join('-');
+      console.log(newUrl);
+      res.status(302).redirect('/trains/' + newUrl);
+    }
+  }
   if (__DEVELOPMENT__) {
     // Do not cache webpack stats: the script file would change since
     // hot module replacement is enabled in the development env

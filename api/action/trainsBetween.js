@@ -67,16 +67,22 @@ let distance = (lat1, lon1, lat2, lon2, unit = "K") => {
 module.exports = function () {
   router.get('/trains-between', function (req, res) {
     // console.log(req.query.source, req.query.dest)
-    getLatLong(req.query.source.toUpperCase()).then(source => {
+    getLatLong(req.query.source.toUpperCase()).then(actual_source => {
       // console.log('source', source.station_code);
-      getLatLong(req.query.dest.toUpperCase()).then(dest => {
-        // console.log('destination', dest.station_code);
-        if (source == 'not_found' || dest == 'not_found') {
-          res.send({actual_src: source, actual_dest: dest, bestTrain: '', json: [], exactMatch: []});
+      getLatLong(req.query.dest.toUpperCase()).then(actual_destination => {
+        // console.log(actual_source, actual_destination);
+        if (actual_source == 'not_found' || actual_destination == 'not_found') {
+          res.send({
+            actual_src: actual_source,
+            actual_dest: actual_destination,
+            bestTrain: '',
+            json: [],
+            exactMatch: []
+          });
           return
         }
-        let srcLat = source.latitude, srcLong = source.longitude,
-          destLat = dest.latitude, destLong = dest.longitude;
+        let srcLat = actual_source.latitude, srcLong = actual_source.longitude,
+          destLat = actual_destination.latitude, destLong = actual_destination.longitude;
         // console.log('srcLat', srcLat, 'srcLong', srcLong, 'destLat', destLat, 'destLong', destLong);
         let radius = Math.sqrt(Math.pow((srcLat - destLat), 2) +
           Math.pow((destLong - srcLong), 2));
@@ -91,7 +97,7 @@ module.exports = function () {
           destinationLongitude: destLong,
           radius: radius
         };
-
+        console.log(queryParamsMap);
         let session = driver.session();
         // console.log(queryParamsMap);
         session.run(
@@ -105,7 +111,7 @@ module.exports = function () {
           "and \n" +
           "dest.longitude>={destinationLongitude}-{radius} and dest.longitude<={destinationLongitude}+{radius} \n" +
           "and \n" +
-          "sourceRoute.distance < destinationRoute.distance \n" +
+          "sourceRoute.distance <= destinationRoute.distance \n" +
           "RETURN \n" +
           "DISTINCT(train) as train, \n" +
           "COLLECT(DISTINCT(source)) AS sourceStation, COLLECT(DISTINCT(dest)) AS destinationStation, \n" +
@@ -129,11 +135,18 @@ module.exports = function () {
           let records = result.records, json = [], exactMatch = [];
           let bestTrain = {};
           let maxDuration = 1000000;
-          // console.log(records.length);
-          if (records.length <1){
-            res.send({actual_src: source, actual_dest: dest, bestTrain: bestTrain, json, exactMatch});
+          console.log(records.length);
+          if (records.length < 1) {
+            res.send({
+              actual_src: actual_source,
+              actual_dest: actual_destination,
+              bestTrain: bestTrain,
+              json,
+              exactMatch
+            });
             return
           }
+          console.log('--------------passed-------------------');
           records.map((journey, indexMain, records) => {
             // console.log(journey._fields[0],
             // journey._fields[1][0],
@@ -159,7 +172,7 @@ module.exports = function () {
                 })
               })
             };
-            Promise.all([calc(journey._fields[1], source), calc(journey._fields[2], dest)]).then(result=> {
+            Promise.all([calc(journey._fields[1], actual_source), calc(journey._fields[2], actual_destination)]).then(result=> {
               let newJourney = {};
               let srcIndex = result[0];
               let destIndex = result[1];
@@ -238,7 +251,13 @@ module.exports = function () {
                   else
                     return -1;
                 });
-                res.send({actual_src: source, actual_dest: dest, bestTrain: bestTrain, json, exactMatch})
+                res.send({
+                  actual_src: actual_source,
+                  actual_dest: actual_destination,
+                  bestTrain: bestTrain,
+                  json,
+                  exactMatch
+                })
               }
             });
           });

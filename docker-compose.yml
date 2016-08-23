@@ -7,8 +7,10 @@ services:
     container_name: trains
     command: bash -c "rm -rf /root/.pm2 && npm run start"
     depends_on:
-      - "neo4j"
-      - "mongo"
+      - neo4j
+      - mongo
+    environment:
+        NODE_ENV: production
 
   mongo:
     image: mongo
@@ -21,6 +23,3 @@ services:
     container_name: trains_neo4j
     volumes:
       - /data/docker/trains_neo4j:/data
-    #environment:
-    #  NEO4J_dbms_memory_pagecache_size: 200M
-    #  NEO4J_dbms_memory_heap_maxSize: 200M
