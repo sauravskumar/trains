@@ -8,5 +8,6 @@ module.exports = function () {
   const stationInfo = require('./stationInfo')();
   const pnr = require('./pnr')();
   const generateSitemap = require('./generateSitemap')();
-  return [trainsBetween, autocomplete, trainInfo, stationInfo, pnr, generateSitemap];
+  const trainNewInfo = require('./trainNewInfo')();
+  return [trainsBetween, autocomplete, trainInfo, stationInfo, pnr, generateSitemap, trainNewInfo];
 };

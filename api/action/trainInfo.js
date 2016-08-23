@@ -16,7 +16,7 @@ let page = null;
 let ntespage;
 let express = require('express'),
   router = express.Router();
-let reqUrls = []
+let reqUrls = [];
 module.exports = function () {
   router.get('/train-info', function (req, res) {
     console.log('train-info called');
@@ -143,7 +143,7 @@ module.exports = function () {
          db.close();
          // console.log('result -> ', result)
          if (result.length < 1) {
-           console.log('0 size')
+           console.log('0 size');
            res.send(null);
            return;
          }
@@ -170,7 +170,7 @@ module.exports = function () {
          train.classes[7] = classes[7].replace("1", "3TE").replace(0, '');
          train.classes[8] = classes[8].replace("1", "GN").replace(0, '');
          train.classes[9] = classes[9].replace("1", "").replace(0, '');
-         train.type = train.all_data[32]
+         train.type = train.all_data[32];
          res.send(train)
        })
      })

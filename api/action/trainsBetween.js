@@ -97,7 +97,7 @@ module.exports = function () {
           destinationLongitude: destLong,
           radius: radius
         };
-        console.log(queryParamsMap);
+        // console.log(queryParamsMap);
         let session = driver.session();
         // console.log(queryParamsMap);
         session.run(
@@ -135,7 +135,7 @@ module.exports = function () {
           let records = result.records, json = [], exactMatch = [];
           let bestTrain = {};
           let maxDuration = 1000000;
-          console.log(records.length);
+          // console.log(records.length);
           if (records.length < 1) {
             res.send({
               actual_src: actual_source,
