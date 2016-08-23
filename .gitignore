@@ -10,3 +10,4 @@ npm-debug.log
 *.jpg
 static/files/sitemap/*.xml
 static/files/sitemap/*.xml.gz
+static
