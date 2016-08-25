@@ -32,6 +32,13 @@ export default class StationInfo extends Component {
 
   render() {
     const {stationInfo, params, fullUrl} = this.props;
+    let placeholder = '';
+    if (params.param) {
+      placeholder = params.param.replace(/-/g, ' ').toUpperCase();
+    }
+    const stationInfoForm = () =>{
+      return (<StationInfoForm placeholder={placeholder}/>);
+    };
     let trainsList = []; //eslint-disable-line
     let station = {};
     if (!params.param) {
@@ -42,7 +49,7 @@ export default class StationInfo extends Component {
                        description={'Get station details, station code, trains visiting station, trains between stations for any railway station you want'}
                        keywords={'station information, trains visiting station, station details'}
                        url={fullUrl}/>
-            <StationInfoForm/>
+            {stationInfoForm()}
             <br/>
             <div style={{width: '100%', textAlign: 'center'}}>
               <i className={'material-icons icon-color backgroundIcon'}>&#xE0C8;</i>
@@ -59,7 +66,7 @@ export default class StationInfo extends Component {
                        description={'Get station details, station code, trains visiting station, trains between stations for any railway station you want'}
                        keywords={'station information, trains visiting station, station details'}
                        url={fullUrl}/>
-            <StationInfoForm/>
+            {stationInfoForm()}
             <br/>
             <div className="panel panel-default" style={{width: '100%', textAlign: 'center'}}>
               <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
@@ -122,7 +129,7 @@ export default class StationInfo extends Component {
             description={description}
             keywords={station.station_code + ', ' + station.station_name + ', ' + station.division + ' station details, station information, trains visiting station'}
             url={fullUrl}/>
-          <StationInfoForm/>
+          {stationInfoForm()}
           <br/>
           <div className="panel panel-default">
             <div className="panel-heading"

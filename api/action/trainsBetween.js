@@ -146,7 +146,7 @@ module.exports = function () {
             });
             return
           }
-          console.log('--------------passed-------------------');
+          // console.log('--------------passed-------------------');
           records.map((journey, indexMain, records) => {
             // console.log(journey._fields[0],
             // journey._fields[1][0],

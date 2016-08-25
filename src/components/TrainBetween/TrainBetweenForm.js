@@ -1,7 +1,7 @@
 /**
  * Created by saurav on 8/7/16.
  */
-import React, { Component, PropTypes } from 'react';
+import React, {Component, PropTypes} from 'react';
 // import { Link } from 'react-router';
 // import { CounterButton, GithubButton } from 'components';
 // import config from '../../config';
@@ -14,7 +14,9 @@ import SearchInput from './../SearchInput/SearchInput';
 )
 export default class TrainBetweenForm extends Component {
   static propTypes = {
-    stationList: PropTypes.array
+    stationList: PropTypes.array,
+    source: PropTypes.string,
+    destination: PropTypes.string,
   };
   static contextTypes = {
     router: React.PropTypes.object
@@ -26,22 +28,25 @@ export default class TrainBetweenForm extends Component {
     // console.log(nearby);
     // const nearby = this.refs.nearby.checked;
     // console.log(nearby);
-    source = source.replace(/ /g, '-').replace(/-+/, '-' ).toLowerCase().split('-');
-    dest = dest.replace(/ /g, '-').replace(/-+/, '-' ).toLowerCase().split('-');
+    source = source.replace(/ /g, '-').replace(/-+/, '-').toLowerCase().split('-');
+    dest = dest.replace(/ /g, '-').replace(/-+/, '-').toLowerCase().split('-');
     let path = `/trains/${source[0]}-to-${dest[0]}`;
     source.shift();
     dest.shift();
     path += `-${source.join('-')}-to-${dest.join('-')}`;
     this.context.router.push(path);
   };
+
   render() {
     // require the logo image both from client and server
-    const {stationList} = this.props;
+    const {stationList, source, destination} = this.props;
     return (
       <div style={{width: '100%'}}>
         <div className={ 'form-inline text-center ' + style.trainsBetweenForm }>
-          <SearchInput ref="sourceSt" placeholder={'Source Station'} list={ stationList } type="station"/>
-          <SearchInput ref="destSt"placeholder={'Dest. Station'} list={ stationList } type="station"/>
+          <SearchInput ref="sourceSt" placeholder={source ? source : 'Source Station'} list={ stationList }
+                       type="station"/>
+          <SearchInput ref="destSt" placeholder={destination ? destination : 'Dest. Station'} list={ stationList }
+                       type="station"/>
           <button className="btn btn-primary" onClick={this.search}>Search</button>
         </div>
       </div>

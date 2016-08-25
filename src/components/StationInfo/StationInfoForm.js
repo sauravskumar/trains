@@ -14,7 +14,8 @@ import SearchInput from './../SearchInput/SearchInput';
 )
 export default class StationInfoForm extends Component {
   static propTypes = {
-    stationList: PropTypes.array
+    stationList: PropTypes.array,
+    placeholder: PropTypes.string
   };
   static contextTypes = {
     router: React.PropTypes.object
@@ -31,11 +32,11 @@ export default class StationInfoForm extends Component {
     this.context.router.push(path);
   };
   render() {
-    const {stationList} = this.props;
+    const {stationList, placeholder} = this.props;
     return (
       <div>
         <div className={ 'form-inline text-center ' + style.trainsBetweenForm }>
-          <SearchInput ref="stationCodeInput" placeholder={'Station Name / Code'} list={ stationList } type="station"/>
+          <SearchInput ref="stationCodeInput" placeholder={placeholder ? placeholder : 'Station Name / Code'} list={ stationList } type="station"/>
           <button className="btn btn-primary" onClick={this.search}>Search</button>
         </div>
       </div>

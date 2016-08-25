@@ -14,7 +14,8 @@ import SearchInput from './../SearchInput/SearchInput';
 )
 export default class TrainBetweenForm extends Component {
   static propTypes = {
-    trainList: PropTypes.array
+    trainList: PropTypes.array,
+    placeholder: PropTypes.string
   };
   static contextTypes = {
     router: React.PropTypes.object
@@ -28,11 +29,11 @@ export default class TrainBetweenForm extends Component {
   };
   render() {
     // require the logo image both from client and server
-    const {trainList} = this.props;
+    const {trainList, placeholder} = this.props;
     return (
       <div>
         <div className={ 'form-inline text-center ' + style.trainsBetweenForm }>
-          <SearchInput ref="trainNoInput" placeholder={'Train Name / Number'} list={ trainList } type="train"/>
+          <SearchInput ref="trainNoInput" placeholder={placeholder ? placeholder : 'Train Name / Number'} list={ trainList } type="train"/>
           <button className="btn btn-primary" onClick={this.search}>Search</button>
         </div>
       </div>

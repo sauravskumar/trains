@@ -28,9 +28,15 @@ export default class TrainInfo extends Component {
       this.props.onPageSetStatus(404);
     }
   };
-
   render() {
     const {train, params, fullUrl} = this.props;
+    let placeholder = '';
+    if (params.param) {
+      placeholder = params.param.replace(/-/g, ' ').toUpperCase();
+    }
+    const trainInfoForm = () => {
+      return (<TrainInfoForm placeholder={placeholder}/>);
+    };
     if (!params.param) {
       return (
         <div className="row">
@@ -39,7 +45,7 @@ export default class TrainInfo extends Component {
                        description={'Check Train running status, Berth availability, Train Route and seat fare of any train.'}
                        keywords={'Train status, live status, train info, train details, seat fare, seat availability'}
                        url={fullUrl}/>
-            <TrainInfoForm/>
+            {trainInfoForm()}
             <br/>
             <div style={{width: '100%', textAlign: 'center'}}>
               <i className={'material-icons icon-color backgroundIcon'}>&#xE534;</i>
@@ -56,7 +62,7 @@ export default class TrainInfo extends Component {
                        description={'Check Train running status, Berth availability, Train Route and seat fare of any train.'}
                        keywords={'Train status, live status, train info, train details, seat fare, seat availability'}
                        url={fullUrl}/>
-            <TrainInfoForm/>
+            {trainInfoForm()}
             <br/>
             <div className="panel panel-default" style={{width: '100%', textAlign: 'center'}}>
               <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
@@ -115,7 +121,7 @@ export default class TrainInfo extends Component {
                      description={description}
                      keywords={'Train running status, train info, seat fare, berth availability'}
                      url={fullUrl}/>
-          <TrainInfoForm/>
+          {trainInfoForm()}
           <br/>
           <div className="panel panel-default text-capitalize" itemScope itemType="http://schema.org/TrainTrip">
             <div className="panel-heading"

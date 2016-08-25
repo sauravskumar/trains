@@ -23,7 +23,8 @@ export default class SearchInput extends Component {
     placeholder: PropTypes.string,
     type: PropTypes.string,
     trainComp: PropTypes.func,
-    stationComp: PropTypes.func
+    stationComp: PropTypes.func,
+    value: PropTypes.string
   };
   state = {
     show: false
@@ -53,12 +54,12 @@ export default class SearchInput extends Component {
 
   render() {
     // require the logo image both from client and server
-    const {placeholder, list} = this.props;
+    const {placeholder, list, value} = this.props; // eslint-disable-line no-unused-vars
     const {show} = this.state;
     return (
       <div className="form-group">
-        <input className="form-control" id="focusedInput" type="text" ref="searchInput"
-               placeholder={placeholder} onFocus={this.showResult} onKeyUp={this.doSearch}
+        <input className="form-control" type="text" ref="searchInput"
+               onFocus={this.showResult} onKeyUp={this.doSearch} placeholder={placeholder}
                onBlur={() => {
                  this.hideResult();
                }} style={{margin: '0 auto'}}/>

@@ -120,8 +120,9 @@ let loopOverStations = (result) => {
       route.forEach((station, station_index) => {
         route.forEach((station2, station_index2) => {
           // console.log(station2.station_code)
-          if (station2.station_code !== station.station_code && station_index2 >= station_index) {
-            x.add(`${normalizeString(station.station_name)}-${normalizeString(station.station_code)}-to-${normalizeString(station2.station_name)}-${normalizeString(station2.station_code)}`);
+          if (station2.station_code !== station.station_code && station_index2 >= station_index
+            && station.station_code && station2.station_code) {
+            x.add(`${normalizeString(station.station_code)}-to-${normalizeString(station2.station_code)}-to-${normalizeString(station.station_name)}-${normalizeString(station2.station_name)}`);
             // if (station.station_code == 'PTRD' && station2.station_code == 'RMR') {
             //   console.log('caught 2', result[index].name, result[index].code);
             //   console.log(`${normalizeString(station.station_name)}-${normalizeString(station.station_code)}-to-${normalizeString(station2.station_name)}-${normalizeString(station2.station_code)}`);
@@ -137,23 +138,6 @@ let loopOverStations = (result) => {
           }
         })
       });
-      // for (let i = 0; i < route.length; i++) {
-      //   for (let j = i; j < route.length; j++) {
-      //     if (route[i].station_code !== route[j].station_code && route[j] >= route[i]) {
-      //       x.add(`${normalizeString(route[i].station_name)}-${normalizeString(route[i].station_code)}-to-${normalizeString(route[j].station_name)}-${normalizeString(route[j].station_code)}`);
-      //       if (route[j].station_code == 'RMR' && route[i].station_code == 'PTRD') {
-      //         console.log('caught 2', result[index].name, result[index].code);
-      //       }
-      //       if (route[j].station_code == 'PTRD' && route[i].station_code == 'RMR') {
-      //         console.log('caught 1', result[index].name, result[index].code);
-      //       }
-      //     }
-      //     if (index === result.length - 1) {
-      //       // console.log(i, x);
-      //       resolve(x)
-      //     }
-      //   }
-      // }
     })
   })
 };

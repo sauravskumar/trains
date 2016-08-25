@@ -4,10 +4,12 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {TrainBetweenForm, PlaceHolder, AppHelmet, GoogleMaps} from 'components';
+import DesktopLayout from './DesktopLayout';
+import MobileLayout from './MobileLayout';
 import {asyncConnect} from 'redux-connect';
 import {loadTrainsBetween} from 'redux/modules/search';
 import {onPageSetStatus} from 'redux/modules/app';
-import style from './TrainsBetween.scss';
+// import style from './TrainsBetween.scss';
 import {bindActionCreators} from 'redux';
 // import { Link } from 'react-router';
 // import config from '../../config';
@@ -175,11 +177,24 @@ export default class TrainsBetween extends Component {
     // console.log('trainBetween mobile', mobile);
     const url = params.param;
     const fullUrl = location.pathname;
+    let inputSource = '';
+    let inputDestination = '';
+    if (url) {
+      const sourceDest = url.split('-to-');
+      // console.log(sourceDest);
+      const middlePart = sourceDest[1].split('-');
+      inputDestination = (middlePart.shift() + ' ' + sourceDest[2]).toUpperCase();
+      inputSource = (sourceDest[0] + ' ' + middlePart.join(' ')).toUpperCase();
+    }
+    const trainBetweenForm = () => {
+      return (<TrainBetweenForm source={inputSource}
+                                destination={inputDestination}/>);
+    };
     if (!params || !params.param) {
       return (
         <div className="row text-capitalize">
           <div className="col-xs-12 col-sm-8">
-            <TrainBetweenForm/>
+            {trainBetweenForm()}
             <br/>
             <PlaceHolder/>
           </div>
@@ -190,7 +205,7 @@ export default class TrainsBetween extends Component {
       return (
         <div className="row text-capitalize">
           <div className="col-xs-12 col-sm-8">
-            <TrainBetweenForm/>
+            {trainBetweenForm()}
             <br/>
             {this.trainNotFoundPanelHeading(url, null)}
             <PlaceHolder/>
@@ -229,7 +244,7 @@ export default class TrainsBetween extends Component {
                 <li>Distance between {trainBetweenList.actual_src.station_name}&nbsp;
                   to {trainBetweenList.actual_dest.station_name} is approximately&nbsp;
                   {trainBetweenList.exactMatch.length ? trainBetweenList.exactMatch[0].dest_route.distance.low :
-                    trainBetweenList.json[0].distance.dest_route.low}
+                    trainBetweenList.json[0].dest_route.distance.low}
                   km
                 </li>
                 <li>Train {trainBetweenList.bestTrain.train.train_code} -&nbsp;
@@ -249,63 +264,6 @@ export default class TrainsBetween extends Component {
       // ///////////////////////////////////////////////////////////////////////
       //                         DESKTOP LAYOUT
       // ///////////////////////////////////////////////////////////////////////
-      const desktopLayout = (list) => {
-        return (
-          <tbody itemScope
-                 itemType="http://schema.org/TrainTrip">
-          {list.map(journey => {
-            return (
-              <tr key={Date.now() + Math.random()} itemScope
-                  itemType="http://schema.org/TrainTrip">
-                <td itemProp="trainNumber">{journey.train.train_code}</td>
-                <td itemProp="trainName">{journey.train.train_name}</td>
-                <td itemProp="departureStation">
-                  {journey.src.station_name} - {journey.src.station_code}
-                  <div className={style.tbSmall}>
-                    {journey.src.dist_from_src > 0 ? journey.src.dist_from_src + ' km. ' + trainBetweenList.actual_src.station_code : ''}
-                  </div>
-                </td>
-                <td
-                  itemProp="departureTime">{journey.src_route.departure_time.toFixed(2).replace('.', ':')}</td>
-                <td itemProp="arrivalStation">{journey.dest.station_name} - {journey.dest.station_code}
-                  <div className={style.tbSmall}>
-                    {journey.dest.dist_from_dest > 0 ? journey.dest.dist_from_dest + ' km. ' + trainBetweenList.actual_dest.station_code : ''}
-                  </div>
-                </td>
-                <td itemProp="arrivalTime">
-                  {journey.dest_route.arrival_time.toFixed(2).replace('.', ':')}
-                </td>
-                <td>
-                  {(journey.dest_route.position.low - journey.src_route.position.low - 1) > 0 ? journey.dest_route.position.low - journey.src_route.position.low - 1 : ''}
-                </td>
-                <td>
-                  <div className="row">
-                    <div className={'col-xs-12 ' + style.days}>
-                      {journey.train.days.map(day => {
-                        return (
-                          <span key={Date.now() + Math.random()}>{day ? day : ''}</span>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </td>
-                <td>{journey.duration}</td>
-                <td>
-                  <div className="row">
-                    <div className="col-xs-12">
-                      {journey.train.classes.map(_class => {
-                        return (
-                          <span key={Date.now() + Math.random()}>{_class ? _class + ' ' : ' '}</span>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}</tbody>
-        );
-      };
       return (
         <div className="row">
           <AppHelmet title={this.headTitle(url, trainBetweenList.json.length)}
@@ -313,38 +271,12 @@ export default class TrainsBetween extends Component {
                      keywords={this.keywords(url, trainBetweenList.json.length)}
                      url={fullUrl}/>
           <div className="col-xs-12 col-sm-12 text-capitalize">
-            <TrainBetweenForm/>
+            {trainBetweenForm()}
             <br/>
             <div className="panel panel-default">
               {this.panelHeading(url, trainBetweenList)}
             </div>
-            <div className="panel panel-default" style={{fontSize: '13px'}}>
-              <div className="panel-body">
-                <table className="table table-striped table-hover ">
-                  <thead>
-                  <tr style={{fontSize: '13px', color: '#555'}}>
-                    <td>Number</td>
-                    <td>Name</td>
-                    <td>Source</td>
-                    <td>Departure.</td>
-                    <td>Destination</td>
-                    <td>Arrival</td>
-                    <td>Halts</td>
-                    <td>Days</td>
-                    <td>Duration</td>
-                    <td>Class</td>
-                  </tr>
-                  </thead>
-                  {desktopLayout(trainBetweenList.exactMatch)}
-                  <tbody>
-                  <tr style={{background: '#4285F4', fontSize: '13px', color: '#fff'}}>
-                    <td colSpan="100" className="text-center"><b>Nearby Stations</b></td>
-                  </tr>
-                  </tbody>
-                  {desktopLayout(trainBetweenList.json)}
-                </table>
-              </div>
-            </div>
+            <DesktopLayout trainBetweenList={trainBetweenList}/>
           </div>
           <div className="col-xs-12 ">
             <div className="panel panel-default">
@@ -364,77 +296,7 @@ export default class TrainsBetween extends Component {
     // ///////////////////////////////////////////////////////////////////////
     //                         MOBILE LAYOUT
     // ///////////////////////////////////////////////////////////////////////
-    const mobileLayout = (list) => {
-      return (
-        <div className="panel-body">
-          {list.map(journey => {
-            return (
-              <div key={Date.now() + Math.random()} className={'row ' + style.journey} itemScope
-                   itemType="http://schema.org/TrainTrip">
-                <div className="col-xs-3 text-left">
-                  <div itemProp="departureStation">
-                    <span className="hidden"> - </span>{journey.src.station_name}
-                    <h5>{journey.src.station_code}</h5>
-                  </div>
-                  <div className={style.tbSmall}>
-                    {journey.src.dist_from_src > 0 ? journey.src.dist_from_src + ' km. ' + trainBetweenList.actual_src.station_code : ''}
-                  </div>
-                </div>
-                <div className="col-xs-6 text-center">
-                  <div className="row">
-                    <div className={'col-xs-12 ' + style.trainName}>
-                      <nobr><span itemProp="trainNumber">{journey.train.train_code}</span> - <span
-                        itemProp="trainName">{journey.train.train_name}</span></nobr>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-xs-12">
-                      <b>
-                            <span
-                              itemProp="departureTime">{journey.src_route.departure_time.toFixed(2).replace('.', ':')}&nbsp;</span>
-                        - <span
-                        itemProp="arrivalTime">{journey.dest_route.arrival_time.toFixed(2).replace('.', ':')}</span>
-                      </b>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-xs-6 text-right">{journey.duration}</div>
-                    <div className="col-xs-6 text-left">{journey.dest_route.distance.low} km</div>
-                  </div>
-                  <div className="row">
-                    <div className={'col-xs-12 ' + style.days}>
-                      {journey.train.days.map(day => {
-                        return (
-                          <span key={Date.now() + Math.random()}>{day ? day : ''}</span>
-                        );
-                      })}
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-xs-12">
-                      {journey.train.classes.map(_class => {
-                        return (
-                          <span key={Date.now() + Math.random()}>{_class ? _class + ' ' : ' '}</span>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-                <div className="col-xs-3 text-left">
-                  <div itemProp="arrivalStation">
-                    <span className="hidden"> - </span>{journey.dest.station_name}
-                    <h5>{journey.dest.station_code}</h5>
-                  </div>
-                  <div className={style.tbSmall}>
-                    {journey.dest.dist_from_dest > 0 ? journey.dest.dist_from_dest + ' km. ' + trainBetweenList.actual_dest.station_code : ''}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      );
-    };
+
     return (
       <div className="row text-capitalize">
         <AppHelmet title={this.headTitle(url, trainBetweenList.json.length)}
@@ -442,36 +304,18 @@ export default class TrainsBetween extends Component {
                    keywords={this.keywords(url, trainBetweenList.json.length)}
                    url={fullUrl}/>
         <div className="col-xs-12 col-sm-8">
-          <TrainBetweenForm/>
+          {trainBetweenForm()}
           <br/>
           <div className="panel panel-default">
             {this.panelHeading(url, trainBetweenList)}
           </div>
-          <div className="panel panel-default">
-
-            {mobileLayout(trainBetweenList.exactMatch)}
-          </div>
-          <div className="panel panel-default">
-            <div className="panel-heading text-center" style={{color: '#4285F4'}}>
-              <b>Nearby Stations</b>
-            </div>
-            {mobileLayout(trainBetweenList.json)}
-          </div>
+          <MobileLayout trainBetweenList={trainBetweenList}/>
         </div>
         <div className="col-xs-12 ">
           <div className="panel panel-default">
             <div className="panel-body">
               <div style={{padding: '0px', marginTop: '0px', height: '150px', overflow: 'hidden'}}>
-                <GoogleMaps/>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-xs-12 ">
-          <div className="panel panel-default">
-            <div className="panel-body">
-              <div style={{padding: '0px', marginTop: '0px', height: '150px', overflow: 'hidden'}}>
-                <GoogleMaps/>
+                <GoogleMaps trainBetweenList={trainBetweenList}/>
               </div>
             </div>
           </div>
