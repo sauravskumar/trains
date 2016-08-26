@@ -116,6 +116,9 @@ export default class App extends Component {
               <LinkContainer to="/trains/running-status-route">
                 <NavItem eventKey={3} title="Train Running status and Route">Train Live Status & Route</NavItem>
               </LinkContainer>
+              <LinkContainer to="/trains/cancelled">
+                <NavItem eventKey={3} title="Cancelled trains">Cancelled Trains</NavItem>
+              </LinkContainer>
               <LinkContainer to="/trains/station" >
                 <NavItem eventKey={3} title="Station Information">Station Info</NavItem>
               </LinkContainer>

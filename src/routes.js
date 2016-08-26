@@ -9,6 +9,7 @@ import {
   // LoginSuccess,
   // Survey,
   NotFound,
+  Cancelled,
   // Home,
   // About,
   Train,
@@ -43,20 +44,10 @@ export default () => {
     <Route path="/trains" component={App}>
       { /* Home (main) route */ }
       <IndexRoute component={TrainsBetween}/>
-
-      { /* Routes requiring login */ }
-      {/* <Route onEnter={requireLogin}>
-       <Route path="chat" component={Chat}/>
-       <Route path="loginSuccess" component={LoginSuccess}/>
-       </Route> */}
-
-      { /* Routes */ }
-      {/* <Route path="login" component={Login}/>
-       <Route path="survey" component={Survey}/>
-       <Route path="widgets" component={Widgets}/> */}
-
       <Route path="between/:param" component={TrainsBetween}/>
       <Route path="station" component={Station}/>
+      <Route path="cancelled" component={Cancelled}/>
+      <Route path="cancelled/:param" component={Cancelled}/>
       <Route path="station/:param" component={Station}/>
       <Route path="running-status-route" component={Train}/>
       <Route path="running-status-route/:param" component={Train}/>

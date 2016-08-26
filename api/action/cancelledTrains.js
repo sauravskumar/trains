@@ -1,4 +1,7 @@
 /**
+ * Created by saurav on 26/8/16.
+ */
+/**
  * Created by saurav on 25/8/16.
  */
 var MongoClient = require('mongodb').MongoClient;
@@ -17,8 +20,9 @@ let express = require('express'),
   router = express.Router();
 let reqUrls = [];
 const Horseman = require('node-horseman'), co = require('co');
+
 module.exports = function () {
-  router.get('/train-new', function (req, res) {
+  router.get('/cancelled-trains', function (req, res) {
 
     // horseman
     //   .on('resourceReceived', function (msg) {
@@ -31,53 +35,41 @@ module.exports = function () {
     //   .cookies()
     const cookiesUrl = (code) => {
       const horseman = new Horseman({loadImages: false});
-      return Promise.race([
-        new Promise((resolve, reject)=> {
-          let i = 0;
-          let cookies = [];
-          co(function *() {
-            // console.log('code cookiesURL', code)
-            yield horseman.on('resourceReceived', function (msg) {
-              // console.log(msg.url);
-              if (msg && msg != undefined && msg != 'undefined') {
-                if (msg.url.indexOf('getTrainData') > -1 && i == 0) {
-                  i++;
-                  resolve({cookies: cookies, url: msg.url});
-                  horseman.close();
-                  // console.log(msg.url);
-                  // res.end()
-                }
+      return new Promise((resolve, reject)=> {
+        let i = 0;
+        let cookies = [];
+        co(function *() {
+          // console.log('code cookiesURL', code)
+          yield horseman.on('resourceReceived', function (msg) {
+            // console.log(msg.url);
+            if (msg && msg != undefined && msg != 'undefined') {
+              if (msg.url.indexOf('showAllCancelledTrains') > -1 && i == 0) {
+                i++;
+                resolve({cookies: cookies, url: msg.url});
+                horseman.close();
+                // console.log(msg.url);
+                // res.end()
               }
-            });
-            yield horseman.on('timeout', function () {
-              // console.log('timeout');
-              resolve({error: true});
-              horseman.close()
-            });
-            yield horseman.on('error', function () {
-              // console.log('error');
-              resolve({error: true});
-              horseman.close()
-            });
-            yield horseman.userAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36');
-            yield horseman.open(`http://enquiry.indianrail.gov.in/ntes/`);
-            yield horseman.type('input[id="trainInput"]', code ? code : '18111');
-            yield horseman.keyboardEvent('keypress', 16777221);
-            cookies = yield horseman.cookies();
-            // console.log(cookies);
-
-          }).catch(function (e) {
-            console.log(e)
+            }
           });
-        }),
-        new Promise(function (resolve, reject) {
-          setTimeout(function () {
-            console.log('code cookiesURL setTimeout', code);
-            horseman.close();
-            reject({error: true});
-          }, 10000);
+          yield horseman.on('timeout', function () {
+            // console.log('timeout');
+            resolve({error: true});
+            horseman.close()
+          });
+          yield horseman.on('error', function () {
+            // console.log('error');
+            resolve({error: true});
+            horseman.close()
+          });
+          yield horseman.userAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36');
+          yield horseman.open(`http://enquiry.indianrail.gov.in/ntes/`);
+          yield horseman.click('[href="#tabs-5"]');
+          cookies = yield horseman.cookies();
+          // console.log(cookies);
+
         })
-      ])
+      })
     };
     // const time = Date.now();
 
@@ -93,7 +85,7 @@ module.exports = function () {
           // res.send(data);
           let splitUrl = data.url.split('&');
           const last = splitUrl.pop();
-          const secondLast = splitUrl.pop();
+          // const secondLast = splitUrl.pop();
           const headers = {
             'Pragma': 'no-cache',
             // 'Accept-Encoding': 'gzip, deflate, sdch',
@@ -107,7 +99,7 @@ module.exports = function () {
             'Cookie': `${data.cookies[2].name}=${data.cookies[2].value}; ${data.cookies[3].name}=${data.cookies[3].value};`
           };
           const options = {
-            url: 'http://enquiry.indianrail.gov.in/ntes/NTES?action=getTrainData&trainNo=' + code + '&' + secondLast + '&' + last,
+            url: 'http://enquiry.indianrail.gov.in/ntes/NTES?action=showAllCancelledTrains&' + last,
             headers: headers
           };
 
@@ -129,7 +121,8 @@ module.exports = function () {
                 reject({error: true});
                 return
               }
-              eval('sendData=' + body.substr(25));
+              eval('sendData=' + body.substr(20));
+              // res.send(body.substr(20))
               resolve(sendData);
             }
             if (error) {
@@ -143,22 +136,30 @@ module.exports = function () {
         });
       })
     };
-
+    // status().then(status=> {
+    //   res.send(status)
+    // });
     MongoClient.connect(url).then(db0=> {
-      db0.collection('trains_routes').find({code: req.query.code}).toArray().then(result0=> {
+      db0.collection('cancelled_trains').find().sort({last_updated: -1}).limit(1).toArray().then(result0=> {
+        console.log('db cache checking');
         db0.close();
-        // console.log(result0[0]);
-        console.log(parseInt(Date.now() / 1000) - parseInt(result0[0].last_status_update));
-        if (result0[0].last_status_update && 
-          parseInt(Date.now() / 1000) - parseInt(result0[0].last_status_update) < 15 * 60) {
+        // console.log(result0);
+        // console.log(parseInt(Date.now() / 1000) - parseInt(result0[0].last_updated));
+        if (result0.length > 0 && result0[0].last_updated &&
+          parseInt(Date.now() / 1000) - parseInt(result0[0].last_updated) < 4 * 60 * 60) {
           console.log('sentfromdb');
-          res.send(result0[0].status);
-          return
+          res.send(result0[0]);
         } else {
-          status(req.query.code).then(status=> {
+          console.log('server accessing...');
+          status().then(status=> {
+            // console.log(status);
+            // res.send(status)
             MongoClient.connect(url).then(db => {
-              db.collection('trains_routes').update({code: req.query.code},
-                {$set: {status: status, last_status_update: parseInt(Date.now() / 1000)}})
+              db.collection('cancelled_trains').insert({
+                last_updated: parseInt(Date.now() / 1000),
+                allCancelledTrains: status.allCancelledTrains,
+                allPartiallyCancelledTrains: status.allPartiallyCancelledTrains
+              })
                 .then(result => {
                   db.close(); // 01003
                   res.send(status)

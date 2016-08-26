@@ -22,19 +22,20 @@ import {connect} from 'react-redux';
   }
 }])
 @connect(
-  state => ({trainInfo: state.search.trainInfo})
+  state => ({trainInfo: state.search.trainInfo, status: state.search.status})
 )
 export default class Train extends Component {
   static propTypes = {
     trainInfo: PropTypes.object,
     params: PropTypes.object,
-    location: PropTypes.object
+    location: PropTypes.object,
+    status: PropTypes.object
   };
   render() {
-    const {trainInfo, params, location} = this.props;
+    const {trainInfo, params, location, status} = this.props;
     const fullUrl = location.pathname;
     return (
-        <TrainInfo train={trainInfo} params={params} fullUrl={fullUrl}/>
+        <TrainInfo train={trainInfo} params={params} status={status} fullUrl={fullUrl}/>
     );
   }
 }

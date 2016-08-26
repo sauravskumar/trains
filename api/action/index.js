@@ -10,5 +10,7 @@ module.exports = function () {
   const generateSitemap = require('./generateSitemap')();
   const trainNewInfo = require('./trainNewInfo')();
   const trainNEW = require('./trainNEW')();
-  return [trainsBetween, autocomplete, trainInfo, stationInfo, pnr, generateSitemap, trainNewInfo, trainNEW];
+  const cancelledTrains = require('./cancelledTrains')();
+  return [trainsBetween, autocomplete, trainInfo, stationInfo, pnr, 
+    generateSitemap, trainNewInfo, trainNEW, cancelledTrains];
 };

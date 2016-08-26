@@ -1,4 +1,5 @@
 export App from './App/App';
+export Cancelled from './Cancelled/Cancelled';
 export Home from './Home/Home';
 export Station from './Station/Station';
 export Train from './Train/Train';

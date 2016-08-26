@@ -8,28 +8,77 @@ import {AppHelmet} from 'components';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {onPageSetStatus} from 'redux/modules/app';
+import {updateStatus} from 'redux/modules/search';
+import Nav from 'react-bootstrap/lib/Nav';
+import NavItem from 'react-bootstrap/lib/NavItem';
+// import shouldPureComponentUpdate from 'react-pure-render/function';
+
 @connect(
   null,
-  dispatch => (bindActionCreators({onPageSetStatus}, dispatch))
+  dispatch => (bindActionCreators({onPageSetStatus, updateStatus}, dispatch))
 )
 export default class TrainInfo extends Component {
   static propTypes = {
     params: PropTypes.object,
     train: PropTypes.object,
     fullUrl: PropTypes.string,
-    onPageSetStatus: PropTypes.func
+    onPageSetStatus: PropTypes.func,
+    updateStatus: PropTypes.func,
+    status: PropTypes.array
+  };
+
+  state = {
+    statusInstance: 0
   };
 
   componentWillMount = () => {
     // Update status by executing redux-action
     if (!this.props.params.param) {
       this.props.onPageSetStatus(200);
-    }else if (!this.props.train || !this.props.train.code) {
+    } else if (!this.props.train || !this.props.train.code) {
       this.props.onPageSetStatus(404);
     }
   };
+  componentDidMount = () => {
+    console.log('componentDidMount');
+    if (this.props.train && !this.props.train.last_status_update) {
+      this.updateStatus();
+      return;
+    }
+    if (this.props.params.param &&
+      this.props.train &&
+      (Date.now() / 1000) - this.props.train.last_status_update > 5 * 0) {
+      this.updateStatus();
+    }
+  };
+  shouldComponentUpdate = (nextProps, nextState)=> {
+    // console.log(nextProps, this.props);
+    if (nextProps.fullUrl !== this.props.fullUrl) {
+      if (nextProps.params.param) {
+        this.updateStatus();
+      }
+      return true;
+    }
+    if (nextProps.status !== this.props.status) {
+      console.log('wow');
+      return true;
+    }
+    if (nextState !== this.state) {
+      console.log('wow state');
+      return true;
+    }
+    return false;
+  };
+
+  updateStatus = () => {
+    console.log('updateStatus-> ', this.props.train.code);
+    this.props.updateStatus(this.props.train.code);
+  };
+
   render() {
-    const {train, params, fullUrl} = this.props;
+    const {train, params, status, fullUrl} = this.props;
+    // console.log('render', this.props.train.code);
+    // console.log('selectedStatus-> ', selectedStatus);
     let placeholder = '';
     if (params.param) {
       placeholder = params.param.replace(/-/g, ' ').toUpperCase();
@@ -114,13 +163,25 @@ export default class TrainInfo extends Component {
       '. Destination: ' + train.all_data[5].replace('.', ':') +
       '. Arrival: ' + train.all_data[11].replace('.', ':') +
       '. Get ' + descEnd + '.';
+    let keys = 0;
+    let selectedStatus = {}; // selectedStatus = status ? status[0].rakes[this.state.statusInstance] : {};
+    // console.log(selectedStatus);
+    if (status) {
+      if (status[0].rakes.length > 0) {
+        selectedStatus = status[0].rakes[this.state.statusInstance];
+        keys = Object.keys(selectedStatus).length;
+      }
+    }
+    // this.setState({train: this.props.train.code});
+    // console.log(this.state);
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-8">
-          <AppHelmet title={`${capitalizeWords(train.name)} (Train No. ${train.code}) | ${train.all_data[2]}/${train.all_data[3]} to ${train.all_data[4]}/${train.all_data[5]} | Atmed Trains`}
-                     description={description}
-                     keywords={'Train running status, train info, seat fare, berth availability'}
-                     url={fullUrl}/>
+          <AppHelmet
+            title={`${capitalizeWords(train.name)} (Train No. ${train.code}) | ${train.all_data[2]}/${train.all_data[3]} to ${train.all_data[4]}/${train.all_data[5]} | Atmed Trains`}
+            description={description}
+            keywords={'Train running status, train info, seat fare, berth availability'}
+            url={fullUrl}/>
           {trainInfoForm()}
           <br/>
           <div className="panel panel-default text-capitalize" itemScope itemType="http://schema.org/TrainTrip">
@@ -134,7 +195,8 @@ export default class TrainInfo extends Component {
               <div className="row">
                 <div className="col-xs-12">
                   <h2 style={{fontSize: '15px', paddingLeft: '15px', color: '#C2D2F3'}}>
-                    <span itemProp="departureStation">{train.all_data[2]} - <b>{train.all_data[3]}</b></span>&nbsp;&nbsp;To&nbsp;&nbsp;
+                    <span itemProp="departureStation">{train.all_data[2]}
+                      - <b>{train.all_data[3]}</b></span>&nbsp;&nbsp;To&nbsp;&nbsp;
                     <span itemProp="arrivalStation">{train.all_data[4]} - <b>{train.all_data[5]}</b></span>
                   </h2>
                 </div>
@@ -160,33 +222,120 @@ export default class TrainInfo extends Component {
                 })}
               </div>
             </div>
+            <div className="panel-footer">
+              <div>Select Instance</div>
+              <Nav bsStyle="tabs" justified activeKey={this.state.selected} onSelect={this.handleSelect}>
+                <NavItem eventKey="allCancelledTrains">Fully Cancelled</NavItem>
+                <NavItem eventKey="allPartiallyCancelledTrains">Partially Cancelled</NavItem>
+              {(()=> {
+                let index = 0;
+                if (status) {
+                  return (
+                    <div className="row">
+                      <div className="col-xs-3">Instances:</div>
+                      {status[0].rakes.map(obj=> {
+                        return (
+                          <div className="col-xs-4"
+                               name={'train-instance-' + (index++)}
+                               onClick={(event)=> {
+                                 const stateNo = parseInt(event.target.getAttribute('name').split('-').pop(), 10);
+                                 console.log(stateNo);
+                                 this.setState({statusInstance: stateNo});
+                               }}>{obj.startDate}</div>
+                        );
+                      })}
+                    </div>
+                  );
+                }
+              })()}
+              </Nav>
+            </div>
           </div>
           <div className="panel panel-default" style={{fontSize: '13px'}}>
-            <div className="panel-body" style={{padding: '0px', margin: '0px', overflow: 'hidden'}}>
+            <div className="panel-body" style={{padding: '0px', margin: '0px'}}>
               <table className="table table-striped table-hover">
                 <thead>
-                <tr>
-                  <td>Pos.</td>
-                  <td>Station</td>
-                  <td>Arr.</td>
-                  <td>Dep.</td>
-                  <td>Day</td>
-                  <td>Dist.</td>
-                </tr>
+                {keys > 0 ?
+                  <tr>
+                    <td>Pos.</td>
+                    <td>Station</td>
+                    <td>Sch. Arr.</td>
+                    <td>Sch. Dep.</td>
+                    <td>Day</td>
+                    <td>Dist.</td>
+                    <td>Arrival</td>
+                    <td>Delay</td>
+                    <td>Departure</td>
+                    <td>Delay</td>
+                  </tr> :
+                  <tr>
+                    <td>Pos.</td>
+                    <td>Station</td>
+                    <td>Sch. Arr.</td>
+                    <td>Sch. Dep.</td>
+                    <td>Day</td>
+                    <td>Dist.</td>
+                  </tr>}
                 </thead>
                 <tbody>
-                {train.route.map(route => {
-                  return (
-                    <tr key={Date.now() + Math.random()}>
-                      <td>{route.position}</td>
-                      <td>{route.station_name} - {route.station_code}</td>
-                      <td>{route.arrival_time.toFixed(2)}</td>
-                      <td>{route.departure_time.toFixed(2)}</td>
-                      <td>{route.day}</td>
-                      <td>{route.distance} km</td>
-                    </tr>
-                  );
-                })}
+                {keys > 0 ? ((selectedStatus2)=> {
+                  let index = -1;
+                  return train.route.map(route => {
+                    index++;
+                    return (
+                      <tr key={Date.now() + Math.random()}>
+                        <td>{route.position}</td>
+                        <td>{route.station_name} - {route.station_code}</td>
+                        <td>{route.arrival_time.toFixed(2)}</td>
+                        <td>{route.departure_time.toFixed(2)}</td>
+                        <td>{route.day}</td>
+                        <td>{route.distance} km</td>
+                        <td>{selectedStatus2.stations[index].actArr}</td>
+                        <td>{(()=> {
+                          if (index === 0) {
+                            return <span style={{color: 'green'}}>Start</span>;
+                          }
+                          if (selectedStatus2.stations[index].updWaitngArr) {
+                            return <span style={{color: '#aaa'}}>No update</span>;
+                          }
+                          if (selectedStatus2.stations[index].arr || selectedStatus2.stations[index].delayDep) {
+                            return (selectedStatus2.stations[index].delayArr ?
+                              <span style={{color: 'red'}}>{selectedStatus2.stations[index].delayArr} min.</span> :
+                              <span style={{color: 'green'}}>On Time</span>);
+                          }
+                          return <span style={{color: '#aaa'}}>Not Arrived</span>;
+                        })()}
+                        </td>
+                        <td>{selectedStatus2.stations[index].actDep}</td>
+                        <td>{((()=> {
+                          if (selectedStatus2.stations[index].updWaitngDep) {
+                            return <span style={{color: '#aaa'}}>No update</span>;
+                          }
+                          if (selectedStatus2.stations[index].dep || selectedStatus2.stations[index].delayDep) {
+                            return (
+                              selectedStatus2.stations[index].delayDep ?
+                                <span style={{color: 'red'}}>{selectedStatus2.stations[index].delayDep} min.</span> :
+                                <span style={{color: 'green'}}>On Time</span>);
+                          }
+                          return <span style={{color: '#aaa'}}>Not Arrived</span>;
+                        }))()}</td>
+                      </tr>
+                    );
+                  });
+                })(selectedStatus) : (()=> {
+                  return train.route.map(route => {
+                    return (
+                      <tr key={Date.now() + Math.random()}>
+                        <td>{route.position}</td>
+                        <td>{route.station_name} - {route.station_code}</td>
+                        <td>{route.arrival_time.toFixed(2)}</td>
+                        <td>{route.departure_time.toFixed(2)}</td>
+                        <td>{route.day}</td>
+                        <td>{route.distance} km</td>
+                      </tr>
+                    );
+                  });
+                })()}
                 </tbody>
               </table>
             </div>
