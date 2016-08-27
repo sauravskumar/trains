@@ -53,19 +53,21 @@ export default class Footer extends Component {
             </div>
           </div>
         </div>
-        <div className={'container ' + style.lastFooter}>
-          <ul>
-            <li>
-              <a href={'/coupons/'} title="Atmed Coupons">Coupons</a>
-            </li>
-            <li>
-              <a href="https://support.atmed.co/trains/about" title="About Trains" rel="nofollow">About Trains</a>
-            </li>
-            <li>
-              Got to <a href="https://www.atmed.co" title="Atmed">Atmed.co</a>
-            </li>
-          </ul>
-          ** Atmed Trains is in development. Credits to the respective artists will be updated soon.
+        <div className="container-fluid">
+          <div className={'container ' + style.lastFooter}>
+            <ul>
+              <li>
+                <a href={'/coupons/'} title="Atmed Coupons">Coupons</a>
+              </li>
+              <li>
+                <a href="https://support.atmed.co/trains/about" title="About Trains" rel="nofollow">About Trains</a>
+              </li>
+              <li>
+                Got to <a href="https://www.atmed.co" title="Atmed">Atmed.co</a>
+              </li>
+            </ul>
+            ** Atmed Trains is in development. Credits to the respective artists will be updated soon.
+          </div>
         </div>
       </footer>
     );

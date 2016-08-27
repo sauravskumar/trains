@@ -103,7 +103,7 @@ module.exports = function () {
     // first.push(${train.route[0].station_code)
   };
   router.get('/footer-links', (req, res) => {
-    console.log(req.query)
+    // console.log(req.query)
     let queryObj = {code: '123412412'};
     if (req.query.src && req.query.dest) {
       queryObj = {
@@ -114,7 +114,7 @@ module.exports = function () {
     else if (req.query.code) {
       queryObj = {code: req.query.code}
     }
-    console.log(queryObj);
+    // console.log(queryObj);
     MongoClient.connect(url).then(db=> {
       db.collection('trains_routes').find(queryObj).limit(1).toArray().then(result=> {
         if (result.length > 0) {
@@ -122,7 +122,7 @@ module.exports = function () {
           res.send(generateFooterLinks(result[0]))
         } else {
           db.collection('trains_routes').aggregate([ { $sample: { size: 1 } } ]).toArray().then(result2=> {
-            console.log('aggregating')
+            // console.log('aggregating')
             db.close();
             res.send(generateFooterLinks(result2[0]))
           })

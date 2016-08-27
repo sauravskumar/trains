@@ -17,132 +17,134 @@ let express = require('express'),
   router = express.Router();
 let reqUrls = [];
 const Horseman = require('node-horseman'), co = require('co');
-module.exports = function () {
-  router.get('/train-new', function (req, res) {
 
-    // horseman
-    //   .on('resourceReceived', function (msg) {
-    //     console.log(msg);
-    //   })
-    //   .userAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36')
-    //   .open(`http://enquiry.indianrail.gov.in/ntes/`)
-    //   .type('input[id="trainInput"]', '18111')
-    //   .keyboardEvent('keypress', 16777221)
-    //   .cookies()
-    const cookiesUrl = (code) => {
-      const horseman = new Horseman({loadImages: false});
-      return Promise.race([
-        new Promise((resolve, reject)=> {
-          let i = 0;
-          let cookies = [];
-          co(function *() {
-            // console.log('code cookiesURL', code)
-            yield horseman.on('resourceReceived', function (msg) {
+
+// horseman
+//   .on('resourceReceived', function (msg) {
+//     console.log(msg);
+//   })
+//   .userAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36')
+//   .open(`http://enquiry.indianrail.gov.in/ntes/`)
+//   .type('input[id="trainInput"]', '18111')
+//   .keyboardEvent('keypress', 16777221)
+//   .cookies()
+const cookiesUrl = (code) => {
+  const horseman = new Horseman({loadImages: false});
+  return Promise.race([
+    new Promise((resolve, reject)=> {
+      let i = 0;
+      let cookies = [];
+      co(function *() {
+        // console.log('code cookiesURL', code)
+        yield horseman.on('resourceReceived', function (msg) {
+          // console.log(msg.url);
+          if (msg && msg != undefined && msg != 'undefined') {
+            if (msg.url.indexOf('getTrainData') > -1 && i == 0) {
+              i++;
+              resolve({cookies: cookies, url: msg.url});
+              horseman.close();
               // console.log(msg.url);
-              if (msg && msg != undefined && msg != 'undefined') {
-                if (msg.url.indexOf('getTrainData') > -1 && i == 0) {
-                  i++;
-                  resolve({cookies: cookies, url: msg.url});
-                  horseman.close();
-                  // console.log(msg.url);
-                  // res.end()
-                }
-              }
-            });
-            yield horseman.on('timeout', function () {
-              // console.log('timeout');
-              resolve({error: true});
-              horseman.close()
-            });
-            yield horseman.on('error', function () {
-              // console.log('error');
-              resolve({error: true});
-              horseman.close()
-            });
-            yield horseman.userAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36');
-            yield horseman.open(`http://enquiry.indianrail.gov.in/ntes/`);
-            yield horseman.type('input[id="trainInput"]', code ? code : '18111');
-            yield horseman.keyboardEvent('keypress', 16777221);
-            cookies = yield horseman.cookies();
-            // console.log(cookies);
-
-          }).catch(function (e) {
-            console.log(e)
-          });
-        }),
-        new Promise(function (resolve, reject) {
-          setTimeout(function () {
-            console.log('code cookiesURL setTimeout', code);
-            horseman.close();
-            reject({error: true});
-          }, 10000);
-        })
-      ])
-    };
-    // const time = Date.now();
-
-    const status = (code) => {
-      return new Promise((resolve, reject)=> {
-        cookiesUrl(code).then(data=> {
-          // console.log((Date.now() - time) / 1000);
-          // if (data.error) {
-          //   console.log('rejected status');
-          //   reject({error: true});
-          //   return
-          // }
-          // res.send(data);
-          let splitUrl = data.url.split('&');
-          const last = splitUrl.pop();
-          const secondLast = splitUrl.pop();
-          const headers = {
-            'Pragma': 'no-cache',
-            // 'Accept-Encoding': 'gzip, deflate, sdch',
-            'Accept-Language': 'en-GB,en-US;q=0.8,en;q=0.6',
-            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36',
-            'Accept': '*/*',
-            'Cache-Control': 'no-cache',
-            'X-Requested-With': 'XMLHttpRequest',
-            'Proxy-Connection': 'keep-alive',
-            'Referer': 'http://enquiry.indianrail.gov.in/ntes/',
-            'Cookie': `${data.cookies[2].name}=${data.cookies[2].value}; ${data.cookies[3].name}=${data.cookies[3].value};`
-          };
-          const options = {
-            url: 'http://enquiry.indianrail.gov.in/ntes/NTES?action=getTrainData&trainNo=' + code + '&' + secondLast + '&' + last,
-            headers: headers
-          };
-
-          function callback(error, response, body) {
-
-            if (!error && response.statusCode == 200) {
-              // console.log(body);
-              let getDaysOfRunString = () => {
-                // console.log('getDays');
-                return '';
-              };
-              let sendData = {};
-              // console.log('body-> ', body);
-              if (!body) {
-                reject({error: true});
-                return
-              }
-              if (body.indexOf('invalid') > -1) {
-                reject({error: true});
-                return
-              }
-              eval('sendData=' + body.substr(25));
-              resolve(sendData);
-            }
-            if (error) {
-              console.log(error);
+              // res.end()
             }
           }
-
-          request(options, callback);
-        }).catch(err=> {
-          reject({error: true});
         });
-      })
-    };
+        yield horseman.on('timeout', function () {
+          // console.log('timeout');
+          resolve({error: true});
+          horseman.close()
+        });
+        yield horseman.on('error', function () {
+          // console.log('error');
+          resolve({error: true});
+          horseman.close()
+        });
+        yield horseman.userAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36');
+        yield horseman.open(`http://enquiry.indianrail.gov.in/ntes/`);
+        yield horseman.type('input[id="trainInput"]', code ? code : '18111');
+        yield horseman.keyboardEvent('keypress', 16777221);
+        cookies = yield horseman.cookies();
+        // console.log(cookies);
+
+      }).catch(function (e) {
+        console.log(e)
+      });
+    }),
+    new Promise(function (resolve, reject) {
+      setTimeout(function () {
+        console.log('code cookiesURL setTimeout', code);
+        horseman.close();
+        reject({error: true});
+      }, 20000);
+    })
+  ])
+};
+// const time = Date.now();
+
+const status = (code) => {
+  return new Promise((resolve, reject)=> {
+    cookiesUrl(code).then(data=> {
+      // console.log((Date.now() - time) / 1000);
+      // if (data.error) {
+      //   console.log('rejected status');
+      //   reject({error: true});
+      //   return
+      // }
+      // res.send(data);
+      let splitUrl = data.url.split('&');
+      const last = splitUrl.pop();
+      const secondLast = splitUrl.pop();
+      const headers = {
+        'Pragma': 'no-cache',
+        // 'Accept-Encoding': 'gzip, deflate, sdch',
+        'Accept-Language': 'en-GB,en-US;q=0.8,en;q=0.6',
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36',
+        'Accept': '*/*',
+        'Cache-Control': 'no-cache',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Proxy-Connection': 'keep-alive',
+        'Referer': 'http://enquiry.indianrail.gov.in/ntes/',
+        'Cookie': `${data.cookies[2].name}=${data.cookies[2].value}; ${data.cookies[3].name}=${data.cookies[3].value};`
+      };
+      const options = {
+        url: 'http://enquiry.indianrail.gov.in/ntes/NTES?action=getTrainData&trainNo=' + code + '&' + secondLast + '&' + last,
+        headers: headers
+      };
+
+      function callback(error, response, body) {
+
+        if (!error && response.statusCode == 200) {
+          // console.log(body);
+          let getDaysOfRunString = () => {
+            // console.log('getDays');
+            return '';
+          };
+          let sendData = {};
+          // console.log('body-> ', body);
+          if (!body) {
+            reject({error: true});
+            return
+          }
+          if (body.indexOf('invalid') > -1) {
+            reject({error: true});
+            return
+          }
+          eval('sendData=' + body.substr(25));
+          resolve(sendData);
+        }
+        if (error) {
+          console.log(error);
+        }
+      }
+
+      request(options, callback);
+    }).catch(err=> {
+      reject({error: true});
+    });
+  })
+};
+
+module.exports = function () {
+  router.get('/train-new', function (req, res) {
 
     MongoClient.connect(url).then(db0=> {
       db0.collection('trains_routes').find({code: req.query.code}).toArray().then(result0=> {

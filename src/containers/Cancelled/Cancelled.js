@@ -55,28 +55,27 @@ export default class Cancelled extends Component {
         <table className="table table-striped table-hover">
           <thead>
           <tr>
-            <td>Sr.</td>
+            {/* <td>Sr.</td> */}
             <td>Train Number</td>
             <td>Train Name</td>
             <td>Date</td>
             <td>Source</td>
-            <td>Destination</td>
-            <td>Type</td>
+            <td>Dest.</td>
+            {/* <td>Type</td> */}
           </tr>
           </thead>
           <tbody>
           {(()=> {
-            let index = 0;
             return finalList.length > 0 ? finalList.map(train=> {
               return (
                 <tr key={Date.now() + Math.random()}>
-                  <td>{++index}</td>
+                  {/* <td>{++index}</td> */}
                   <td>{train.trainNo}</td>
                   <td>{train.trainName}</td>
                   <td>{train.startDate}</td>
                   <td>{train.trainSrc}</td>
                   <td>{train.trainDstn}</td>
-                  <td>{train.trainType}</td>
+                  {/* <td>{train.trainType}</td> */}
                 </tr>
               );
             }) :

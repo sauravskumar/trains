@@ -27,6 +27,7 @@ export default class Drawer extends Component {
       {_id: 'pnr-status', name: 'Pnr Status', logo_id: '&#xE42B;'},
       {_id: 'running-status-route', name: 'Train Status & Route', logo_id: '&#xE534;'},
       {_id: 'station', name: 'Station Info', logo_id: '&#xE0C8;'},
+      {_id: 'cancelled', name: 'Cancelled Trains', logo_id: '&#xE0C8;'},
     ]; // eslint-disable-line no-shadow
     const {showDrawer} = this.state;
     return (

@@ -29,3 +29,20 @@ table {
   max-width: 650px;
 }
 
+.mobileTrainCard {
+  border-bottom: 1px solid #EFEFEF;
+  max-width: 100%;
+  margin: 0 auto;
+  .pos {
+    font-size: 16px;
+    font-weight: bold;
+    color: #aaa;
+  }
+}
+
+.mobileTrainCard div{
+  padding: 0!important;
+  margin: 0 !important;
+  //border: 1px dotted #aaaaaa;
+}
+

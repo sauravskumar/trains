@@ -13,10 +13,12 @@ import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 // import {Link} from 'react-router';
 import {LinkContainer} from 'react-router-bootstrap';
+import DesktopLayout from './DesktopLayout';
+import MobileLayout from './MobileLayout';
 // import shouldPureComponentUpdate from 'react-pure-render/function';
 
 @connect(
-  null,
+  state => ({mobile: state.app.mobile}),
   dispatch => (bindActionCreators({onPageSetStatus, updateStatus}, dispatch))
 )
 export default class TrainInfo extends Component {
@@ -26,7 +28,8 @@ export default class TrainInfo extends Component {
     fullUrl: PropTypes.string,
     onPageSetStatus: PropTypes.func,
     updateStatus: PropTypes.func,
-    status: PropTypes.array
+    status: PropTypes.array,
+    mobile: PropTypes.bool,
   };
 
   state = {
@@ -83,7 +86,7 @@ export default class TrainInfo extends Component {
   };
 
   render() {
-    const {train, params, status, fullUrl} = this.props;
+    const {train, params, status, fullUrl, mobile} = this.props;
     // console.log('render', this.props.train.code);
     // console.log('selectedStatus-> ', selectedStatus);
     let placeholder = '';
@@ -246,97 +249,9 @@ export default class TrainInfo extends Component {
               })()}
             </div>
           </div>
-          <div className="panel panel-default" style={{fontSize: '13px'}}>
-            <div className="panel-body" style={{padding: '0px', margin: '0px'}}>
-              <table className="table table-striped table-hover">
-                <thead>
-                {keys > 0 ?
-                  <tr>
-                    <td>Pos.</td>
-                    <td>Station</td>
-                    <td>Sch. Arr.</td>
-                    <td>Sch. Dep.</td>
-                    <td>Day</td>
-                    <td>Dist.</td>
-                    <td>Arrival</td>
-                    <td>Delay</td>
-                    <td>Departure</td>
-                    <td>Delay</td>
-                  </tr> :
-                  <tr>
-                    <td>Pos.</td>
-                    <td>Station</td>
-                    <td>Sch. Arr.</td>
-                    <td>Sch. Dep.</td>
-                    <td>Day</td>
-                    <td>Dist.</td>
-                  </tr>}
-                </thead>
-                <tbody>
-                {keys > 0 ? ((selectedStatus2)=> {
-                  let index = -1;
-                  return train.route.map(route => {
-                    index++;
-                    return (
-                      <tr key={Date.now() + Math.random()}>
-                        <td>{route.position}</td>
-                        <td>{route.station_name} - {route.station_code}</td>
-                        <td>{route.arrival_time.toFixed(2)}</td>
-                        <td>{route.departure_time.toFixed(2)}</td>
-                        <td>{route.day}</td>
-                        <td>{route.distance} km</td>
-                        <td>{selectedStatus2.stations[index].actArr}</td>
-                        <td>{(()=> {
-                          if (index === 0) {
-                            return <span style={{color: 'green'}}>Start St.</span>;
-                          }
-                          if (selectedStatus2.stations[index].updWaitngArr) {
-                            return <span style={{color: '#aaa'}}>No update</span>;
-                          }
-                          if (selectedStatus2.stations[index].arr || selectedStatus2.stations[index].delayDep) {
-                            return (selectedStatus2.stations[index].delayArr ?
-                              <span style={{color: 'red'}}>{selectedStatus2.stations[index].delayArr} min.</span> :
-                              <span style={{color: 'green'}}>On Time</span>);
-                          }
-                          return <span style={{color: '#aaa'}}>Not Arrived</span>;
-                        })()}
-                        </td>
-                        <td>{selectedStatus2.stations[index].actDep}</td>
-                        <td>{((()=> {
-                          if (selectedStatus2.stations[index].updWaitngDep) {
-                            return <span style={{color: '#aaa'}}>No update</span>;
-                          }
-                          if (selectedStatus2.stations[index].dep || selectedStatus2.stations[index].delayDep) {
-                            return (
-                              selectedStatus2.stations[index].delayDep ?
-                                <span style={{color: 'red'}}>{selectedStatus2.stations[index].delayDep} min.</span> :
-                                <span style={{color: 'green'}}>On Time</span>);
-                          }
-                          return <span style={{color: '#aaa'}}>Not Arrived</span>;
-                        }))()}</td>
-                      </tr>
-                    );
-                  });
-                })(selectedStatus) : (()=> {
-                  return train.route.map(route => {
-                    return (
-                      <tr key={Date.now() + Math.random()}>
-                        <td>{route.position}</td>
-                        <td>{route.station_name} - {route.station_code}</td>
-                        <td>{route.arrival_time.toFixed(2)}</td>
-                        <td>{route.departure_time.toFixed(2)}</td>
-                        <td>{route.day}</td>
-                        <td>{route.distance} km</td>
-                      </tr>
-                    );
-                  });
-                })()}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          {mobile ? <MobileLayout keys={keys} selectedStatus={selectedStatus} train={train}/> :
+            <DesktopLayout keys={keys} selectedStatus={selectedStatus} train={train}/>}
           <div className="panel panel-default">
-            
           </div>
           <div className="col-xs-12">
             <div className="text-center">Show trains from</div>
