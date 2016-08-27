@@ -32,6 +32,37 @@ let search = (q, cache) => {
   })
 };
 
+(() => {
+  MongoClient.connect(url)
+    .then(db => {
+      db.collection('stations_all').find({}).toArray().then(result => {
+        stationCache = result;
+        // console.log(result);
+        console.log('stations_all_cache');
+        db.close()
+      }).catch(err=> {
+        console.log(err);
+      })
+    }).catch(err=> {
+    console.log(err);
+  });
+})();
+
+(() => {
+  MongoClient.connect(url)
+    .then(db => {
+      db.collection('trains_all').find({}).toArray().then(result => {
+        db.close();
+        trainCache = result;
+        console.log('trians_all_cache')
+      }).catch(err=> {
+        console.log(err);
+      })
+    }).catch(err=> {
+    console.log(err);
+  })
+})();
+
 module.exports = function () {
   router.get('/train-complete', function (req, res) {
     if (trainCache.length > 0) {
@@ -41,23 +72,7 @@ module.exports = function () {
         console.log(err);
       })
     } else {
-      MongoClient.connect(url)
-        .then(db => {
-          db.collection('trains_all').find({}).toArray().then(result => {
-            db.close();
-            trainCache = result;
-            // console.log(cache);
-            // console.log(result);
-            // for(let train in result) {
-            //   cache.push(train)
-            // }
-            res.send('cache updated at ' + new Date())
-          }).catch(err=> {
-            console.log(err);
-          })
-        }).catch(err=> {
-        console.log(err);
-      })
+      res.send([]);
     }
   });
 
@@ -69,21 +84,43 @@ module.exports = function () {
         console.log(err);
       })
     } else {
-      MongoClient.connect(url)
-        .then(db => {
-          db.collection('stations_all').find({}).toArray().then(result => {
-            stationCache = result;
-            // console.log(result);
-            res.send([]);
-            db.close()
-          }).catch(err=> {
-            console.log(err);
-          })
-        }).catch(err=> {
-        console.log(err);
-      })
+      res.send([]);
     }
+  });
 
+  const generateFooterLinks = (train) => {
+    let totalLength = train.route.length;
+    let sendObj = {};
+    sendObj.source_name = train.all_data[2];
+    sendObj.source_code = train.all_data[3];
+    sendObj.dest_name = train.all_data[4];
+    sendObj.dest_code = train.all_data[5];
+    sendObj.first = [];
+    sendObj.second = [];
+    sendObj.first = (train.route.slice(1, 5));
+    sendObj.second = (train.route.slice(totalLength - 5, totalLength - 1));
+    return sendObj;
+    // first.push(${train.route[0].station_code)
+  };
+  router.get('/footer-links', (req, res) => {
+    MongoClient.connect(url).then(db=> {
+      db.collection('trains_routes').find({
+        $or: [
+          {$and: [{all_data: {$in: [req.query.src]}}, {all_data: {$in: [req.query.dest]}}]},
+          {code: req.query.code}
+        ]
+      }).limit(1).toArray().then(result=> {
+        if (result.length > 0) {
+          db.close();
+          res.send(generateFooterLinks(result[0]))
+        } else {
+          db.collection('trains_routes').find({}).limit(1).toArray().then(result2=> {
+            db.close();
+            res.send(generateFooterLinks(result2[0]))
+          })
+        }
+      })
+    })
   });
   return router
 };

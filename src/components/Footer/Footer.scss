@@ -6,25 +6,29 @@ footer {
     width: 100%;
     overflow: hidden;
     font-size: 13px;
-    height: 100px;
-    position:absolute;
+    height: 300px;
+    //position:absolute;
     bottom:0;
     left:0;
     color: #6A7796 !important;
 
-  ul {
-    padding-top: 30px;
-    list-style: none;
+  .lastFooter {
+    background: #ddd;
+    ul {
+      padding-top: 30px;
+      list-style: none;
+    }
+
+    ul > li {
+      display: inline;
+      margin-left: 20px;
+    }
+
+    ul > li:first-child {
+      margin-left: 0;
+    }
   }
 
-  ul > li {
-    display: inline;
-    margin-left: 20px;
-  }
-
-  ul > li:first-child {
-    margin-left: 0;
-  }
 }
 
 footer a, footer a:hover {

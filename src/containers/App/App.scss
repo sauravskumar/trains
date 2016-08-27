@@ -18,7 +18,7 @@
   }
 }
 .appContent {
-  margin: 100px 0; // for fixed navbar
+  margin: 100px 0 0 50px; // for fixed navbar
 }
 
 i {
@@ -28,7 +28,7 @@ i {
 
 .loader {
   display: block;
-  position: absolute;
+  position: fixed;
   height: 3px;
   width: 100%;
   background: deeppink;

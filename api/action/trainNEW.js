@@ -153,7 +153,6 @@ module.exports = function () {
           parseInt(Date.now() / 1000) - parseInt(result0[0].last_status_update) < 15 * 60) {
           console.log('sentfromdb');
           res.send(result0[0].status);
-          return
         } else {
           status(req.query.code).then(status=> {
             MongoClient.connect(url).then(db => {

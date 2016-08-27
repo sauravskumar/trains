@@ -33,6 +33,7 @@ export default class Cancelled extends Component {
     console.log(`${eventKey}`);
     this.setState({selected: eventKey});
   };
+
   render() {
     const {cancelledTrains} = this.props;
     return (
@@ -41,9 +42,10 @@ export default class Cancelled extends Component {
           <NavItem eventKey="allCancelledTrains">Fully Cancelled</NavItem>
           <NavItem eventKey="allPartiallyCancelledTrains">Partially Cancelled</NavItem>
         </Nav>
-        <table className="table table-striped table-hover ">
+        <table className="table table-striped table-hover">
           <thead>
           <tr>
+            <td>Sr.</td>
             <td>Train Number</td>
             <td>Train Name</td>
             <td>Date</td>
@@ -53,18 +55,22 @@ export default class Cancelled extends Component {
           </tr>
           </thead>
           <tbody>
-          {cancelledTrains[this.state.selected].map(train=> {
-            return (
-              <tr>
-                <td>{train.trainNo}</td>
-                <td>{train.trainName}</td>
-                <td>{train.startDate}</td>
-                <td>{train.trainSrc}</td>
-                <td>{train.trainDstn}</td>
-                <td>{train.trainType}</td>
-              </tr>
-            );
-          })}
+          {(()=> {
+            let index = 0;
+            return cancelledTrains[this.state.selected].map(train=> {
+              return (
+                <tr key={Date.now() + Math.random()}>
+                  <td>{++index}</td>
+                  <td>{train.trainNo}</td>
+                  <td>{train.trainName}</td>
+                  <td>{train.startDate}</td>
+                  <td>{train.trainSrc}</td>
+                  <td>{train.trainDstn}</td>
+                  <td>{train.trainType}</td>
+                </tr>
+              );
+            });
+          })()}
           </tbody>
         </table>
       </div>

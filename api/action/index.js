@@ -11,6 +11,7 @@ module.exports = function () {
   const trainNewInfo = require('./trainNewInfo')();
   const trainNEW = require('./trainNEW')();
   const cancelledTrains = require('./cancelledTrains')();
+  const mostSearched = require('./mostSearched')();
   return [trainsBetween, autocomplete, trainInfo, stationInfo, pnr, 
-    generateSitemap, trainNewInfo, trainNEW, cancelledTrains];
+    generateSitemap, trainNewInfo, trainNEW, cancelledTrains, mostSearched];
 };

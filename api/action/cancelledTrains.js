@@ -146,7 +146,7 @@ module.exports = function () {
         // console.log(result0);
         // console.log(parseInt(Date.now() / 1000) - parseInt(result0[0].last_updated));
         if (result0.length > 0 && result0[0].last_updated &&
-          parseInt(Date.now() / 1000) - parseInt(result0[0].last_updated) < 4 * 60 * 60) {
+          parseInt(Date.now() / 1000) - parseInt(result0[0].last_updated) < 24 * 60 * 60) {
           console.log('sentfromdb');
           res.send(result0[0]);
         } else {

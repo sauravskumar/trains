@@ -11,6 +11,8 @@ import {onPageSetStatus} from 'redux/modules/app';
 import {updateStatus} from 'redux/modules/search';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
+// import {Link} from 'react-router';
+import {LinkContainer} from 'react-router-bootstrap';
 // import shouldPureComponentUpdate from 'react-pure-render/function';
 
 @connect(
@@ -73,6 +75,11 @@ export default class TrainInfo extends Component {
   updateStatus = () => {
     console.log('updateStatus-> ', this.props.train.code);
     this.props.updateStatus(this.props.train.code);
+  };
+  handleSelect = (eventKey) => {
+    // eventKey.preventDefault();
+    console.log(`${eventKey}`);
+    this.setState({statusInstance: parseInt(eventKey, 10)});
   };
 
   render() {
@@ -195,7 +202,7 @@ export default class TrainInfo extends Component {
               <div className="row">
                 <div className="col-xs-12">
                   <h2 style={{fontSize: '15px', paddingLeft: '15px', color: '#C2D2F3'}}>
-                    <span itemProp="departureStation">{train.all_data[2]}
+                    <span itemProp="departureStation">{train.all_data[2]}&nbsp;
                       - <b>{train.all_data[3]}</b></span>&nbsp;&nbsp;To&nbsp;&nbsp;
                     <span itemProp="arrivalStation">{train.all_data[4]} - <b>{train.all_data[5]}</b></span>
                   </h2>
@@ -203,15 +210,14 @@ export default class TrainInfo extends Component {
               </div>
             </div>
             <div className="panel-body" style={{margin: '15px'}}>
-              Start: <span itemProp="departureTime">{train.all_data[10].replace('.', ':')}</span><br/>
-              End: <span itemProp="arrivalTime">{train.all_data[11].replace('.', ':')}</span><br/>
-              <span>Duration: {train.all_data[12].replace('.', ':')}</span><br/>
+              Start: <span itemProp="departureTime">{train.all_data[10].replace('.', ':')}</span>&nbsp;·&nbsp;
+              End: <span itemProp="arrivalTime">{train.all_data[11].replace('.', ':')}</span>&nbsp;·&nbsp;
+              <span>Duration: {train.all_data[12].replace('.', ':')}</span>&nbsp;·&nbsp;
               {train.type}<br/>
               <div className={style.days}>
+                Days:
                 {train.days.map(day => {
-                  return (
-                    <span key={Date.now() + Math.random()}>{day}</span>
-                  );
+                  return (<span key={Date.now() + Math.random()}>{day}</span>);
                 })}
               </div>
               <div>Classes:&nbsp;
@@ -223,32 +229,21 @@ export default class TrainInfo extends Component {
               </div>
             </div>
             <div className="panel-footer">
-              <div>Select Instance</div>
-              <Nav bsStyle="tabs" justified activeKey={this.state.selected} onSelect={this.handleSelect}>
-                <NavItem eventKey="allCancelledTrains">Fully Cancelled</NavItem>
-                <NavItem eventKey="allPartiallyCancelledTrains">Partially Cancelled</NavItem>
+              <div className="text-center">Select Instance</div>
               {(()=> {
                 let index = 0;
                 if (status) {
                   return (
-                    <div className="row">
-                      <div className="col-xs-3">Instances:</div>
+                    <Nav bsStyle="tabs" justified activeKey={this.state.statusInstance} onSelect={this.handleSelect}>
                       {status[0].rakes.map(obj=> {
                         return (
-                          <div className="col-xs-4"
-                               name={'train-instance-' + (index++)}
-                               onClick={(event)=> {
-                                 const stateNo = parseInt(event.target.getAttribute('name').split('-').pop(), 10);
-                                 console.log(stateNo);
-                                 this.setState({statusInstance: stateNo});
-                               }}>{obj.startDate}</div>
+                          <NavItem eventKey={index++} key={Date.now() + Math.random()}>{obj.startDate}</NavItem>
                         );
                       })}
-                    </div>
+                    </Nav>
                   );
                 }
               })()}
-              </Nav>
             </div>
           </div>
           <div className="panel panel-default" style={{fontSize: '13px'}}>
@@ -293,7 +288,7 @@ export default class TrainInfo extends Component {
                         <td>{selectedStatus2.stations[index].actArr}</td>
                         <td>{(()=> {
                           if (index === 0) {
-                            return <span style={{color: 'green'}}>Start</span>;
+                            return <span style={{color: 'green'}}>Start St.</span>;
                           }
                           if (selectedStatus2.stations[index].updWaitngArr) {
                             return <span style={{color: '#aaa'}}>No update</span>;
@@ -339,6 +334,21 @@ export default class TrainInfo extends Component {
                 </tbody>
               </table>
             </div>
+          </div>
+          <div className="col-xs-12">
+            <div className="text-center">Show trains from</div>
+            <Nav bsStyle="tabs" justified>
+              <LinkContainer
+                to={(`/trains/${train.all_data[3]}-to-${train.all_data[5]}-${train.all_data[2]}-to-${train.all_data[4]}`).toLowerCase().replace(/ /g, '-')}>
+                <NavItem>
+                  {train.all_data[2]} - {train.all_data[3]}&nbsp;
+                  To&nbsp;{train.all_data[4]} - {train.all_data[5]}</NavItem></LinkContainer>
+              <LinkContainer
+                to={(`/trains/${train.all_data[5]}-to-${train.all_data[3]}-${train.all_data[4]}-to-${train.all_data[2]}`).toLowerCase().replace(/ /g, '-')}>
+                <NavItem>
+                  {train.all_data[4]} - {train.all_data[5]}&nbsp;
+                  To&nbsp;{train.all_data[2]} - {train.all_data[3]}</NavItem></LinkContainer>
+            </Nav>
           </div>
         </div>
       </div>
