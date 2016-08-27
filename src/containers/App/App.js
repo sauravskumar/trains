@@ -21,7 +21,6 @@ export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
-    footer: PropTypes.footer,
     loading: PropTypes.bool,
     location: PropTypes.shape({
       pathname: PropTypes.string

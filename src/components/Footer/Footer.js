@@ -20,7 +20,7 @@ export default class Footer extends Component {
         <div className="container">
           <div className="row">
             <div className="col-xs-6 col-md-3">
-              <b>Nearby Stations</b>
+              <b>Quick Trains</b>
               <ul className={style.footerLinks}>
                 {footer.second.map(obj=> {
                   return (<li key={Date.now() + Math.random()}><Link
@@ -30,7 +30,7 @@ export default class Footer extends Component {
               </ul>
             </div>
             <div className="col-xs-6 col-md-3">
-              <b>Nearby Stations</b>
+              <b>Quick Trains</b>
               <ul className={style.footerLinks}>
                 {footer.first.map(obj=> {
                   return (<li key={Date.now() + Math.random()}><Link
@@ -43,8 +43,11 @@ export default class Footer extends Component {
               <b>More Info.</b>
               <ul className={style.footerLinks}>
                 {about.map(obj=> {
-                  return (<li><Link to={'/trains/' + obj.toLowerCase().replace(/ /g, '-')}
-                                    rel="nofollow">{obj}</Link></li>);
+                  return (
+                    <li key={Date.now() + Math.random()}>
+                      <Link to={'/trains/' + obj.toLowerCase().replace(/ /g, '-')}
+                            rel="nofollow">{obj}</Link>
+                    </li>);
                 })}
               </ul>
             </div>

@@ -21,6 +21,8 @@ import {bindActionCreators} from 'redux';
       const stations = param.split('-to-');
       promises.push(dispatch(loadTrainsBetween(stations[0], stations[1].split('-')[0])));
       promises.push(dispatch(loadFooter(`?src=${stations[0]}&dest=${stations[1].split('-')[0]}`)));
+    } else {
+      promises.push(dispatch(loadFooter()));
     }
     return Promise.all(promises);
   }

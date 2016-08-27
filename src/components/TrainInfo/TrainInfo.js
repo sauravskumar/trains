@@ -335,6 +335,9 @@ export default class TrainInfo extends Component {
               </table>
             </div>
           </div>
+          <div className="panel panel-default">
+            
+          </div>
           <div className="col-xs-12">
             <div className="text-center">Show trains from</div>
             <Nav bsStyle="tabs" justified>

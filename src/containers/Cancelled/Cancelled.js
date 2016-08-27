@@ -27,18 +27,27 @@ export default class Cancelled extends Component {
   };
 
   state = {
-    selected: 'allCancelledTrains'
+    selected: 'allCancelledTrains',
+    search: ''
   };
   handleSelect = (eventKey) => {
-    // eventKey.preventDefault();
     console.log(`${eventKey}`);
     this.setState({selected: eventKey});
   };
 
   render() {
     const {cancelledTrains} = this.props;
+    let finalList = cancelledTrains[this.state.selected].map(obj=> {
+      if (obj.trainNo.toString().includes(this.state.search) || obj.trainName.includes(this.state.search)) {
+        return obj;
+      }
+    });
+    finalList = finalList ? finalList.filter(Boolean) : [];
     return (
       <div>
+        <input type="text" className="form-control" onChange={(event)=> {
+          this.setState({search: event.target.value});
+        }} style={{margin: '0 auto', maxWidth: '300px'}} placeholder="Search Train"/>
         <Nav bsStyle="tabs" justified activeKey={this.state.selected} onSelect={this.handleSelect}>
           <NavItem eventKey="allCancelledTrains">Fully Cancelled</NavItem>
           <NavItem eventKey="allPartiallyCancelledTrains">Partially Cancelled</NavItem>
@@ -58,7 +67,7 @@ export default class Cancelled extends Component {
           <tbody>
           {(()=> {
             let index = 0;
-            return cancelledTrains[this.state.selected].map(train=> {
+            return finalList.length > 0 ? finalList.map(train=> {
               return (
                 <tr key={Date.now() + Math.random()}>
                   <td>{++index}</td>
@@ -70,7 +79,10 @@ export default class Cancelled extends Component {
                   <td>{train.trainType}</td>
                 </tr>
               );
-            });
+            }) :
+              <tr style={{background: '#4285F4', fontSize: '13px', color: '#fff'}}>
+                <td colSpan="100" className="text-center"><b>No Train</b></td>
+              </tr>;
           })()}
           </tbody>
         </table>
