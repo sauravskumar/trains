@@ -6,7 +6,7 @@ import React, {Component, PropTypes} from 'react';
 // import config from '../../config';
 // import Helmet from 'react-helmet';
 import {asyncConnect} from 'redux-connect';
-import {loadCancelledTrains} from 'redux/modules/search';
+import {loadCancelledTrains, loadFooter} from 'redux/modules/search';
 import {connect} from 'react-redux';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
@@ -14,6 +14,7 @@ import NavItem from 'react-bootstrap/lib/NavItem';
   promise: ({store: {dispatch}}) => {
     const promises = [];
     promises.push(dispatch(loadCancelledTrains()));
+    promises.push(dispatch(loadFooter()));
     return Promise.all(promises);
   }
 }])

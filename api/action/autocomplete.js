@@ -97,24 +97,32 @@ module.exports = function () {
     sendObj.dest_code = train.all_data[5];
     sendObj.first = [];
     sendObj.second = [];
-    sendObj.first = (train.route.slice(1, 5));
-    sendObj.second = (train.route.slice(totalLength - 5, totalLength - 1));
+    sendObj.first = (train.route.slice(1, 6));
+    sendObj.second = (train.route.slice(totalLength - 6, totalLength - 1));
     return sendObj;
     // first.push(${train.route[0].station_code)
   };
   router.get('/footer-links', (req, res) => {
+    console.log(req.query)
+    let queryObj = {code: '123412412'};
+    if (req.query.src && req.query.dest) {
+      queryObj = {
+        "all_data.3": req.query.src ? req.query.src.toUpperCase() : '',
+        "all_data.5": req.query.dest ? req.query.dest.toUpperCase() : ''
+      }
+    }
+    else if (req.query.code) {
+      queryObj = {code: req.query.code}
+    }
+    console.log(queryObj);
     MongoClient.connect(url).then(db=> {
-      db.collection('trains_routes').find({
-        $or: [
-          {$and: [{all_data: {$in: [req.query.src]}}, {all_data: {$in: [req.query.dest]}}]},
-          {code: req.query.code}
-        ]
-      }).limit(1).toArray().then(result=> {
+      db.collection('trains_routes').find(queryObj).limit(1).toArray().then(result=> {
         if (result.length > 0) {
           db.close();
           res.send(generateFooterLinks(result[0]))
         } else {
-          db.collection('trains_routes').find({}).limit(1).toArray().then(result2=> {
+          db.collection('trains_routes').aggregate([ { $sample: { size: 1 } } ]).toArray().then(result2=> {
+            console.log('aggregating')
             db.close();
             res.send(generateFooterLinks(result2[0]))
           })

@@ -93,13 +93,13 @@ export default class GoogleMaps extends Component {
              lng={trainBetweenList.actual_dest.longitude}>{trainBetweenList.actual_dest.code_name}</div>
         {trainBetweenList.json.map(journey=> {
           return (
-              <div className={style.nearby} lat={journey.src.latitude}
+              <div className={style.nearby} key={Date.now() + Math.random()} lat={journey.src.latitude}
                    lng={journey.src.longitude}>{journey.src.station_code}</div>
           );
         })}
         {trainBetweenList.json.map(journey=> {
           return (
-              <div className={style.nearby} lat={journey.dest.latitude}
+              <div className={style.nearby} key={Date.now() + Math.random()} lat={journey.dest.latitude}
                    lng={journey.dest.longitude}>{journey.dest.station_code}</div>
           );
         })}

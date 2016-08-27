@@ -7,16 +7,16 @@ import { TrainInfo } from 'components';
 // import config from '../../config';
 // import Helmet from 'react-helmet';
 import {asyncConnect} from 'redux-connect';
-import {loadTrainInfo} from 'redux/modules/search';
+import {loadTrainInfo, loadFooter} from 'redux/modules/search';
 import {connect} from 'react-redux';
 @asyncConnect([{
   promise: ({store: {dispatch}, params: {param}}) => {
     const promises = [];
     if (param) {
-      // console.log(param);
-      // const stations = param.split('-to-');
-      // console.log(stations[0].split('-')[0], stations[1].split('-')[0]);
       promises.push(dispatch(loadTrainInfo(param.split('-')[0])));
+      promises.push(dispatch(loadFooter(`?code=${param.split('-')[0]}`)));
+    }else {
+      promises.push(dispatch(loadFooter()));
     }
     return Promise.all(promises);
   }

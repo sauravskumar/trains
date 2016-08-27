@@ -8,15 +8,18 @@ import React, { Component, PropTypes } from 'react';
 // import Helmet from 'react-helmet';
 import { StationInfo } from 'components';
 import {asyncConnect} from 'redux-connect';
-import {loadStationInfo} from 'redux/modules/search';
+import {loadStationInfo, loadFooter} from 'redux/modules/search';
 import {connect} from 'react-redux';
 @asyncConnect([{
   promise: ({store: {dispatch}, params: {param}}) => {
     const promises = [];
     if (param) {
-      console.log(param.split('-')[0]);
-      promises.push(dispatch(loadStationInfo(param.split('-').pop())));
+      // console.log(param.split('-')[0]);
+      const stationCode = param.split('-').pop();
+      promises.push(dispatch(loadStationInfo(stationCode)));
+      // promises.push(dispatch(loadFooter(`?stationCode=${stationCode}`)));
     }
+    promises.push(dispatch(loadFooter()));
     return Promise.all(promises);
   }
 }])

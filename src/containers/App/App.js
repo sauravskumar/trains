@@ -6,37 +6,22 @@ import Navbar from 'react-bootstrap/lib/Navbar';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import Helmet from 'react-helmet';
+import {Footer, Drawer} from 'components';
+import config from '../../config';
+import ga from 'react-ga';
+import styles from './App.scss';
+// import {push} from 'react-router-redux';
 // import {isLoaded as isInfoLoaded, load as loadInfo} from 'redux/modules/info';
 // import {isLoaded as isAuthLoaded, load as loadAuth, logout} from 'redux/modules/auth';
-import {Footer, Drawer} from 'components';
-// import {push} from 'react-router-redux';
-import config from '../../config';
+// import {loadFooter} from 'redux/modules/search';
 // import {asyncConnect} from 'redux-connect';
-import styles from './App.scss';
-import ga from 'react-ga';
-// @asyncConnect([{
-//   promise: ({store: {dispatch, getState}}) => {
-//     const promises = [];
-    //
-    // if (!isInfoLoaded(getState())) {
-    //   promises.push(dispatch(loadInfo()));
-    // }
-    // if (!isAuthLoaded(getState())) {
-    //   promises.push(dispatch(loadAuth()));
-    // }
-//
-//     return Promise.all(promises);
-//   }
-// }])
-// @connect(
-//   state => ({user: state.auth.user}),
-//   {logout, pushState: push})
 
 @connect(state => ({loading: state.search.loading}))
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
+    footer: PropTypes.footer,
     loading: PropTypes.bool,
     location: PropTypes.shape({
       pathname: PropTypes.string

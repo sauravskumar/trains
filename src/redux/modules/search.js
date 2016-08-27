@@ -13,6 +13,7 @@ const TRAIN_SEARCH_LOAD_SUCCESS = 'search/TRAIN_SEARCH_LOAD_SUCCESS';
 const TRAIN_UPDATE_STATUS_LOAD_SUCCESS = 'search/TRAIN_UPDATE_STATUS_LOAD_SUCCESS';
 const STATION_SEARCH_LOAD_SUCCESS = 'search/STATION_SEARCH_LOAD_SUCCESS';
 const PNR_LOAD_SUCCESS = 'search/PNR_LOAD_SUCCESS';
+const FOOTER_LOAD_SUCCESS = 'search/FOOTER_LOAD_SUCCESS';
 const LOAD_FAIL = 'search/LOAD_FAIL';
 
 const initialState = {
@@ -100,6 +101,13 @@ export default function search(state = initialState, action = {}) {
         loaded: true,
         pnr: action.result
       };
+    case FOOTER_LOAD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        footer: action.result
+      };
     case IS_MOBILE:
       return {
         ...state,
@@ -169,9 +177,14 @@ export function loadCancelledTrains() {
 }
 
 export function loadPnr(code) {
-  console.log(code);
   return {
     types: [LOAD, PNR_LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => client.get('/pnr?code=' + code)
+  };
+}
+export function loadFooter(param) {
+  return {
+    types: [LOAD, FOOTER_LOAD_SUCCESS, LOAD_FAIL],
+    promise: (client) => client.get('/footer-links' + (param ? param : ''))
   };
 }

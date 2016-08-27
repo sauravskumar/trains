@@ -26,9 +26,9 @@ ul.searchList > li {
   display: none;
 }
 
-//.searchResult{
-//  padding-left: 5px !important;
-//}
+.searchResult:hover{
+  background: #EFEFEF;
+}
 //
 //.searchResult::first-letter {
 //  color: #aaa;

@@ -10,7 +10,15 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {loadPnr} from 'redux/modules/search';
 import style from './PNRStatus.scss';
-
+import {asyncConnect} from 'redux-connect';
+import {loadFooter} from 'redux/modules/search';
+@asyncConnect([{
+  promise: ({store: {dispatch}}) => {
+    const promises = [];
+    promises.push(dispatch(loadFooter()));
+    return Promise.all(promises);
+  }
+}])
 @connect(
   state => ({pnr: state.search.pnr}),
   dispatch => bindActionCreators({loadPnr}, dispatch)

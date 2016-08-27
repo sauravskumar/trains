@@ -7,7 +7,7 @@ import {TrainBetweenForm, PlaceHolder, AppHelmet, GoogleMaps} from 'components';
 import DesktopLayout from './DesktopLayout';
 import MobileLayout from './MobileLayout';
 import {asyncConnect} from 'redux-connect';
-import {loadTrainsBetween} from 'redux/modules/search';
+import {loadTrainsBetween, loadFooter} from 'redux/modules/search';
 import {onPageSetStatus} from 'redux/modules/app';
 // import style from './TrainsBetween.scss';
 import {bindActionCreators} from 'redux';
@@ -18,21 +18,10 @@ import {bindActionCreators} from 'redux';
   promise: ({store: {dispatch}, params: {param}}) => {
     const promises = [];
     if (param) {
-      // console.log(param);
       const stations = param.split('-to-');
-      // console.log(stations[0].split('-')[0], stations[1].split('-')[0]);
-      // promises.push(dispatch(loadTrainsBetween(stations[0].split('-')[0], stations[1].split('-')[0])));
-      // console.log(stations, stations[0][0], stations[1].split('-')[0]);
       promises.push(dispatch(loadTrainsBetween(stations[0], stations[1].split('-')[0])));
+      promises.push(dispatch(loadFooter(`?src=${stations[0]}&dest=${stations[1].split('-')[0]}`)));
     }
-
-    // if (!isInfoLoaded(getState())) {
-    //   promises.push(dispatch(loadInfo()));
-    // }
-    // if (!isAuthLoaded(getState())) {
-    //   promises.push(dispatch(loadAuth()));
-    // }
-
     return Promise.all(promises);
   }
 }])
