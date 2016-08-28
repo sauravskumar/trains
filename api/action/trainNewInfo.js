@@ -84,7 +84,7 @@ module.exports = function () {
   router.get('/train-new-info', function (req, res) {
     console.log('train-info called');
     getCookiesAndTime(req.query.code).then(data=> {
-      res.send(data)
+      res.send(data);
       return;
       // const cookiesAndSession = () => {
       //   return new Promise((resolve, reject)=>{

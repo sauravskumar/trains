@@ -53,8 +53,8 @@ export default class Footer extends Component {
             </div>
           </div>
         </div>
-        <div className="container-fluid">
-          <div className={'container ' + style.lastFooter}>
+        <div className={'container-fluid ' + style.lastFooter}>
+          <div className={'container '}>
             <ul>
               <li>
                 <a href={'/coupons/'} title="Atmed Coupons">Coupons</a>

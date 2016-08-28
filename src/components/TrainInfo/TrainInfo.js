@@ -15,6 +15,7 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 import {LinkContainer} from 'react-router-bootstrap';
 import DesktopLayout from './DesktopLayout';
 import MobileLayout from './MobileLayout';
+import Info from './Info';
 // import shouldPureComponentUpdate from 'react-pure-render/function';
 
 @connect(
@@ -179,11 +180,14 @@ export default class TrainInfo extends Component {
     if (status) {
       if (status[0].rakes.length > 0) {
         selectedStatus = status[0].rakes[this.state.statusInstance];
-        keys = Object.keys(selectedStatus).length;
+        keys = selectedStatus ? Object.keys(selectedStatus).length : 0;
       }
     }
-    // this.setState({train: this.props.train.code});
-    // console.log(this.state);
+    // console.log(keys);
+    let fare = train.all_data[41].split(':'); // eslint-disable-line
+    fare.shift();
+    fare.shift();
+    // const classes = train.classes;
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-8">
@@ -232,7 +236,7 @@ export default class TrainInfo extends Component {
               </div>
             </div>
             <div className="panel-footer">
-              <div className="text-center">Select Instance</div>
+              <div className="text-center"><b>Select Instance</b></div>
               {(()=> {
                 let index = 0;
                 if (status) {
@@ -246,13 +250,15 @@ export default class TrainInfo extends Component {
                     </Nav>
                   );
                 }
+                return (
+                  <div className="text-center">No running instance found</div>
+                );
               })()}
             </div>
           </div>
           {mobile ? <MobileLayout keys={keys} selectedStatus={selectedStatus} train={train}/> :
             <DesktopLayout keys={keys} selectedStatus={selectedStatus} train={train}/>}
-          <div className="panel panel-default">
-          </div>
+          <Info keys={keys} selectedStatus={selectedStatus} train={train}/>
           <div className="col-xs-12">
             <div className="text-center">Show trains from</div>
             <Nav bsStyle="tabs" justified>
@@ -267,6 +273,39 @@ export default class TrainInfo extends Component {
                   {train.all_data[4]} - {train.all_data[5]}&nbsp;
                   To&nbsp;{train.all_data[2]} - {train.all_data[3]}</NavItem></LinkContainer>
             </Nav>
+          </div>
+        </div>
+        <div className="col-xs-12 col-sm-4">
+          <div className="panel panel-default">
+            <div className="panel-heading">
+              Ticket Price
+            </div>
+            <div className="panel-body">
+              <table className="table table-striped table-hover">
+                <thead>
+                <tr>
+                  <td>Type</td>
+                  <td>Fare</td>
+                </tr>
+                </thead>
+                <tbody>
+                {(()=> {
+                  let index = -1;
+                  return train.classes.map(obj=> {
+                    index++;
+                    if (obj) {
+                      return (
+                        <tr>
+                          <td>{obj}</td>
+                          <td>{fare[index].split(',')[0]}</td>
+                        </tr>
+                      );
+                    }
+                  });
+                })()}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

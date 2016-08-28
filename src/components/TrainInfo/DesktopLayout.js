@@ -43,35 +43,39 @@ export default ({keys, selectedStatus, train}) => {
                   <td>{route.departure_time.toFixed(2)}</td>
                   <td>{route.day}</td>
                   <td>{route.distance} km</td>
-                  <td>{selected.stations[index].actArr}</td>
+                  <td>{selected.stations[index] ? selected.stations[index].actArr : 'No Data' }</td>
                   <td>{(()=> {
-                    if (index === 0) {
-                      return <span style={{color: 'green'}}>Start St.</span>;
-                    }
-                    if (selected.stations[index].updWaitngArr) {
-                      return <span style={{color: '#aaa'}}>No update</span>;
-                    }
-                    if (selected.stations[index].arr || selected.stations[index].delayDep) {
-                      return (selected.stations[index].delayArr ?
-                        <span style={{color: 'red'}}>{selected.stations[index].delayArr} min.</span> :
-                        <span style={{color: 'green'}}>On Time</span>);
-                    }
-                    return <span style={{color: '#aaa'}}>Not Arrived</span>;
+                    return selected.stations[index] ? (()=> {
+                      if (index === 0) {
+                        return <span style={{color: 'green'}}>Start St.</span>;
+                      }
+                      if (selected.stations[index].updWaitngArr) {
+                        return <span style={{color: '#aaa'}}>No update</span>;
+                      }
+                      if (selected.stations[index].arr || selected.stations[index].delayDep) {
+                        return (selected.stations[index].delayArr ?
+                          <span style={{color: 'red'}}>{selected.stations[index].delayArr} min.</span> :
+                          <span style={{color: 'green'}}>On Time</span>);
+                      }
+                      return <span style={{color: '#aaa'}}>Not Arrived</span>;
+                    })() : 'Not Arrived';
                   })()}
                   </td>
-                  <td>{selected.stations[index].actDep}</td>
-                  <td>{((()=> {
-                    if (selected.stations[index].updWaitngDep) {
-                      return <span style={{color: '#aaa'}}>No update</span>;
-                    }
-                    if (selected.stations[index].dep || selected.stations[index].delayDep) {
-                      return (
-                        selected.stations[index].delayDep ?
-                          <span style={{color: 'red'}}>{selected.stations[index].delayDep} min.</span> :
-                          <span style={{color: 'green'}}>On Time</span>);
-                    }
-                    return <span style={{color: '#aaa'}}>Not Arrived</span>;
-                  }))()}</td>
+                  <td>{selected.stations[index] ? selected.stations[index].actDep : 'No Data'}</td>
+                  <td>{(()=> {
+                    return selected.stations[index] ? (()=> {
+                      if (selected.stations[index].updWaitngDep) {
+                        return <span style={{color: '#aaa'}}>No update</span>;
+                      }
+                      if (selected.stations[index].dep || selected.stations[index].delayDep) {
+                        return (
+                          selected.stations[index].delayDep ?
+                            <span style={{color: 'red'}}>{selected.stations[index].delayDep} min.</span> :
+                            <span style={{color: 'green'}}>On Time</span>);
+                      }
+                      return <span style={{color: '#aaa'}}>Not Arrived</span>;
+                    })() : 'Not Arrived';
+                  })()}</td>
                 </tr>
               );
             });

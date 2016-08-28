@@ -16,12 +16,12 @@ let ntespage;
 let express = require('express'),
   router = express.Router();
 let reqUrls = [];
+let debug = require('debug')('trains-express/train-new-status');
 const Horseman = require('node-horseman'), co = require('co');
-
 
 // horseman
 //   .on('resourceReceived', function (msg) {
-//     console.log(msg);
+//     debug(msg);
 //   })
 //   .userAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36')
 //   .open(`http://enquiry.indianrail.gov.in/ntes/`)
@@ -35,43 +35,43 @@ const cookiesUrl = (code) => {
       let i = 0;
       let cookies = [];
       co(function *() {
-        // console.log('code cookiesURL', code)
+        // debug('code cookiesURL', code)
         yield horseman.on('resourceReceived', function (msg) {
-          // console.log(msg.url);
+          // debug(msg.url);
           if (msg && msg != undefined && msg != 'undefined') {
             if (msg.url.indexOf('getTrainData') > -1 && i == 0) {
               i++;
               resolve({cookies: cookies, url: msg.url});
               horseman.close();
-              // console.log(msg.url);
+              // debug(msg.url);
               // res.end()
             }
           }
         });
         yield horseman.on('timeout', function () {
-          // console.log('timeout');
+          // debug('timeout');
           resolve({error: true});
           horseman.close()
         });
         yield horseman.on('error', function () {
-          // console.log('error');
+          debug('error');
           resolve({error: true});
           horseman.close()
         });
-        yield horseman.userAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36');
+        yield horseman.userAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36'); 
         yield horseman.open(`http://enquiry.indianrail.gov.in/ntes/`);
         yield horseman.type('input[id="trainInput"]', code ? code : '18111');
         yield horseman.keyboardEvent('keypress', 16777221);
         cookies = yield horseman.cookies();
-        // console.log(cookies);
+        // debug(cookies);
 
       }).catch(function (e) {
-        console.log(e)
+        // debug('>', e)
       });
     }),
     new Promise(function (resolve, reject) {
       setTimeout(function () {
-        console.log('code cookiesURL setTimeout', code);
+        // debug('code cookiesURL setTimeout', code);
         horseman.close();
         reject({error: true});
       }, 20000);
@@ -83,9 +83,9 @@ const cookiesUrl = (code) => {
 const status = (code) => {
   return new Promise((resolve, reject)=> {
     cookiesUrl(code).then(data=> {
-      // console.log((Date.now() - time) / 1000);
+      // debug((Date.now() - time) / 1000);
       // if (data.error) {
-      //   console.log('rejected status');
+      //   debug('rejected status');
       //   reject({error: true});
       //   return
       // }
@@ -113,13 +113,13 @@ const status = (code) => {
       function callback(error, response, body) {
 
         if (!error && response.statusCode == 200) {
-          // console.log(body);
+          // debug(body);
           let getDaysOfRunString = () => {
-            // console.log('getDays');
+            // debug('getDays');
             return '';
           };
           let sendData = {};
-          // console.log('body-> ', body);
+          // debug('body-> ', body);
           if (!body) {
             reject({error: true});
             return
@@ -132,7 +132,7 @@ const status = (code) => {
           resolve(sendData);
         }
         if (error) {
-          console.log(error);
+          debug('>>' +error);
         }
       }
 
@@ -149,11 +149,11 @@ module.exports = function () {
     MongoClient.connect(url).then(db0=> {
       db0.collection('trains_routes').find({code: req.query.code}).toArray().then(result0=> {
         db0.close();
-        // console.log(result0[0]);
-        console.log(parseInt(Date.now() / 1000) - parseInt(result0[0].last_status_update));
+        // debug(result0[0]);
+        // debug('>>>'+parseInt(Date.now() / 1000) - parseInt(result0[0].last_status_update));
         if (result0[0].last_status_update && 
           parseInt(Date.now() / 1000) - parseInt(result0[0].last_status_update) < 15 * 60) {
-          console.log('sentfromdb');
+          // debug('sentfromdb');
           res.send(result0[0].status);
         } else {
           status(req.query.code).then(status=> {
@@ -165,11 +165,11 @@ module.exports = function () {
                   res.send(status)
                 })
             }).catch(err=> {
-              console.log('reject mongo');
+              // debug('reject mongo 1');
               res.status(404).send({err: true})
             })
           }).catch(err2=> {
-            console.log('reject mongo');
+            // debug('reject mongo 2');
             res.status(404).send({err: true})
           })
         }

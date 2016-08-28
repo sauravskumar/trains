@@ -184,7 +184,7 @@ export function loadPnr(code) {
 }
 export function loadFooter(param) {
   return {
-    types: [LOAD, FOOTER_LOAD_SUCCESS, LOAD_FAIL],
+    types: [LOAD2, FOOTER_LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => client.get('/footer-links' + (param ? param : ''))
   };
 }

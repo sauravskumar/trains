@@ -53,7 +53,7 @@ module.exports = function () {
          train.classes[7] = classes[7].replace("1", "3TE").replace(0, '');
          train.classes[8] = classes[8].replace("1", "GN").replace(0, '');
          train.classes[9] = classes[9].replace("1", "").replace(0, '');
-         train.type = train.all_data[32];
+         train.type = train.all_data[32 + 18];
          res.send(train)
        })
      })

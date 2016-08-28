@@ -26,35 +26,39 @@ export default ({keys, selectedStatus, train}) => {
                     </div>
                     <div className="col-xs-4">
                       <div>{(()=> {
-                        if (index === 0) {
-                          return <span style={{color: 'green'}}>Start St.</span>;
-                        }
-                        if (selected.stations[index].updWaitngArr) {
-                          return <span style={{color: '#aaa'}}>No update</span>;
-                        }
-                        if (selected.stations[index].arr || selected.stations[index].delayDep) {
-                          return (selected.stations[index].delayArr ?
-                            <span style={{color: 'red'}}>{selected.stations[index].delayArr} min.</span> :
-                            <span style={{color: 'green'}}>On Time</span>);
-                        }
-                        return <span style={{color: '#aaa'}}>Not Arrived</span>;
-                      })()}</div>
-                      <div>{((()=> {
-                        if (selected.stations[index].updWaitngDep) {
-                          return <span style={{color: '#aaa'}}>No update</span>;
-                        }
-                        if (selected.stations[index].dep || selected.stations[index].delayDep) {
-                          return (
-                            selected.stations[index].delayDep ?
-                              <span style={{color: 'red'}}>{selected.stations[index].delayDep} min.</span> :
+                        return selected.stations[index] ? (()=> {
+                          if (index === 0) {
+                            return <span style={{color: 'green'}}>Start St.</span>;
+                          }
+                          if (selected.stations[index].updWaitngArr) {
+                            return <span style={{color: '#aaa'}}>No update</span>;
+                          }
+                          if (selected.stations[index].arr || selected.stations[index].delayDep) {
+                            return (selected.stations[index].delayArr ?
+                              <span style={{color: 'red'}}>{selected.stations[index].delayArr} min.</span> :
                               <span style={{color: 'green'}}>On Time</span>);
-                        }
-                        return <span style={{color: '#aaa'}}>Not Arrived</span>;
-                      }))()}</div>
+                          }
+                          return <span style={{color: '#aaa'}}>Not Arrived</span>;
+                        })() : 'Not Arrived';
+                      })()}</div>
+                      <div>{(()=> {
+                        return selected.stations[index] ? (()=> {
+                          if (selected.stations[index].updWaitngDep) {
+                            return <span style={{color: '#aaa'}}>No update</span>;
+                          }
+                          if (selected.stations[index].dep || selected.stations[index].delayDep) {
+                            return (
+                              selected.stations[index].delayDep ?
+                                <span style={{color: 'red'}}>{selected.stations[index].delayDep} min.</span> :
+                                <span style={{color: 'green'}}>On Time</span>);
+                          }
+                          return <span style={{color: '#aaa'}}>Not Arrived</span>;
+                        })() : 'Not Arrived';
+                      })()}</div>
                     </div>
                     <div className="col-xs-4">
-                      <div>{selected.stations[index].actArr}</div>
-                      <div>{selected.stations[index].actDep}</div>
+                      <div>{selected.stations[index] ? selected.stations[index].actArr : 'No Data' }</div>
+                      <div>{selected.stations[index] ? selected.stations[index].actDep : 'No Data'}</div>
                     </div>
                   </div>
                 </div>
