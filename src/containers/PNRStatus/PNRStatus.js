@@ -3,13 +3,13 @@
  */
 import React, {Component, PropTypes} from 'react';
 // import { Link } from 'react-router';
-import {AppHelmet} from 'components';
+import {AppHelmet, PNRStatusForm} from 'components';
 // import config from '../../config';
 // import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {loadPnr} from 'redux/modules/search';
-import style from './PNRStatus.scss';
+// import style from './PNRStatus.scss';
 import {asyncConnect} from 'redux-connect';
 import {loadFooter} from 'redux/modules/search';
 @asyncConnect([{
@@ -30,11 +30,6 @@ export default class PNRStatus extends Component {
     params: PropTypes.object,
     location: PropTypes.object
   };
-  loadPnr = () => {
-    // console.log(this.refs.pnrInput.value, event);
-    this.props.loadPnr(this.refs.pnrInput.value);
-  };
-
   render() {
     const {pnr, location} = this.props;
     const fullUrl = location.pathname;
@@ -46,11 +41,7 @@ export default class PNRStatus extends Component {
                        description={'Check train PNR Status. Get seat availability, PNR Number status, train schedule and register for train alerts.'}
                        keywords={'pnr status, pnr status check, pnr number check, pnr number status, berth availability'}
                        url={fullUrl}/>
-            <div className={'form-inline text-center ' + style.PNRStatusForm}>
-              <input className="form-control" ref="pnrInput" id="focusedInput" type="text" style={{margin: '0 auto', marginBottom: '10px'}}
-                     placeholder="Enter PNR Number"/>
-              <button className="btn btn-primary" onClick={this.loadPnr}>Search</button>
-            </div>
+            <PNRStatusForm/>
             <br/>
             <div className="text-center">
               <i className={'material-icons icon-color backgroundIcon'}>&#xE42B;</i>
@@ -62,11 +53,7 @@ export default class PNRStatus extends Component {
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-8">
-          <div className={'form-inline text-center ' + style.PNRStatusForm}>
-            <input className="form-control" ref="pnrInput" id="focusedInput" type="text" style={{margin: '0 auto'}}
-                   placeholder="Enter PNR Number"/>
-            <button className="btn btn-primary" onClick={this.loadPnr}>Search</button>
-          </div>
+          <PNRStatusForm/>
           <br/>
           <div className="panel panel-default">
             <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>

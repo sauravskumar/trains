@@ -15,6 +15,19 @@ export default class Footer extends Component {
   render() {
     const {footer} = this.props;
     const about = ['Contact Us', 'About Trains', 'Privacy Policy'];
+    const important = [{
+      title: 'National Train Enquiry',
+      url: 'http://enquiry.indianrail.gov.in/ntes/'
+    }, {
+      title: 'Indian Railway Gov.',
+      url: 'http://www.indianrail.gov.in/'
+    }, {
+      title: 'IRCTC Ticket booking',
+      url: 'https://www.irctc.co.in/eticketing/loginHome.jsf'
+    }, {
+      title: '',
+      url: ''
+    }];
     return (
       <footer className={style.footer + ' footer' }>
         <div className="container">
@@ -47,6 +60,18 @@ export default class Footer extends Component {
                     <li key={Date.now() + Math.random()}>
                       <Link to={'/trains/' + obj.toLowerCase().replace(/ /g, '-')}
                             rel="nofollow">{obj}</Link>
+                    </li>);
+                })}
+              </ul>
+            </div>
+            <div className="col-xs-6 col-md-3">
+              <b>Important Links</b>
+              <ul className={style.footerLinks}>
+                {important.map(obj=> {
+                  return (
+                    <li key={Date.now() + Math.random()}>
+                      <a href={obj.url} target="_blank"
+                         rel="nofollow">{obj.title}</a>
                     </li>);
                 })}
               </ul>

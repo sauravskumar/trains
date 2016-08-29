@@ -3,7 +3,11 @@
   margin: 0 auto;
   display: block;
   input[type=text] {
-    width: 200px !important;
+    //width: 200px !important;
+    //border: 1px solid #ddd;
+    padding: 3px;
+    //border-radius: 2px;
+    //box-shadow: 0px !important;
   }
   input[type=checkbox]{
     margin-left: 10px !important;

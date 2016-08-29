@@ -5,6 +5,7 @@ import React, {Component, PropTypes} from 'react';
 // import { Link } from 'react-router';
 // import config from '../../config';
 // import Helmet from 'react-helmet';
+import {AppHelmet} from 'components';
 import {asyncConnect} from 'redux-connect';
 import {loadCancelledTrains, loadFooter} from 'redux/modules/search';
 import {connect} from 'react-redux';
@@ -24,6 +25,7 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 export default class Cancelled extends Component {
   static propTypes = {
     cancelledTrains: PropTypes.object,
+    location: PropTypes.object,
   };
 
   state = {
@@ -36,21 +38,31 @@ export default class Cancelled extends Component {
   };
 
   render() {
-    const {cancelledTrains} = this.props;
+    const {cancelledTrains, location} = this.props;
+    const fullUrl = location.pathname;
     let finalList = cancelledTrains[this.state.selected].map(obj=> {
       if (obj.trainNo.toString().includes(this.state.search) || obj.trainName.includes(this.state.search)) {
         return obj;
       }
     });
     finalList = finalList ? finalList.filter(Boolean) : [];
+    finalList = finalList.slice(0, 20);
     return (
       <div>
+        <AppHelmet title={'Get cancelled trains for the today and next few days'}
+                   description={'Want to know if your train has been cancelled for today?. We provide you with' +
+                   'the latest up to date information on cancelled trains for the next few days.'}
+                   keywords={'cancelled trains, trains cancelled for today'}
+                   url={fullUrl}/>
+        <h4 className="text-center">Cancelled Trains: Updated ({new Date(cancelledTrains.last_updated * 1000).toLocaleString()})</h4>
         <input type="text" className="form-control" onChange={(event)=> {
           this.setState({search: event.target.value});
-        }} style={{margin: '0 auto', maxWidth: '300px'}} placeholder="Search Train"/>
+        }} style={{margin: '0 auto', maxWidth: '300px'}} placeholder="Enter your train number"/>
         <Nav bsStyle="tabs" justified activeKey={this.state.selected} onSelect={this.handleSelect}>
-          <NavItem eventKey="allCancelledTrains">Fully Cancelled</NavItem>
-          <NavItem eventKey="allPartiallyCancelledTrains">Partially Cancelled</NavItem>
+          <NavItem eventKey="allCancelledTrains">Fully Cancelled -&nbsp;
+            {cancelledTrains.allCancelledTrains.length} Trains</NavItem>
+          <NavItem eventKey="allPartiallyCancelledTrains">Partially Cancelled -&nbsp;
+            {cancelledTrains.allPartiallyCancelledTrains.length} Trains</NavItem>
         </Nav>
         <table className="table table-striped table-hover">
           <thead>

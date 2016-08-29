@@ -187,6 +187,8 @@ export default class TrainInfo extends Component {
     let fare = train.all_data[41].split(':'); // eslint-disable-line
     fare.shift();
     fare.shift();
+    const lastClass = train.all_data[21].lastIndexOf('1');
+    console.log(lastClass);
     // const classes = train.classes;
     return (
       <div className="row">
@@ -258,7 +260,7 @@ export default class TrainInfo extends Component {
           </div>
           {mobile ? <MobileLayout keys={keys} selectedStatus={selectedStatus} train={train}/> :
             <DesktopLayout keys={keys} selectedStatus={selectedStatus} train={train}/>}
-          <Info keys={keys} selectedStatus={selectedStatus} train={train}/>
+          <Info train={train} lastClass={lastClass} fare={fare}/>
           <div className="col-xs-12">
             <div className="text-center">Show trains from</div>
             <Nav bsStyle="tabs" justified>
@@ -275,7 +277,7 @@ export default class TrainInfo extends Component {
             </Nav>
           </div>
         </div>
-        <div className="col-xs-12 col-sm-4">
+        <div className="col-xs-12 col-sm-4 text-center">
           <div className="panel panel-default">
             <div className="panel-heading">
               Ticket Price
@@ -297,7 +299,7 @@ export default class TrainInfo extends Component {
                       return (
                         <tr>
                           <td>{obj}</td>
-                          <td>{fare[index].split(',')[0]}</td>
+                          <td>Rs. {fare[index].split(',')[0]}</td>
                         </tr>
                       );
                     }

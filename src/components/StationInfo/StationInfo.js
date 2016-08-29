@@ -91,13 +91,23 @@ export default class StationInfo extends Component {
       trainsList.push(
         <tr key={Date.now() + Math.random()} itemScope
             itemType="http://schema.org/TrainTrip">
-          <td itemProp="trainNumber">{trains.train_code}</td>
-          <td itemProp="trainName">{trains.train_name}</td>
+          <td itemProp="trainName" style={{maxWidth: '100px'}}>{trains.train_code} - {trains.train_name}</td>
+          <td>
+            <div className="row">
+              <div className={'col-xs-12 ' + style.days}>
+                {trains.days.map(day => {
+                  return (
+                    <span key={Date.now() + Math.random()}>{day ? day : ''}</span>
+                  );
+                })}
+              </div>
+            </div>
+          </td>
           <td
             itemProp="arrivalTime">{stationInfo.route[index].properties.arrival_time.toFixed(2).replace('.', ':')}</td>
           <td
             itemProp="departureTime">{stationInfo.route[index].properties.departure_time.toFixed(2).replace('.', ':')}</td>
-          <td>{trains.all_data[50]}</td>
+          <td style={{maxWidth: '70px'}}>{trains.all_data[50]}</td>
         </tr>
       );
     });
@@ -134,7 +144,7 @@ export default class StationInfo extends Component {
           <div className="panel panel-default">
             <div className="panel-heading"
                  style={{background: '#4285F4', padding: '10px 15px 15px 15px', margin: '0px'}}>
-              <h1 style={{fontSize: '20px', color: '#FFFFFF'}}>{station.station_name} - {station.station_code}</h1>
+              <h1 style={{fontSize: '20px', color: '#FFFFFF'}}>{station.station_name} - {station.station_code} {stationInfo.trains.length} Trains</h1>
             </div>
             <div style={{background: '#3367D6', margin: '0px'}}>
               <div className="row">
@@ -145,13 +155,13 @@ export default class StationInfo extends Component {
               </div>
             </div>
           </div>
-          <div className="panel panel-default" style={{fontSize: '13px'}}>
+          <div className="panel panel-default" style={{fontSize: '13px', overflow: 'hidden'}}>
             <div className="panel-body">
               <table className="table table-striped table-hover ">
                 <thead>
                 <tr>
-                  <td>Number</td>
                   <td>Name</td>
+                  <td>Days</td>
                   <td>Arrival</td>
                   <td className={style.x}>Dep.</td>
                   <td>Type</td>

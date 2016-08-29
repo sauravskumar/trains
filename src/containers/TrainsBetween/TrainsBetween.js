@@ -3,9 +3,10 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {TrainBetweenForm, PlaceHolder, AppHelmet, GoogleMaps} from 'components';
+import {TrainBetweenForm, PlaceHolder, AppHelmet, GoogleMaps, TrainInfoForm, PNRStatusForm} from 'components';
 import DesktopLayout from './DesktopLayout';
 import MobileLayout from './MobileLayout';
+import Info from './Info';
 import {asyncConnect} from 'redux-connect';
 import {loadTrainsBetween, loadFooter} from 'redux/modules/search';
 import {onPageSetStatus} from 'redux/modules/app';
@@ -183,11 +184,39 @@ export default class TrainsBetween extends Component {
     };
     if (!params || !params.param) {
       return (
-        <div className="row text-capitalize">
-          <div className="col-xs-12 col-sm-8">
-            {trainBetweenForm()}
-            <br/>
-            <PlaceHolder/>
+        <div>
+          <div className="row text-capitalize">
+            <div className="col-xs-12 col-sm-8">
+              <div className={mobile ? 'panel panel-default' : ''} style={{paddingTop: '10px'}}>
+                {trainBetweenForm()}
+                <br/>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-xs-12 col-md-4 col-md-push-8">
+              <div className="panel panel-default" style={{padding: '10px'}}>
+                <PNRStatusForm/>
+                <hr/>
+                <TrainInfoForm placeholder={'E.g. 18111'}/>
+              </div>
+            </div>
+            <div className="col-xs-12 col-md-8 col-md-pull-4">
+              <PlaceHolder/>
+            </div>
+          </div>
+          <hr/>
+          <div className="row">
+            <div className="col-xs-12 col-md-4">
+              <i className="material-icons">&#xE877;</i> Search trains between station, PNR status and more
+            </div>
+            <div className="col-xs-12 col-md-4">
+              <i className="material-icons">&#xE877;</i>
+              Accurate train status
+            </div>
+            <div className="col-xs-12 col-md-4">
+              <i className="material-icons">&#xE877;</i>
+            </div>
           </div>
         </div>
       );
@@ -205,52 +234,6 @@ export default class TrainsBetween extends Component {
       );
     }
 
-    const getDays = (daysArr) => {
-      daysArr[0] = daysArr[0] ? 'sunday' : '';
-      daysArr[1] = daysArr[1] ? 'monday' : '';
-      daysArr[2] = daysArr[2] ? 'tuesday' : '';
-      daysArr[3] = daysArr[3] ? 'wednesday' : '';
-      daysArr[4] = daysArr[4] ? 'thursday' : '';
-      daysArr[5] = daysArr[5] ? 'friday' : '';
-      daysArr[6] = daysArr[6] ? 'saturday' : '';
-      return daysArr ? daysArr.filter(Boolean) : [];
-    };
-
-    const summary = () => {
-      return (
-        <div className="col-xs-12">
-          <div className="panel panel-default">
-            <div className="panel-heading">
-              Summary
-            </div>
-            <div className="panel-body">
-              <ul>
-                <li>There are {trainBetweenList.exactMatch.length} trains running directly
-                  from <b>{trainBetweenList.actual_src.code_name}</b> to <b>{trainBetweenList.actual_dest.code_name}</b>
-                </li>
-                <li>{trainBetweenList.json.length} trains are available from nearby stations</li>
-                <li>Train number {trainBetweenList.bestTrain.train.train_code} -&nbsp;
-                  {trainBetweenList.bestTrain.train.train_name} is the fastest train which
-                  takes {trainBetweenList.bestTrain.duration}</li>
-                <li>Distance between {trainBetweenList.actual_src.station_name}&nbsp;
-                  to {trainBetweenList.actual_dest.station_name} is approximately&nbsp;
-                  {trainBetweenList.exactMatch.length ? trainBetweenList.exactMatch[0].dest_route.distance.low :
-                    trainBetweenList.json[0].dest_route.distance.low}
-                  km
-                </li>
-                <li>Train {trainBetweenList.bestTrain.train.train_code} -&nbsp;
-                  {trainBetweenList.bestTrain.train.train_name} is
-                  available {trainBetweenList.bestTrain.train.days.includes('') ?
-                  'only on ' + getDays(trainBetweenList.bestTrain.train.days).join(', ') :
-                    'all days'} from {trainBetweenList.actual_src.code_name}
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      )
-        ;
-    };
     if (!mobile) {
       // ///////////////////////////////////////////////////////////////////////
       //                         DESKTOP LAYOUT
@@ -278,7 +261,7 @@ export default class TrainsBetween extends Component {
               </div>
             </div>
           </div>
-          {summary()}
+          <Info trainBetweenList={trainBetweenList}/>
           <small style={{color: '#aaa'}}>*All nearby distances are approximations</small>
         </div>
       );
@@ -311,7 +294,7 @@ export default class TrainsBetween extends Component {
             </div>
           </div>
         </div>
-        {summary()}
+        <Info trainBetweenList={trainBetweenList}/>
         <small style={{color: '#aaa'}}>*All nearby distances are approximations</small>
       </div>
     );

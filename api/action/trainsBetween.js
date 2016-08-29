@@ -10,7 +10,7 @@ const mongoUrl = constant.url;
 var collection = 'stations_all';
 // Create a driver instance, for the user neo4j with password neo4j.
 const driver = constant.neo_driver;
-
+const co = require('co');
 
 let express = require('express'),
   router = express.Router();
@@ -135,6 +135,11 @@ module.exports = function () {
           let records = result.records, json = [], exactMatch = [];
           let bestTrain = {};
           let maxDuration = 1000000;
+          let totalDuration = 0;
+          let totalDistance = 0;
+          let types = new Set();
+          let directTrainDays = ['', '', '', '', '', '', ''];
+          let minFare = [];
           // console.log(records.length);
           if (records.length < 1) {
             res.send({
@@ -159,7 +164,8 @@ module.exports = function () {
                 let maxDist = 10000;
                 let indexToSend = 0;
                 arr.forEach((obj, index, arr)=> {
-                  const distanceTemp = distance(obj.properties.latitude, obj.properties.longitude, actual.latitude, actual.longitude);
+                  const distanceTemp = distance(obj.properties.latitude, obj.properties.longitude,
+                    actual.latitude, actual.longitude);
                   // console.log(index, train.train_name, distanceTemp)
                   if (maxDist > distanceTemp) {
                     maxDist = distanceTemp;
@@ -206,7 +212,9 @@ module.exports = function () {
               train.classes[8] = classes[8].replace("1", "GN").replace(0, '');
               train.classes[9] = classes[9].replace("1", "").replace(0, '');
               train.type = train.all_data[32];
-
+              // train.fares = train.all_data[41];
+              // train.all_data[41].split(':');
+              
               src.dist_from_src = distance(src.latitude,
                 src.longitude,
                 srcLat,
@@ -229,10 +237,24 @@ module.exports = function () {
                 maxDuration = duration;
                 bestTrain.train = train;
                 bestTrain.duration = newJourney.duration;
+                bestTrain.src = newJourney.src;
+                bestTrain.dest = newJourney.dest;
+                bestTrain.src_route = newJourney.src_route;
+                bestTrain.dest_route = newJourney.dest_route;
               }
+              totalDuration += (newJourney.dest_route.time_spent_on_departure.low - newJourney.src_route.time_spent_on_arrival.low);
+              totalDistance += (newJourney.dest_route.distance.low - newJourney.src_route.distance.low);
               // console.log(src.dist_from_src, dest.dist_from_dest);
               if (src.dist_from_src == 0.0 && dest.dist_from_dest == 0.0) {
-                exactMatch.push(newJourney)
+                exactMatch.push(newJourney);
+                types.add(newJourney.train.all_data[50]);
+                directTrainDays[0] = train.days[0] ? train.days[0] : directTrainDays[0];
+                directTrainDays[1] = train.days[1] ? train.days[1] : directTrainDays[1];
+                directTrainDays[2] = train.days[2] ? train.days[2] : directTrainDays[2];
+                directTrainDays[3] = train.days[3] ? train.days[3] : directTrainDays[3];
+                directTrainDays[4] = train.days[4] ? train.days[4] : directTrainDays[4];
+                directTrainDays[5] = train.days[5] ? train.days[5] : directTrainDays[5];
+                directTrainDays[6] = train.days[6] ? train.days[6] : directTrainDays[6];
               } else {
                 json.push(newJourney)
               }
@@ -251,12 +273,32 @@ module.exports = function () {
                   else
                     return -1;
                 });
-                res.send({
-                  actual_src: actual_source,
-                  actual_dest: actual_destination,
-                  bestTrain: bestTrain,
-                  json,
-                  exactMatch
+                MongoClient.connect(constant.url).then(db=> {
+                  db.collection('trains_routes').find({code: bestTrain.train.train_code}).toArray().then(result=> {
+                    db.close();
+                    let route = [];
+                    if (result[0]) {
+                      route = result[0].route;
+                      res.send({
+                        avgDurationNum: parseInt(totalDuration / (records.length - 1)),
+                        avgDuration: (()=> {
+                          const avgDuration = parseInt(totalDuration / (records.length - 1));
+                          const hours = Math.trunc(avgDuration / 60);
+                          const mins = (avgDuration - (hours * 60));
+                          return (hours ? hours + 'h ' : '') + (mins ? mins + 'm.' : '');
+                        })(),
+                        trainTypes: types,
+                        days: directTrainDays,
+                        avgDistance: parseInt(totalDistance / (records.length - 1)),
+                        actual_src: actual_source,
+                        actual_dest: actual_destination,
+                        bestTrain: bestTrain,
+                        bestRoute: route,
+                        json,
+                        exactMatch,
+                      })
+                    }
+                  })
                 })
               }
             });

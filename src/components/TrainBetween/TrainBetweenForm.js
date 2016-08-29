@@ -42,10 +42,13 @@ export default class TrainBetweenForm extends Component {
     const {stationList, source, destination} = this.props;
     return (
       <div style={{width: '100%'}}>
+        <h4 className="text-center">Trains Between Station</h4>
         <div className={ 'form-inline text-center ' + style.trainsBetweenForm }>
-          <SearchInput ref="sourceSt" placeholder={source ? source : 'Source Station'} list={ stationList }
+          <SearchInput ref="sourceSt" placeholder={source ? source : 'Source: e.g. NDLS New...'}
+                       list={ stationList }
                        type="station"/>
-          <SearchInput ref="destSt" placeholder={destination ? destination : 'Destination Station'} list={ stationList }
+          <SearchInput ref="destSt" placeholder={destination ? destination : 'Destination: e.g. CSTM Mum...'}
+                       list={ stationList }
                        type="station"/>
           <button className="btn btn-primary" onClick={this.search}>Search</button>
         </div>

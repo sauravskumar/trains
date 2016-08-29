@@ -7,7 +7,7 @@ import React, { Component, PropTypes } from 'react';
 // import config from '../../config';
 import style from './TrainInfoForm.scss';
 import {connect} from 'react-redux';
-import SearchInput from './../SearchInput/SearchInput';
+import {SearchInput} from 'components';
 
 @connect(
   state => ({trainList: state.search.trainList})
@@ -32,6 +32,7 @@ export default class TrainBetweenForm extends Component {
     const {trainList, placeholder} = this.props;
     return (
       <div>
+        <h4 className="text-center">Train live status & schedule</h4>
         <div className={ 'form-inline text-center ' + style.trainsBetweenForm }>
           <SearchInput ref="trainNoInput" placeholder={placeholder ? placeholder : 'Train Name / Number'} list={ trainList } type="train"/>
           <button className="btn btn-primary" onClick={this.search}>Search</button>
