@@ -69,8 +69,9 @@ export default ({trainBetweenList})=> {
           The are {trainBetweenList.exactMatch.length} direct trains and {trainBetweenList.json.length}&nbsp;
           trains available from close by stations.
           <br/>
-          {trainBetweenList.exactMatch.length === 0 ? '' :
-          ' Direct trains are available ' + daysToString(trainBetweenList.days)}.
+          {trainBetweenList.exactMatch.length === 0 ? 'No direct trains are available for ' +
+          trainBetweenList.actual_src.station_name + ' to ' + trainBetweenList.actual_dest.station_name :
+            ' Direct trains are available ' + daysToString(trainBetweenList.days)}.
           <br/>
           {impStations.length ?
             <span> Important stations in this route are&nbsp;

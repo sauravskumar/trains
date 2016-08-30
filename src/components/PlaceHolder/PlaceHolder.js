@@ -4,10 +4,27 @@
 import React, {PropTypes, Component} from 'react';
 import style from './PlaceHolder.scss';
 import {Link} from 'react-router';
+import {connect} from 'react-redux';
+@connect(
+  state => ({defaultStation: state.app.defaultStation})
+)
 export default class PlaceHolder extends Component {
   static propTypes = {
-    list: PropTypes.array
-  }
+    list: PropTypes.array,
+    defaultStation: PropTypes.string
+  };
+
+  generateUrl = (source, destination) => {
+    const src = source.split(' ');
+    const dest = destination.split(' ');
+    if (src[0].toLowerCase() === dest[0].toLowerCase()) {
+      return {title: ``, url: ``};
+    }
+    return {
+      title: `${dest.join(' ')}`,
+      url: `/in/${src[0]}-to-${dest[0]}-${src.slice(1, src.length).join('-')}-to-${dest.slice(1, dest.length).join('-')}`.toLowerCase()
+    };
+  };
 
   render() {
     const list = [
@@ -48,6 +65,7 @@ export default class PlaceHolder extends Component {
         color: '#ADAA7D'
       },
     ];
+    const {defaultStation} = this.props;
     return (
       <div className="panel panel-default">
         <div className="panel-heading" style={{background: '#FFFFFF', paddingBottom: '0'}}>
@@ -57,10 +75,20 @@ export default class PlaceHolder extends Component {
         <div className="panel-body" style={{padding: '0px', margin: '0px'}}>
           <div className="row text-center">
             <div className="col-xs-12">
-              {[1, 2, 3, 4, 5, 6, 7].map(()=> {
-                console.log('asdfffffffffffff');
-                return (<Link to="" className={style.placeholderLink}>New Delhi to Mumbai</Link>);
-              })}
+              {[this.generateUrl(defaultStation, 'NDLS New Delhi'),
+                this.generateUrl(defaultStation, 'HWH Howrah Jn'),
+                this.generateUrl(defaultStation, 'CNB Kanpur Central Jn'),
+                this.generateUrl(defaultStation, 'BZA Vijayawada Jn'),
+                this.generateUrl(defaultStation, 'ALD Allahabad Jn'),
+                this.generateUrl(defaultStation, 'ALD Allahabad Jn'),
+                this.generateUrl(defaultStation, 'ET Itarsi Jn'),
+                this.generateUrl(defaultStation, 'PNBE Patna Jn')
+              ]
+                .map((obj)=> {
+                  if (obj.url && obj.title) {
+                    return (<Link to={obj.url} className={style.placeholderLink}>{obj.title}</Link>);
+                  }
+                })}
             </div>
           </div>
           <br/>

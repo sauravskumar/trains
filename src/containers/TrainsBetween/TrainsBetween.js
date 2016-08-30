@@ -10,7 +10,7 @@ import Info from './Info';
 import {asyncConnect} from 'redux-connect';
 import {loadTrainsBetween, loadFooter} from 'redux/modules/search';
 import {onPageSetStatus} from 'redux/modules/app';
-// import style from './TrainsBetween.scss';
+import style from './TrainsBetween.scss';
 import {bindActionCreators} from 'redux';
 // import { Link } from 'react-router';
 // import config from '../../config';
@@ -182,11 +182,40 @@ export default class TrainsBetween extends Component {
       return (<TrainBetweenForm source={inputSource}
                                 destination={inputDestination}/>);
     };
+
+    const points = () => {
+      return (
+        <div className="row">
+          {[{
+            icon: require('./train.svg'),
+            text: <span>Search trains between stations over a <b>million</b> routes in India</span>
+          }, {
+            icon: require('./ticket.svg'),
+            text: <span>Get current <b>PNR Status</b> of your current railway booking</span>
+          }, {
+            icon: require('./calendar.svg'),
+            text: <span>Most accurate and up to date <b>train running status</b> information</span>
+          }].map(obj=> {
+            return (
+              <div className="col-xs-12 col-md-4" key={Date.now() + Math.random()}>
+                <div className="row">
+                  <div className="col-xs-4 text-center"
+                       style={{verticalAlign: 'middle'}}><img src={obj.icon} style={{height: '70px'}}/></div>
+                  <div className="col-xs-8" style={{verticalAlign: 'middle', marginTop: '10px'}}>{obj.text}</div>
+                </div>
+                <br/>
+              </div>
+            );
+          })}
+        </div>
+      );
+    };
+
     if (!params || !params.param) {
       return (
-        <div>
+        <div className={style.background}>
           <div className="row text-capitalize">
-            <div className="col-xs-12 col-sm-8">
+            <div className="col-xs-12 col-md-8">
               <div className={mobile ? 'panel panel-default' : ''} style={{paddingTop: '10px'}}>
                 {trainBetweenForm()}
                 <br/>
@@ -205,19 +234,9 @@ export default class TrainsBetween extends Component {
               <PlaceHolder/>
             </div>
           </div>
+          <br/>
           <hr/>
-          <div className="row">
-            <div className="col-xs-12 col-md-4">
-              <i className="material-icons">&#xE877;</i> Search trains between station, PNR status and more
-            </div>
-            <div className="col-xs-12 col-md-4">
-              <i className="material-icons">&#xE877;</i>
-              Accurate train status
-            </div>
-            <div className="col-xs-12 col-md-4">
-              <i className="material-icons">&#xE877;</i>
-            </div>
-          </div>
+          {points()}
         </div>
       );
     }

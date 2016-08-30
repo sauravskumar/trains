@@ -82,6 +82,9 @@ export default class App extends Component {
             </Navbar.Brand>
             <Navbar.Toggle/>
           </Navbar.Header>
+          <div style={{position: 'absolute', top: '18px', right: '0px'}}>
+            <img src="https://res.cloudinary.com/atmed/image/upload/flag/in.png" alt="india-flag"/>
+          </div>
           <Navbar.Collapse>
             <Nav navbar>
               {user && <LinkContainer to="/chat">
