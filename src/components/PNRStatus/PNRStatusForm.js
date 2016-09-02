@@ -14,9 +14,13 @@ export default class PNRStatusForm extends Component {
   static propTypes = {
     loadPnr: PropTypes.func,
   };
+  static contextTypes = {
+    router: React.PropTypes.object
+  };
   loadPnr = () => {
     // console.log(this.refs.pnrInput.value, event);
     this.props.loadPnr(this.refs.pnrInput.value);
+    this.context.router.push('/in/trains/pnr-status');
   };
 
   render() {

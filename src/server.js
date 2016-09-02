@@ -43,11 +43,11 @@ app.use('/ws', (req, res) => {
   proxy.web(req, res, {target: targetUrl + '/ws'});
 });
 
-app.use('/trains/api', (req, res) => {
+app.use('/in/trains/api', (req, res) => {
   proxy.web(req, res, {target: targetUrl});
 });
 
-app.use('/trains/ws', (req, res) => {
+app.use('/in/trains/ws', (req, res) => {
   proxy.web(req, res, {target: targetUrl + '/ws'});
 });
 
@@ -84,7 +84,7 @@ app.use((req, res) => {
       let newUrl = lastPartSplit[0].pop() + '-to-' + lastPartSplit[1].pop()
         + '-' + lastPartSplit[0].join('-') + '-to-' + lastPartSplit[1].join('-');
       console.log(newUrl);
-      res.status(302).redirect('/trains/' + newUrl);
+      res.status(302).redirect('/in/trains/' + newUrl);
     }
   }
   if (__DEVELOPMENT__) {

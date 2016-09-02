@@ -18,7 +18,7 @@ let sitemapIndexTag = `<?xml version="1.0" encoding="UTF-8"?>\n\t<sitemapindex x
 var tag = (suburl, url = undefined) => {
   return `
     <url>
-        <loc>${'https://www.atmed.co/trains/' + suburl + (url ? '/' + url : '')}</loc>
+        <loc>${'https://www.atmed.co/in/trains/' + suburl + (url ? '/' + url : '')}</loc>
         <lastmod>${new Date().toISOString()}</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
@@ -29,7 +29,7 @@ var tag = (suburl, url = undefined) => {
 let writeSitemapIndex = (fileName) => {
   let sitemapStructure = `
 <sitemap>
-    <loc>https://www.atmed.co/trains/files/sitemap/${fileName}.xml.gz</loc>
+    <loc>https://www.atmed.co/in/trains/files/sitemap/${fileName}.xml.gz</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
 </sitemap>`;
   fs.appendFile(`/usr/src/app/static/trains/sitemap.xml`, sitemapStructure, 'utf8')

@@ -36,7 +36,8 @@ export default class Station extends Component {
     const {stationInfo, params, location} = this.props;
     const fullUrl = location.pathname;
     return (
-        <StationInfo stationInfo={stationInfo} params={params} fullUrl={fullUrl}/>
+      <div className="container">
+        <StationInfo stationInfo={stationInfo} params={params} fullUrl={fullUrl}/></div>
     );
   }
 }

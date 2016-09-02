@@ -30,7 +30,7 @@ export default class TrainBetweenForm extends Component {
     // console.log(nearby);
     source = source.replace(/ /g, '-').replace(/-+/, '-').toLowerCase().split('-');
     dest = dest.replace(/ /g, '-').replace(/-+/, '-').toLowerCase().split('-');
-    let path = `/trains/${source[0]}-to-${dest[0]}`;
+    let path = `/in/trains/${source[0]}-to-${dest[0]}`;
     source.shift();
     dest.shift();
     path += `-${source.join('-')}-to-${dest.join('-')}`;
@@ -47,6 +47,20 @@ export default class TrainBetweenForm extends Component {
           <SearchInput ref="sourceSt" placeholder={source ? source : 'Source: e.g. NDLS New...'}
                        list={ stationList }
                        type="station"/>
+          <div
+            style={{
+              border: '1px solid #ddd',
+              display: 'inline-block',
+              borderRadius: '50%',
+              textAlign: 'center',
+              height: '50px',
+              width: '50px',
+              margin: '0 auto',
+              position: 'relative',
+            }}>
+            <i className="material-icons"
+               style={{margin: '0 auto', color: '#ddd', verticalAlign: 'middle', lineHeight: '50px'}}>&#xE571;</i>
+          </div>
           <SearchInput ref="destSt" placeholder={destination ? destination : 'Destination: e.g. CSTM Mum...'}
                        list={ stationList }
                        type="station"/>

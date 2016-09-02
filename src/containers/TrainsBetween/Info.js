@@ -18,7 +18,7 @@ export default ({trainBetweenList})=> {
     let daysString = daysArr;
     // console.log(daysString);
     if (!daysString.includes('')) {
-      daysString = ' on all days';
+      daysString = ' on all days of the week';
       return daysString;
     }
     daysString[0] = daysString[0] ? 'sunday' : '';
@@ -50,16 +50,16 @@ export default ({trainBetweenList})=> {
         </div>
         <div className="panel-body" style={{margin: '15px'}}>
           Distance by train from {trainBetweenList.actual_src.station_name} to&nbsp;
-          {trainBetweenList.actual_dest.station_name} is close to {trainBetweenList.avgDistance} km and&nbsp;
-          {trainBetweenList.exactMatch.length > 0 ?
+          {trainBetweenList.actual_dest.station_name} is close to {trainBetweenList.avgDistance} km.&nbsp;
+          Train no. {trainBetweenList.exactMatch.length > 0 ?
           trainBetweenList.exactMatch[0].train.train_code + ' - ' +
           trainBetweenList.exactMatch[0].train.train_name :
           trainBetweenList.json[0].train.train_code + ' - ' +
           trainBetweenList.json[0].train.train_name} is the first&nbsp;
-          direct train available that runs from {trainBetweenList.actual_src.station_code}&nbsp;
-          to {trainBetweenList.actual_dest.station_code}&nbsp;
+          direct train available for {trainBetweenList.actual_src.station_code}&nbsp;
+          to {trainBetweenList.actual_dest.station_code}.
           <br/>
-          {trainBetweenList.exactMatch.length > 0 ?
+          Train no. {trainBetweenList.exactMatch.length > 0 ?
           trainBetweenList.exactMatch[trainBetweenList.exactMatch.length - 1].train.train_code
           + ' - ' + trainBetweenList.exactMatch[trainBetweenList.exactMatch.length - 1].train.train_name :
           trainBetweenList.json[trainBetweenList.json.length - 1].train.train_code
@@ -78,7 +78,7 @@ export default ({trainBetweenList})=> {
               {impStations.join(', ').replace(/ Jn/g, '').replace(/,(\s+)?$/, ' and')}.</span> : ''}
           <br/>
           The fastest train in this route is {trainBetweenList.bestTrain.train.train_code}
-          - {trainBetweenList.bestTrain.train.train_name}&nbsp; is of
+          - {trainBetweenList.bestTrain.train.train_name}. It is of
           type {trainBetweenList.bestTrain.train.all_data[50].replace('&', 'and')} with a travel time of
           just { trainBetweenList.bestTrain.duration}
           <br/>
@@ -108,8 +108,8 @@ export default ({trainBetweenList})=> {
           <div className="row">
             <div className="col-xs-8">
               <h4>How long does it take?</h4>
-              Average journey duration for this trip is {trainBetweenList.avgDuration} The journey&nbsp;
-              time may vary from estimated average.
+              Average journey duration for this trip is {trainBetweenList.avgDuration}. Actual time taken
+              by the train may vary from the estimated average.
             </div>
             <div className="col-xs-4">
               <div className={'text-center text-capitalize ' + style.box}>

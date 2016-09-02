@@ -28,7 +28,7 @@ export default class StationInfoForm extends Component {
     let name = station.splice(1);
     const code = station[0];
     name = name.join('-');
-    const path = `/trains/station/${name}-${code}`;
+    const path = `/in/trains/station/${name}-${code}`;
     this.context.router.push(path);
   };
   render() {

@@ -22,7 +22,7 @@ export default class PlaceHolder extends Component {
     }
     return {
       title: `${dest.join(' ')}`,
-      url: `/in/${src[0]}-to-${dest[0]}-${src.slice(1, src.length).join('-')}-to-${dest.slice(1, dest.length).join('-')}`.toLowerCase()
+      url: `/in/trains/${src[0]}-to-${dest[0]}-${src.slice(1, src.length).join('-')}-to-${dest.slice(1, dest.length).join('-')}`.toLowerCase()
     };
   };
 

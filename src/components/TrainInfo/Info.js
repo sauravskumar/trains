@@ -17,7 +17,7 @@ export default class Info extends React.Component {
   daysToString = (daysArr) => {
     let daysString = daysArr;
     if (!daysString.includes('')) {
-      daysString = 'all days';
+      daysString = 'all days of week';
       return daysString;
     }
     daysString[0] = daysString[0] ? 'sunday' : '';
@@ -42,8 +42,7 @@ export default class Info extends React.Component {
       }
       return (<span>{train.all_data[34]}<sup>{this.getGetOrdinal(train.all_data[34])}</sup></span>);
     };
-    const pantry = train.all_data[34];
-
+    const pantry = parseInt(train.all_data[35], 10);
     let impStations = train.route.map(obj=> {
       if (obj.station_name.toLowerCase().includes(' jn')) {
         return (obj.station_name);
@@ -62,18 +61,17 @@ export default class Info extends React.Component {
           <div className="panel-body" style={{padding: '15px', margin: '15px'}}>
             {train.code} {train.name} is a morning trains which starts from&nbsp;
             {train.all_data[2]}&nbsp;
-            <b>{train.all_data[3]}</b> at {startTime} and reaches its destination {train.all_data[4]}&nbsp;
-            <b>{train.all_data[5]}</b> by {arrivalTime}. The journey takes an average duration of {duration}&nbsp;
-            and
-            reaches the destination on the {day()} day. <br/>
+            <b>{train.all_data[3]}</b> at {startTime}. It reaches its destination {train.all_data[4]}&nbsp;
+            <b>{train.all_data[5]}</b> by {arrivalTime}. The journey takes an average duration of {duration}.&nbsp;
+            The train arrives at the destination on the {day()} day itself. <br/>
             Total distance travelled by the trains is {train.all_data[39]} km. {impStations.length ?
             <span>Important stations in this route are&nbsp;
               {impStations.join(', ').replace(/ Jn/g, '').replace(/,(\s+)?$/, ' and')}.</span> : ''}
             <hr/>
             <div>
-              <h4>Is Pantry car available on this train?</h4>
+              <h4>Does this train have a Pantry car?</h4>
               This train {pantry ? ' does' : 'does not' } have a pantry car so {pantry ?
-              'you can get food on the train itself' : 'you may want to carry your own food'}.
+              'you can get food on this train.' : 'you may want to carry your own food'}.
             </div>
             <hr/>
             <div>

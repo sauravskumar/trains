@@ -187,20 +187,23 @@ export default class TrainsBetween extends Component {
       return (
         <div className="row">
           {[{
-            icon: require('./train.svg'),
+            icon: ('train.svg'),
             text: <span>Search trains between stations over a <b>million</b> routes in India</span>
           }, {
-            icon: require('./ticket.svg'),
+            icon: ('ticket.svg'),
             text: <span>Get current <b>PNR Status</b> of your current railway booking</span>
           }, {
-            icon: require('./calendar.svg'),
+            icon: ('calendar.svg'),
             text: <span>Most accurate and up to date <b>train running status</b> information</span>
           }].map(obj=> {
             return (
               <div className="col-xs-12 col-md-4" key={Date.now() + Math.random()}>
                 <div className="row">
                   <div className="col-xs-4 text-center"
-                       style={{verticalAlign: 'middle'}}><img src={obj.icon} style={{height: '70px'}}/></div>
+                       style={{verticalAlign: 'middle'}}>
+                    <img src={'https://res.cloudinary.com/atmed/image/upload/trains/' + obj.icon}
+                         style={{height: '70px'}}/>
+                  </div>
                   <div className="col-xs-8" style={{verticalAlign: 'middle', marginTop: '10px'}}>{obj.text}</div>
                 </div>
                 <br/>
@@ -214,40 +217,64 @@ export default class TrainsBetween extends Component {
     if (!params || !params.param) {
       return (
         <div className={style.background}>
-          <div className="row text-capitalize">
-            <div className="col-xs-12 col-md-8">
-              <div className={mobile ? 'panel panel-default' : ''} style={{paddingTop: '10px'}}>
-                {trainBetweenForm()}
-                <br/>
+          <div className="container">
+            <div className="row" style={{marginTop: '30px'}}>
+              <div className="col-xs-12 col-md-6" style={{display: 'block'}}>
+                <div className="panel panel-default"
+                     style={{
+                       paddingBottom: '20px',
+                       maxWidth: '100%',
+                       display: 'block',
+                       background: 'rgba(255,255,255,1)'
+                     }}>
+                  <div className="panel-body">
+                    {trainBetweenForm()}
+                    <hr/>
+                    <PNRStatusForm/>
+                    <hr/>
+                    <TrainInfoForm/>
+                  </div>
+                </div>
+                <PlaceHolder/>
+              </div>
+              <div className="col-xs-12 col-md-6">
               </div>
             </div>
+            <hr/>
+            {points()}
           </div>
-          <div className="row">
-            <div className="col-xs-12 col-md-4 col-md-push-8">
-              <div className="panel panel-default" style={{padding: '10px'}}>
-                <PNRStatusForm/>
-                <hr/>
-                <TrainInfoForm placeholder={'E.g. 18111'}/>
-              </div>
-            </div>
-            <div className="col-xs-12 col-md-8 col-md-pull-4">
-              <PlaceHolder/>
-            </div>
-          </div>
-          <br/>
-          <hr/>
-          {points()}
         </div>
       );
     }
     if ((trainBetweenList.json.length + trainBetweenList.exactMatch.length) < 1) {
       return (
-        <div className="row text-capitalize">
-          <div className="col-xs-12 col-sm-8">
-            {trainBetweenForm()}
-            <br/>
-            {this.trainNotFoundPanelHeading(url, null)}
-            <PlaceHolder/>
+        <div className={style.background}>
+          <div className="container">
+            <div className="row" style={{marginTop: '30px'}}>
+              <div className="col-xs-12 col-md-6" style={{display: 'block'}}>
+                <div className="panel panel-default"
+                     style={{
+                       paddingBottom: '20px',
+                       maxWidth: '100%',
+                       display: 'block',
+                       background: 'rgba(255,255,255,1)'
+                     }}>
+                  <div className="panel-body">
+                    {trainBetweenForm()}
+                    <hr/>
+                    <PNRStatusForm/>
+                    <hr/>
+                    <TrainInfoForm/>
+                  </div>
+                </div>
+                {this.trainNotFoundPanelHeading(url, null)}
+                <PlaceHolder/>
+              </div>
+              <div className="col-xs-12 col-md-6">
+              </div>
+            </div>
+            <hr/>
+            {points()}
           </div>
         </div>
       );
@@ -258,18 +285,54 @@ export default class TrainsBetween extends Component {
       //                         DESKTOP LAYOUT
       // ///////////////////////////////////////////////////////////////////////
       return (
-        <div className="row">
+        <div className="container">
+          <div className="row">
+            <AppHelmet title={this.headTitle(url, trainBetweenList.json.length)}
+                       description={this.description(url, trainBetweenList)}
+                       keywords={this.keywords(url, trainBetweenList.json.length)}
+                       url={fullUrl}/>
+            <div className="col-xs-12 col-sm-12 text-capitalize">
+              {trainBetweenForm()}
+              <br/>
+              <div className="panel panel-default">
+                {this.panelHeading(url, trainBetweenList)}
+              </div>
+              <DesktopLayout trainBetweenList={trainBetweenList}/>
+            </div>
+            <div className="col-xs-12 ">
+              <div className="panel panel-default">
+                <div className="panel-body">
+                  <div style={{padding: '0px', marginTop: '0px', height: '150px', overflow: 'hidden'}}>
+                    <GoogleMaps trainBetweenList={trainBetweenList}/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <Info trainBetweenList={trainBetweenList}/>
+            <small style={{color: '#aaa'}}>*All nearby distances are approximations</small>
+          </div>
+        </div>
+      );
+    }
+
+    // ///////////////////////////////////////////////////////////////////////
+    //                         MOBILE LAYOUT
+    // ///////////////////////////////////////////////////////////////////////
+
+    return (
+      <div className="container">
+        <div className="row text-capitalize">
           <AppHelmet title={this.headTitle(url, trainBetweenList.json.length)}
                      description={this.description(url, trainBetweenList)}
                      keywords={this.keywords(url, trainBetweenList.json.length)}
                      url={fullUrl}/>
-          <div className="col-xs-12 col-sm-12 text-capitalize">
+          <div className="col-xs-12 col-sm-8">
             {trainBetweenForm()}
             <br/>
             <div className="panel panel-default">
               {this.panelHeading(url, trainBetweenList)}
             </div>
-            <DesktopLayout trainBetweenList={trainBetweenList}/>
+            <MobileLayout trainBetweenList={trainBetweenList}/>
           </div>
           <div className="col-xs-12 ">
             <div className="panel panel-default">
@@ -283,38 +346,6 @@ export default class TrainsBetween extends Component {
           <Info trainBetweenList={trainBetweenList}/>
           <small style={{color: '#aaa'}}>*All nearby distances are approximations</small>
         </div>
-      );
-    }
-
-    // ///////////////////////////////////////////////////////////////////////
-    //                         MOBILE LAYOUT
-    // ///////////////////////////////////////////////////////////////////////
-
-    return (
-      <div className="row text-capitalize">
-        <AppHelmet title={this.headTitle(url, trainBetweenList.json.length)}
-                   description={this.description(url, trainBetweenList)}
-                   keywords={this.keywords(url, trainBetweenList.json.length)}
-                   url={fullUrl}/>
-        <div className="col-xs-12 col-sm-8">
-          {trainBetweenForm()}
-          <br/>
-          <div className="panel panel-default">
-            {this.panelHeading(url, trainBetweenList)}
-          </div>
-          <MobileLayout trainBetweenList={trainBetweenList}/>
-        </div>
-        <div className="col-xs-12 ">
-          <div className="panel panel-default">
-            <div className="panel-body">
-              <div style={{padding: '0px', marginTop: '0px', height: '150px', overflow: 'hidden'}}>
-                <GoogleMaps trainBetweenList={trainBetweenList}/>
-              </div>
-            </div>
-          </div>
-        </div>
-        <Info trainBetweenList={trainBetweenList}/>
-        <small style={{color: '#aaa'}}>*All nearby distances are approximations</small>
       </div>
     );
   }

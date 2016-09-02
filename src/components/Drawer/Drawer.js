@@ -37,7 +37,7 @@ export default class Drawer extends Component {
             {menuList.map((obj) => {
               return (
                 <li className="text-capitalize" key={Date.now() + Math.random()} onClick={this.closeDrawer}>
-                  <Link to={'/trains/' + obj._id.toLowerCase().replace(' ', '-')}>
+                  <Link to={'/in/trains/' + obj._id.toLowerCase().replace(' ', '-')}>
                     <div style={{width: '100%'}}>{obj.name}
                     </div>
                   </Link>

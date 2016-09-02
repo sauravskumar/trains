@@ -10,6 +10,7 @@ import {Footer, Drawer} from 'components';
 import config from '../../config';
 import ga from 'react-ga';
 import styles from './App.scss';
+import LoadingBar from 'react-redux-loading-bar';
 // import {push} from 'react-router-redux';
 // import {isLoaded as isInfoLoaded, load as loadInfo} from 'redux/modules/info';
 // import {isLoaded as isAuthLoaded, load as loadAuth, logout} from 'redux/modules/auth';
@@ -32,6 +33,10 @@ export default class App extends Component {
   static contextTypes = {
     store: PropTypes.object.isRequired,
   };
+  state = {
+    loadingBarWidth: 0,
+    compLoaded: false
+  };
 
   // componentWillReceiveProps(nextProps) {
   //   if (!this.props.user && nextProps.user) {
@@ -49,7 +54,7 @@ export default class App extends Component {
   // };
 
   componentDidMount = () => {
-    ga.initialize('UA-81811986-1', { debug: false });
+    ga.initialize('UA-81811986-1', {debug: false});
     ga.pageview(this.props.location.pathname);
   };
 
@@ -64,20 +69,22 @@ export default class App extends Component {
   };
 
   render() {
-    const {user, loading} = this.props;
+    const {user} = this.props;
+    // const {loadingBarWidth} = this.state;
     return (
       <div className={styles.app}>
         <Drawer ref="drawer"/>
         <Helmet {...config.app.head}/>
-        <div className={loading ? styles.loader : styles.hidden}>{loading}</div>
+        <LoadingBar className={styles.loader} updateTime={500}/>
         <Navbar fixedTop>
           <Navbar.Header>
-            <i className="material-icons md-dark hidden-sm hidden-md hidden-lg" style={{float: 'left', marginRight: '10px'}} onClick={this.toggleNav}>menu</i>
+            <i className="material-icons md-dark hidden-sm hidden-md hidden-lg"
+               style={{float: 'left', marginRight: '10px'}} onClick={this.toggleNav}>menu</i>
             <Navbar.Brand>
-              <IndexLink to="/trains/" title="Atmed Trains Home">
+              <IndexLink to="/in/trains/" title="Atmed Trains Home">
                 <nobr>
                   <img src={'https://res.cloudinary.com/atmed/image/upload//c_scale,h_20,q_100/atmed_logo.png'}
-                           alt="atmed_logo" style={{maxHeight: '20px'}}/><span>&nbsp;Trains</span></nobr>
+                       alt="atmed_logo" style={{maxHeight: '20px'}}/><span>&nbsp;Trains</span></nobr>
               </IndexLink>
             </Navbar.Brand>
             <Navbar.Toggle/>
@@ -97,16 +104,16 @@ export default class App extends Component {
                <LinkContainer to="/survey">
                <NavItem eventKey={3}>Survey</NavItem>
                </LinkContainer> */}
-              <LinkContainer to="/trains/pnr-status">
+              <LinkContainer to="/in/trains/pnr-status">
                 <NavItem eventKey={3} title="PNR Status">PNR Status</NavItem>
               </LinkContainer>
-              <LinkContainer to="/trains/running-status-route">
+              <LinkContainer to="/in/trains/running-status-route">
                 <NavItem eventKey={3} title="Train Running status and Route">Train Live Status & Route</NavItem>
               </LinkContainer>
-              <LinkContainer to="/trains/cancelled">
+              <LinkContainer to="/in/trains/cancelled">
                 <NavItem eventKey={3} title="Cancelled trains">Cancelled Trains</NavItem>
               </LinkContainer>
-              <LinkContainer to="/trains/station" >
+              <LinkContainer to="/in/trains/station">
                 <NavItem eventKey={3} title="Station Information">Station Info</NavItem>
               </LinkContainer>
               {/* {!user &&
@@ -122,7 +129,7 @@ export default class App extends Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <div className="container appContent">
+        <div className="container-fluid appContent">
           <div className={styles.appContent}>
             {this.props.children}
           </div>

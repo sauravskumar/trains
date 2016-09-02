@@ -35,7 +35,7 @@ module.exports = Object.assign({
         {property: 'og:type', content: 'website'},
         {property: 'og:title', content: 'Atmed Trains'},
         {property: 'og:description', content: 'Find trains between your favourite destinations. Get fare prices, pnr status, train info and train running status.'},
-        {property: 'og:url', content: 'https://www.atmed.co/trains'}
+        {property: 'og:url', content: 'https://www.atmed.co/in/trains'}
       ]
     }
   },

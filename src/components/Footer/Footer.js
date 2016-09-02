@@ -14,7 +14,11 @@ export default class Footer extends Component {
 
   render() {
     const {footer} = this.props;
-    const about = ['Contact Us', 'About Trains', 'Privacy Policy'];
+    const about = [
+      {title: 'Contact Us', url: 'https://atmed.co/contact'},
+      {title: 'About', url: '/in/trains/about'},
+      {title: 'Privacy Policy', url: 'https://atmed.co/privacy-policy'}
+    ];
     const important = [{
       title: 'National Train Enquiry',
       url: 'http://enquiry.indianrail.gov.in/ntes/'
@@ -37,7 +41,7 @@ export default class Footer extends Component {
               <ul className={style.footerLinks}>
                 {footer.second.map(obj=> {
                   return (<li key={Date.now() + Math.random()}><Link
-                    to={'/trains/' + (`${footer.source_code}-to-${obj.station_code}-${footer.source_name}-to-${obj.station_name}`).toLowerCase().replace(/ /g, '-')}>{footer.source_name}&nbsp;
+                    to={'/in/trains/' + (`${footer.source_code}-to-${obj.station_code}-${footer.source_name}-to-${obj.station_name}`).toLowerCase().replace(/ /g, '-')}>{footer.source_name}&nbsp;
                     to {obj.station_name}</Link></li>);
                 })}
               </ul>
@@ -47,7 +51,7 @@ export default class Footer extends Component {
               <ul className={style.footerLinks}>
                 {footer.first.map(obj=> {
                   return (<li key={Date.now() + Math.random()}><Link
-                    to={'/trains/' + (`${footer.dest_code}-to-${obj.station_code}-${footer.dest_name}-to-${obj.station_name}`).toLowerCase().replace(/ /g, '-')}>{footer.dest_name}&nbsp;
+                    to={'/in/trains/' + (`${footer.dest_code}-to-${obj.station_code}-${footer.dest_name}-to-${obj.station_name}`).toLowerCase().replace(/ /g, '-')}>{footer.dest_name}&nbsp;
                     to {obj.station_name}</Link></li>);
                 })}
               </ul>
@@ -58,8 +62,8 @@ export default class Footer extends Component {
                 {about.map(obj=> {
                   return (
                     <li key={Date.now() + Math.random()}>
-                      <Link to={'/trains/' + obj.toLowerCase().replace(/ /g, '-')}
-                            rel="nofollow">{obj}</Link>
+                      <Link to={obj.url.toLowerCase().replace(/ /g, '-')}
+                            rel="nofollow">{obj.title}</Link>
                     </li>);
                 })}
               </ul>
@@ -82,13 +86,13 @@ export default class Footer extends Component {
           <div className={'container '}>
             <ul>
               <li>
-                <a href={'/coupons/'} title="Atmed Coupons">Coupons</a>
+                <a href={'/in/coupons/'} title="Atmed Coupons">Coupons</a>
               </li>
               <li>
-                <a href="https://support.atmed.co/trains/about" title="About Trains" rel="nofollow">About Trains</a>
+                <Link to="https://www.atmed.co/in/trains/about" title="About Trains">About Trains</Link>
               </li>
               <li>
-                Got to <a href="https://www.atmed.co" title="Atmed">Atmed.co</a>
+                <a href="https://www.atmed.co" title="Atmed">Atmed.co</a>
               </li>
             </ul>
             ** Atmed Trains is in development. Credits to the respective artists will be updated soon.

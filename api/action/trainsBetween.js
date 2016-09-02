@@ -10,7 +10,6 @@ const mongoUrl = constant.url;
 var collection = 'stations_all';
 // Create a driver instance, for the user neo4j with password neo4j.
 const driver = constant.neo_driver;
-const co = require('co');
 
 let express = require('express'),
   router = express.Router();

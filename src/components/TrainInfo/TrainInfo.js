@@ -265,12 +265,12 @@ export default class TrainInfo extends Component {
             <div className="text-center">Show trains from</div>
             <Nav bsStyle="tabs" justified>
               <LinkContainer
-                to={(`/trains/${train.all_data[3]}-to-${train.all_data[5]}-${train.all_data[2]}-to-${train.all_data[4]}`).toLowerCase().replace(/ /g, '-')}>
+                to={(`/in/trains/${train.all_data[3]}-to-${train.all_data[5]}-${train.all_data[2]}-to-${train.all_data[4]}`).toLowerCase().replace(/ /g, '-')}>
                 <NavItem>
                   {train.all_data[2]} - {train.all_data[3]}&nbsp;
                   To&nbsp;{train.all_data[4]} - {train.all_data[5]}</NavItem></LinkContainer>
               <LinkContainer
-                to={(`/trains/${train.all_data[5]}-to-${train.all_data[3]}-${train.all_data[4]}-to-${train.all_data[2]}`).toLowerCase().replace(/ /g, '-')}>
+                to={(`/in/trains/${train.all_data[5]}-to-${train.all_data[3]}-${train.all_data[4]}-to-${train.all_data[2]}`).toLowerCase().replace(/ /g, '-')}>
                 <NavItem>
                   {train.all_data[4]} - {train.all_data[5]}&nbsp;
                   To&nbsp;{train.all_data[2]} - {train.all_data[3]}</NavItem></LinkContainer>

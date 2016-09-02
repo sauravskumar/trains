@@ -24,7 +24,7 @@ export default class TrainBetweenForm extends Component {
     // console.log(this.refs.trainNoInput.getWrappedInstance().refs.searchInput.value);
     let trainInfo = this.refs.trainNoInput.getWrappedInstance().refs.searchInput.value;
     trainInfo = trainInfo.replace(/ /g, '-').toLowerCase().replace(/-+/, '-' );
-    const path = `/trains/running-status-route/${trainInfo}`;
+    const path = `/in/trains/running-status-route/${trainInfo}`;
     this.context.router.push(path);
   };
   render() {
@@ -34,7 +34,7 @@ export default class TrainBetweenForm extends Component {
       <div>
         <h4 className="text-center">Train live status & schedule</h4>
         <div className={ 'form-inline text-center ' + style.trainsBetweenForm }>
-          <SearchInput ref="trainNoInput" placeholder={placeholder ? placeholder : 'Train Name / Number'} list={ trainList } type="train"/>
+          <SearchInput ref="trainNoInput" placeholder={placeholder ? placeholder : 'Enter Train Name/No. E.g. 18111'} list={ trainList } type="train"/>
           <button className="btn btn-primary" onClick={this.search}>Search</button>
         </div>
       </div>

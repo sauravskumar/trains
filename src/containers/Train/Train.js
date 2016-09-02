@@ -35,7 +35,8 @@ export default class Train extends Component {
     const {trainInfo, params, location, status} = this.props;
     const fullUrl = location.pathname;
     return (
-        <TrainInfo train={trainInfo} params={params} status={status} fullUrl={fullUrl}/>
+      <div className="container">
+        <TrainInfo train={trainInfo} params={params} status={status} fullUrl={fullUrl}/></div>
     );
   }
 }

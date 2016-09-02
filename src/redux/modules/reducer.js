@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 // import multireducer from 'multireducer';
 import { routerReducer } from 'react-router-redux';
 import {reducer as reduxAsyncConnect} from 'redux-connect';
-
+import { loadingBarReducer } from 'react-redux-loading-bar';
 // import auth from './auth';
 // import counter from './counter';
 // import {reducer as form} from 'redux-form';
@@ -17,6 +17,7 @@ export default combineReducers({
   // auth,
   // form,
   search,
+  loadingBar: loadingBarReducer,
   app,
   // multireducer: multireducer({
   //   counter1: counter,

@@ -15,7 +15,10 @@ import {
   Train,
   TrainsBetween,
   Station,
-  PNRStatus
+  PNRStatus,
+  About,
+  Contact,
+  PrivacyPolicy
 } from 'containers';
 
 // export default (store) => {
@@ -41,7 +44,7 @@ export default () => {
    * Please keep routes in alphabetical order
    */
   return (
-    <Route path="/trains" component={App}>
+    <Route path="/in/trains" component={App}>
       { /* Home (main) route */ }
       <IndexRoute component={TrainsBetween}/>
       <Route path="between/:param" component={TrainsBetween}/>
@@ -53,6 +56,9 @@ export default () => {
       <Route path="running-status-route/:param" component={Train}/>
       {/* <Route path="trains" component={TrainsBetween}/> */}
       <Route path="pnr-status" component={PNRStatus}/>
+      <Route path="about" component={About}/>
+      <Route path="contact-us" component={Contact}/>
+      <Route path="privacy-policy" component={PrivacyPolicy}/>
       <Route path=":param" component={TrainsBetween}/>
 
       { /* Catch all route */ }
