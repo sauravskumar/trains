@@ -41,6 +41,14 @@ export default ({trainBetweenList})=> {
   impStations.pop();
   impStations = impStations.filter(Boolean);
   impStations.splice(5);
+  const insertAnd = (str1) => {
+    let str = str1;
+    const index = str.lastIndexOf(',');
+    if (index !== -1) {
+      str = str.substring(0, index) + ' and ' + str.substring(index + 1);
+    }
+    return str;
+  };
   return (
     <div className="col-xs-12">
       <div className="panel panel-default">
@@ -52,39 +60,39 @@ export default ({trainBetweenList})=> {
           Distance by train from {trainBetweenList.actual_src.station_name} to&nbsp;
           {trainBetweenList.actual_dest.station_name} is close to {trainBetweenList.avgDistance} km.&nbsp;
           Train no. {trainBetweenList.exactMatch.length > 0 ?
-          trainBetweenList.exactMatch[0].train.train_code + ' - ' +
-          trainBetweenList.exactMatch[0].train.train_name :
-          trainBetweenList.json[0].train.train_code + ' - ' +
-          trainBetweenList.json[0].train.train_name} is the first&nbsp;
-          direct train available for {trainBetweenList.actual_src.station_code}&nbsp;
+        trainBetweenList.exactMatch[0].train.train_code + ' - ' +
+        trainBetweenList.exactMatch[0].train.train_name :
+        trainBetweenList.json[0].train.train_code + ' - ' +
+        trainBetweenList.json[0].train.train_name} is the first&nbsp;
+          direct train for {trainBetweenList.actual_src.station_code}&nbsp;
           to {trainBetweenList.actual_dest.station_code}.
           <br/>
           Train no. {trainBetweenList.exactMatch.length > 0 ?
-          trainBetweenList.exactMatch[trainBetweenList.exactMatch.length - 1].train.train_code
-          + ' - ' + trainBetweenList.exactMatch[trainBetweenList.exactMatch.length - 1].train.train_name :
-          trainBetweenList.json[trainBetweenList.json.length - 1].train.train_code
-          + ' - ' + trainBetweenList.json[trainBetweenList.json.length - 1].train.train_name}&nbsp;
-          is the last train available for this route.
+        trainBetweenList.exactMatch[trainBetweenList.exactMatch.length - 1].train.train_code
+        + ' - ' + trainBetweenList.exactMatch[trainBetweenList.exactMatch.length - 1].train.train_name :
+        trainBetweenList.json[trainBetweenList.json.length - 1].train.train_code
+        + ' - ' + trainBetweenList.json[trainBetweenList.json.length - 1].train.train_name}&nbsp;
+          is the last train in the day for this route.
           <br/>
           The are {trainBetweenList.exactMatch.length} direct trains and {trainBetweenList.json.length}&nbsp;
-          trains available from close by stations.
+          trains available from near by stations.
           <br/>
           {trainBetweenList.exactMatch.length === 0 ? 'No direct trains are available for ' +
           trainBetweenList.actual_src.station_name + ' to ' + trainBetweenList.actual_dest.station_name :
-            ' Direct trains are available ' + daysToString(trainBetweenList.days)}.
+          ' Direct trains are available ' + insertAnd(daysToString(trainBetweenList.days))}.
           <br/>
           {impStations.length ?
             <span> Important stations in this route are&nbsp;
-              {impStations.join(', ').replace(/ Jn/g, '').replace(/,(\s+)?$/, ' and')}.</span> : ''}
+              {insertAnd(impStations.join(', ').replace(/ Jn/g, ''))}.</span> : ''}
           <br/>
           The fastest train in this route is {trainBetweenList.bestTrain.train.train_code}
           - {trainBetweenList.bestTrain.train.train_name}. It is of
           type {trainBetweenList.bestTrain.train.all_data[50].replace('&', 'and')} with a travel time of
           just { trainBetweenList.bestTrain.duration}
           <br/>
-          Station {trainBetweenList.actual_src.station_name} ({trainBetweenList.actual_src.station_code})&nbsp;
+          Station {trainBetweenList.actual_src.station_name}&nbsp;
           lies under {trainBetweenList.actual_src.division} division and the station&nbsp;
-          {trainBetweenList.actual_dest.station_name} ({trainBetweenList.actual_dest.station_code})&nbsp;
+          {trainBetweenList.actual_dest.station_name}&nbsp;
           is under {trainBetweenList.actual_dest.division} division of Indian railways.
           <br/>
           <hr/>

@@ -62,8 +62,8 @@ export default class Footer extends Component {
                 {about.map(obj=> {
                   return (
                     <li key={Date.now() + Math.random()}>
-                      <Link to={obj.url.toLowerCase().replace(/ /g, '-')}
-                            rel="nofollow">{obj.title}</Link>
+                      <a href={obj.url.toLowerCase().replace(/ /g, '-')}
+                            rel="nofollow">{obj.title}</a>
                     </li>);
                 })}
               </ul>
@@ -86,7 +86,7 @@ export default class Footer extends Component {
           <div className={'container '}>
             <ul>
               <li>
-                <a href={'/in/coupons/'} title="Atmed Coupons">Coupons</a>
+                <a href="/in/coupons/" title="Atmed Coupons">Coupons</a>
               </li>
               <li>
                 <Link to="https://www.atmed.co/in/trains/about" title="About Trains">About Trains</Link>

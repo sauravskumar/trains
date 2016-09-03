@@ -70,9 +70,17 @@ proxy.on('error', (error, req, res) => {
 });
 
 app.use((req, res) => {
-  // console.log(req.url);
+  console.log(req.url);
+  // if (req.url === '/trains/') {
+  //   res.status(302).redirect('/in/trains/');
+  //   return;
+  // }
   const urlSplit = req.url.split('/');
-  console.log(urlSplit.length);
+  console.log(urlSplit, req.url);
+  if (urlSplit[1] !== 'in') {
+    res.status(302).redirect('/in' + req.url);
+    return;
+  }
   if (urlSplit[2].includes('-to-')) {
     let lastPartSplit = urlSplit[2].split('-to-');
     if (lastPartSplit.length == 2) {
@@ -83,8 +91,8 @@ app.use((req, res) => {
       // const destinationStation = lastPartSplit[1].split('-').pop();
       let newUrl = lastPartSplit[0].pop() + '-to-' + lastPartSplit[1].pop()
         + '-' + lastPartSplit[0].join('-') + '-to-' + lastPartSplit[1].join('-');
-      console.log(newUrl);
       res.status(302).redirect('/in/trains/' + newUrl);
+      return;
     }
   }
   if (__DEVELOPMENT__) {

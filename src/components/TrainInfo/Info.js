@@ -52,6 +52,14 @@ export default class Info extends React.Component {
     impStations.pop();
     impStations = impStations.filter(Boolean);
     impStations.splice(5);
+    const insertAnd = (str1) => {
+      let str = str1;
+      const index = str.lastIndexOf(',');
+      if (index !== -1) {
+        str = str.substring(0, index) + ' and ' + str.substring(index + 1);
+      }
+      return str;
+    };
     return (
       <div>
         <div className="panel panel-default">
@@ -66,7 +74,7 @@ export default class Info extends React.Component {
             The train arrives at the destination on the {day()} day itself. <br/>
             Total distance travelled by the trains is {train.all_data[39]} km. {impStations.length ?
             <span>Important stations in this route are&nbsp;
-              {impStations.join(', ').replace(/ Jn/g, '').replace(/,(\s+)?$/, ' and')}.</span> : ''}
+              {insertAnd(impStations.join(', ').replace(/ Jn/g, ''))}.</span> : ''}
             <hr/>
             <div>
               <h4>Does this train have a Pantry car?</h4>
