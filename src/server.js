@@ -70,13 +70,13 @@ proxy.on('error', (error, req, res) => {
 });
 
 app.use((req, res) => {
-  console.log(req.url);
+  // console.log(req.url);
   // if (req.url === '/trains/') {
   //   res.status(302).redirect('/in/trains/');
   //   return;
   // }
   const urlSplit = req.url.split('/');
-  console.log(urlSplit, req.url);
+  // console.log(urlSplit, req.url);
   if (urlSplit[1] !== 'in') {
     res.status(302).redirect('/in' + req.url);
     return;

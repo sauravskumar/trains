@@ -41,7 +41,7 @@ export default class Footer extends Component {
               <ul className={style.footerLinks}>
                 {footer.second.map(obj=> {
                   return (<li key={Date.now() + Math.random()}><Link
-                    to={'/in/trains/' + (`${footer.source_code}-to-${obj.station_code}-${footer.source_name}-to-${obj.station_name}`).toLowerCase().replace(/ /g, '-')}>{footer.source_name}&nbsp;
+                    to={'/in/trains/' + (`${footer.source_code}-to-${obj.station_code}-${footer.source_name}-to-${obj.station_name}`).toLowerCase().replace(/ /g, '-').replace(/-+/g, '-')}>{footer.source_name}&nbsp;
                     to {obj.station_name}</Link></li>);
                 })}
               </ul>
@@ -51,7 +51,7 @@ export default class Footer extends Component {
               <ul className={style.footerLinks}>
                 {footer.first.map(obj=> {
                   return (<li key={Date.now() + Math.random()}><Link
-                    to={'/in/trains/' + (`${footer.dest_code}-to-${obj.station_code}-${footer.dest_name}-to-${obj.station_name}`).toLowerCase().replace(/ /g, '-')}>{footer.dest_name}&nbsp;
+                    to={'/in/trains/' + (`${footer.dest_code}-to-${obj.station_code}-${footer.dest_name}-to-${obj.station_name}`).toLowerCase().replace(/ /g, '-').replace(/-+/g, '-')}>{footer.dest_name}&nbsp;
                     to {obj.station_name}</Link></li>);
                 })}
               </ul>
@@ -95,7 +95,7 @@ export default class Footer extends Component {
                 <a href="https://www.atmed.co" title="Atmed">Atmed.co</a>
               </li>
             </ul>
-            ** Atmed Trains is in development. Credits to the respective artists will be updated soon.
+            * Atmed Trains is in development. Credits to the respective artists will be updated soon.
           </div>
         </div>
       </footer>
