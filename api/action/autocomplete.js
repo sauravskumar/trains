@@ -38,7 +38,7 @@ let search = (q, cache) => {
       db.collection('stations_all').find({}).toArray().then(result => {
         stationCache = result;
         // console.log(result);
-        console.log('stations_all_cache');
+        // console.log('stations_all_cache');
         db.close()
       }).catch(err=> {
         console.log(err);
@@ -54,7 +54,7 @@ let search = (q, cache) => {
       db.collection('trains_all').find({}).toArray().then(result => {
         db.close();
         trainCache = result;
-        console.log('trians_all_cache')
+        // console.log('trians_all_cache')
       }).catch(err=> {
         console.log(err);
       })

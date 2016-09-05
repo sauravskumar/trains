@@ -32,7 +32,7 @@ let writeSitemapIndex = (fileName) => {
     <loc>https://www.atmed.co/in/trains/files/sitemap/${fileName}.xml.gz</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
 </sitemap>`;
-  fs.appendFile(`/usr/src/app/static/trains/sitemap.xml`, sitemapStructure, 'utf8')
+  fs.appendFile(`/usr/src/app/static/in/trains/sitemap.xml`, sitemapStructure, 'utf8')
 };
 
 
@@ -56,7 +56,7 @@ let writeSitemap = (db_name, file_name) => {
             console.log('train and station sitemap made');
             writeData += `\n</urlset>`;
             // console.log(writeData)
-            const fullPath = '/usr/src/app/static/trains/files/sitemap/' + file_name + '.xml';
+            const fullPath = '/usr/src/app/static/in/trains/files/sitemap/' + file_name + '.xml';
             fs.writeFile(fullPath, writeData, 'utf8', (err, data) => {
               // console.log(err);
               // console.log(data);
@@ -88,7 +88,7 @@ let writeSitemap = (db_name, file_name) => {
 let writeToFile = (file_name, writeData) => {
   return new Promise((resolve, reject) => {
     console.log('writeToFile', file_name);
-    const fullPath = '/usr/src/app/static/trains/files/sitemap/' + file_name + '.xml';
+    const fullPath = '/usr/src/app/static/in/trains/files/sitemap/' + file_name + '.xml';
     fs.writeFile(fullPath, writeData, 'utf8', (err, data) => {
       const compress = zlib.createGzip(),
         input = fs.createReadStream(fullPath),
@@ -181,11 +181,12 @@ let writeTrainsBetweenSitmap = (db_name) => {
 
 module.exports = function () {
   router.get('/updatesitemap', (req, res) => {
-    fs.writeFile('/usr/src/app/static/trains/sitemap.xml', sitemapIndexTag, 'utf8');
+    console.log('updateSitemap');
+    fs.writeFile('/usr/src/app/static/in/trains/sitemap.xml', sitemapIndexTag, 'utf8');
     writeSitemap('trains_routes', 'trains').then(()=> {
       writeSitemap('stations_all', 'stations').then(()=> {
         writeTrainsBetweenSitmap('trains_routes').then(()=> {
-          fs.appendFile(`/usr/src/app/static/trains/sitemap.xml`, `\n</sitemapindex>`, 'utf8');
+          fs.appendFile(`/usr/src/app/static/in/trains/sitemap.xml`, `\n</sitemapindex>`, 'utf8');
           res.send('done');
         })
       })

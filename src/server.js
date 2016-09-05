@@ -81,8 +81,8 @@ app.use((req, res) => {
     res.status(302).redirect('/in' + req.url);
     return;
   }
-  if (urlSplit[2].includes('-to-')) {
-    let lastPartSplit = urlSplit[2].split('-to-');
+  if (urlSplit[3].includes('-to-')) {
+    let lastPartSplit = urlSplit[3].split('-to-');
     if (lastPartSplit.length == 2) {
       // console.log(lastPartSplit[1].split('-'));
       lastPartSplit[0] = lastPartSplit[0].split('-');
