@@ -57,7 +57,7 @@ export default () => {
       {/* <Route path="trains" component={TrainsBetween}/> */}
       <Route path="pnr-status" component={PNRStatus}/>
       <Route path="about" component={About}/>
-      <Route path="contact-us" component={Contact}/>
+      <Route path="contact" component={Contact}/>
       <Route path="privacy-policy" component={PrivacyPolicy}/>
       <Route path=":param" component={TrainsBetween}/>
 

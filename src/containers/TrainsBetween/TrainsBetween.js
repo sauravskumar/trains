@@ -20,8 +20,11 @@ import {bindActionCreators} from 'redux';
     const promises = [];
     if (param) {
       const stations = param.split('-to-');
-      promises.push(dispatch(loadTrainsBetween(stations[0], stations[1].split('-')[0])));
-      promises.push(dispatch(loadFooter(`?src=${stations[0]}&dest=${stations[1].split('-')[0]}`)));
+      const src = stations[0];
+      const dest = stations[1].split('-')[0];
+      console.log(src, dest);
+      promises.push(dispatch(loadTrainsBetween(src, dest)));
+      promises.push(dispatch(loadFooter(`?src=${src}&dest=${dest}`)));
     } else {
       promises.push(dispatch(loadFooter()));
     }
@@ -117,7 +120,12 @@ export default class TrainsBetween extends Component {
       'irctc train timings', 'railway ticket booking', 'railway booking',
       'indian railway time table', 'railway time table', 'seat fare', 'online train booking'];
     const descEnd = this.getRandom(keywords, 3).join(', ').toLowerCase();
-    return `${number} trains found from [${codeName.split(' to ')[0].toUpperCase()}]${fullName.split(' to ')[0].toUpperCase()} to [${codeName.split(' to ')[1].toUpperCase()}]${fullName.split(' to ')[1].toUpperCase()}. Best Train ${bestTrain.train.all_data[0]} - ${bestTrain.train.all_data[1]}. Duration ${bestTrain.duration} Get ${descEnd}.`;
+    try {
+      return `${number} trains found from [${codeName.split(' to ')[0].toUpperCase()}]${fullName.split(' to ')[0].toUpperCase()} to [${codeName.split(' to ')[1].toUpperCase()}]${fullName.split(' to ')[1].toUpperCase()}. Best Train ${bestTrain.train.all_data[0]} - ${bestTrain.train.all_data[1]}. Duration ${bestTrain.duration} Get ${descEnd}.`;
+    } catch (err) {
+      console.log(err);
+      this.props.onPageSetStatus(301);
+    }
   };
 
   keywords = (param, number) => {
@@ -297,6 +305,21 @@ export default class TrainsBetween extends Component {
               <div className="panel panel-default">
                 {this.panelHeading(url, trainBetweenList)}
               </div>
+              <div className="panel panel-default">
+                <div style={{display: 'block', margin: '0 auto'}}>
+                  <ins className="adsbygoogle"
+                       style={{display: 'inline-block', width: '728px', height: '90px'}}
+                       data-ad-client="ca-pub-1698974389938997"
+                       data-ad-slot="4563689260"></ins>
+                  <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                  </script>
+                </div>
+              </div>
+              {/* <div className="panel panel-default">
+               <img
+               src="https://images-eu.ssl-images-amazon.com/images/G/31/associates/build-links/aaxbannerstatic/static_728x90"
+               className="aff-image text-center" style={{display: 'block', margin: '0 auto'}}/></div> */}
               <DesktopLayout trainBetweenList={trainBetweenList}/>
             </div>
             <div className="col-xs-12 ">
@@ -308,6 +331,12 @@ export default class TrainsBetween extends Component {
                 </div>
               </div>
             </div>
+            {/* <div className="col-xs-12">
+             <div className="panel panel-default">
+             <img
+             src="https://images-eu.ssl-images-amazon.com/images/G/31/associates/build-links/aaxbannerstatic/static_728x90"
+             className="aff-image text-center" style={{display: 'block', margin: '0 auto'}}/></div>
+             </div> */}
             <Info trainBetweenList={trainBetweenList}/>
             <small style={{color: '#aaa'}}>*All nearby distances are approximations</small>
           </div>

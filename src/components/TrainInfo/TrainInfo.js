@@ -278,37 +278,55 @@ export default class TrainInfo extends Component {
           </div>
         </div>
         <div className="col-xs-12 col-sm-4 text-center">
-          <div className="panel panel-default">
-            <div className="panel-heading">
-              Ticket Price
+          <div className="row">
+            <div className="col-xs-12">
+              <div className="panel panel-default">
+                <div className="panel-heading">
+                  Ticket Price
+                </div>
+                <div className="panel-body">
+                  <table className="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                      <td>Type</td>
+                      <td>Fare</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {(()=> {
+                      let index = -1;
+                      return train.classes.map(obj=> {
+                        index++;
+                        if (obj) {
+                          return (
+                            <tr>
+                              <td>{obj}</td>
+                              <td>Rs. {fare[index].split(',')[0]}</td>
+                            </tr>
+                          );
+                        }
+                      });
+                    })()}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-            <div className="panel-body">
-              <table className="table table-striped table-hover">
-                <thead>
-                <tr>
-                  <td>Type</td>
-                  <td>Fare</td>
-                </tr>
-                </thead>
-                <tbody>
-                {(()=> {
-                  let index = -1;
-                  return train.classes.map(obj=> {
-                    index++;
-                    if (obj) {
-                      return (
-                        <tr>
-                          <td>{obj}</td>
-                          <td>Rs. {fare[index].split(',')[0]}</td>
-                        </tr>
-                      );
-                    }
-                  });
-                })()}
-                </tbody>
-              </table>
+            <div className="col-xs-12">
+              <div className="panel panel-default">
+                <ins className="adsbygoogle"
+                     style={{display: 'inline-block', width: '336px', height: '280px'}}
+                     data-ad-client="ca-pub-1698974389938997"
+                     data-ad-slot="2550402463"></ins>
+                <script>
+                  (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+              </div>
             </div>
           </div>
+          {/* <img
+           src="http://res.cloudinary.com/atmed/v1476974353/new/300x600"
+           className="aff-image"/> */}
         </div>
       </div>
     );

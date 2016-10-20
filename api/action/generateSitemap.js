@@ -16,9 +16,10 @@ let topTag = `<?xml version="1.0" encoding="UTF-8"?>\n\t<urlset xmlns="http://ww
 let sitemapIndexTag = `<?xml version="1.0" encoding="UTF-8"?>\n\t<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
 
 var tag = (suburl, url = undefined) => {
+  // console.log(suburl);
   return `
     <url>
-        <loc>${'https://www.atmed.co/in/trains/' + suburl + (url ? '/' + url : '')}</loc>
+        <loc>${'https://atmed.co/in/trains/' + suburl + (url ? '/' + url : '')}</loc>
         <lastmod>${new Date().toISOString()}</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
@@ -29,7 +30,7 @@ var tag = (suburl, url = undefined) => {
 let writeSitemapIndex = (fileName) => {
   let sitemapStructure = `
 <sitemap>
-    <loc>https://www.atmed.co/in/trains/files/sitemap/${fileName}.xml.gz</loc>
+    <loc>https://atmed.co/in/trains/files/sitemap/${fileName}.xml.gz</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
 </sitemap>`;
   fs.appendFile(`/usr/src/app/static/in/trains/sitemap.xml`, sitemapStructure, 'utf8')
@@ -122,7 +123,7 @@ let loopOverStations = (result) => {
           // console.log(station2.station_code)
           if (station2.station_code !== station.station_code && station_index2 >= station_index
             && station.station_code && station2.station_code) {
-            x.add(`${normalizeString(station.station_code)}-to-${normalizeString(station2.station_code)}-to-${normalizeString(station.station_name)}-${normalizeString(station2.station_name)}`);
+            x.add(`${normalizeString(station.station_code)}-to-${normalizeString(station2.station_code)}-${normalizeString(station.station_name)}-to-${normalizeString(station2.station_name)}`);
             // if (station.station_code == 'PTRD' && station2.station_code == 'RMR') {
             //   console.log('caught 2', result[index].name, result[index].code);
             //   console.log(`${normalizeString(station.station_name)}-${normalizeString(station.station_code)}-to-${normalizeString(station2.station_name)}-${normalizeString(station2.station_code)}`);

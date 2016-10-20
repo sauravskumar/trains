@@ -10,13 +10,14 @@ import {connect} from 'react-redux';
 import SearchInput from './../SearchInput/SearchInput';
 
 @connect(
-  state => ({stationList: state.search.stationList})
+  state => ({stationList: state.search.stationList, mobile: state.app.mobile})
 )
 export default class TrainBetweenForm extends Component {
   static propTypes = {
     stationList: PropTypes.array,
     source: PropTypes.string,
     destination: PropTypes.string,
+    mobile: PropTypes.bool,
   };
   static contextTypes = {
     router: React.PropTypes.object
@@ -39,7 +40,7 @@ export default class TrainBetweenForm extends Component {
 
   render() {
     // require the logo image both from client and server
-    const {stationList, source, destination} = this.props;
+    const {stationList, source, destination, mobile} = this.props;
     return (
       <div style={{width: '100%'}}>
         <h4 className="text-center">Trains Between Station</h4>
@@ -47,20 +48,22 @@ export default class TrainBetweenForm extends Component {
           <SearchInput ref="sourceSt" placeholder={source ? source : 'Source: e.g. NDLS New...'}
                        list={ stationList }
                        type="station"/>
-          <div
-            style={{
-              border: '1px solid #ddd',
-              display: 'inline-block',
-              borderRadius: '50%',
-              textAlign: 'center',
-              height: '50px',
-              width: '50px',
-              margin: '0 auto',
-              position: 'relative',
-            }}>
-            <i className="material-icons"
-               style={{margin: '0 auto', color: '#ddd', verticalAlign: 'middle', lineHeight: '50px'}}>&#xE571;</i>
-          </div>
+          {mobile ?
+            '' :
+            <div
+              style={{
+                border: '1px solid #ddd',
+                display: 'inline-block',
+                borderRadius: '50%',
+                textAlign: 'center',
+                height: '50px',
+                width: '50px',
+                margin: '0 auto',
+                position: 'relative',
+              }}>
+              <i className="material-icons"
+                 style={{margin: '0 auto', color: '#ddd', verticalAlign: 'middle', lineHeight: '50px'}}>&#xE571;</i>
+            </div>}
           <SearchInput ref="destSt" placeholder={destination ? destination : 'Destination: e.g. CSTM Mum...'}
                        list={ stationList }
                        type="station"/>

@@ -86,16 +86,15 @@ export default class Footer extends Component {
           <div className={'container '}>
             <ul>
               <li>
-                <a href="/in/coupons/" title="Atmed Coupons">Coupons</a>
+                <Link to="/in/trains/about" title="About Trains">About</Link>
               </li>
               <li>
-                <Link to="https://www.atmed.co/in/trains/about" title="About Trains">About Trains</Link>
+                <Link to="/in/trains/privacy-policy" title="Privacy Policy">Privacy Policy</Link>
               </li>
               <li>
-                <a href="https://www.atmed.co" title="Atmed">Atmed.co</a>
+                <Link to="/in/trains/contact" title="Contact">Contact</Link>
               </li>
             </ul>
-            ** Atmed Trains is in development. Credits to the respective artists will be updated soon.
           </div>
         </div>
       </footer>

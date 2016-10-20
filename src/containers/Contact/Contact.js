@@ -10,7 +10,7 @@ import {loadFooter} from 'redux/modules/search';
     return Promise.all(promises);
   }
 }])
-export default class About extends Component {
+export default class Contact extends Component {
 
   render() {
     return (
@@ -19,6 +19,7 @@ export default class About extends Component {
           <div className="row">
             <Helmet title="Contact Us"/>
             <div className="col-xs-12 col-md-6 col-md-push-3">
+              <br/>
               <h1 className=" text-center ">Contact Us</h1>
               <br/>
               <div className="panel panel-default">

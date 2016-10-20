@@ -78,7 +78,7 @@ app.use((req, res) => {
   const urlSplit = req.url.split('/');
   // console.log(urlSplit, req.url);
   if (urlSplit[1] !== 'in') {
-    res.status(302).redirect('/in' + req.url);
+    res.status(301).redirect('/in' + req.url);
     return;
   }
   if (urlSplit[3].includes('-to-')) {
@@ -91,7 +91,13 @@ app.use((req, res) => {
       // const destinationStation = lastPartSplit[1].split('-').pop();
       let newUrl = lastPartSplit[0].pop() + '-to-' + lastPartSplit[1].pop()
         + '-' + lastPartSplit[0].join('-') + '-to-' + lastPartSplit[1].join('-');
-      res.status(302).redirect('/in/trains/' + newUrl);
+      res.status(301).redirect('/in/trains/' + newUrl);
+      return;
+    }
+    // console.log(lastPartSplit, lastPartSplit[1].indexOf('-'));
+    if (lastPartSplit[1].indexOf('-')  === -1) {
+      console.log('change me');
+      res.status(410).send('<div><h4 class="text-center">Page removed from index</h4></div>');
       return;
     }
   }
