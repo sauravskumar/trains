@@ -376,7 +376,7 @@ export default class TrainsBetween extends Component {
             </div>
           </div>
           <Info trainBetweenList={trainBetweenList}/>
-          <small style={{color: '#aaa'}}>*All nearby distances are approximations</small>
+          <small style={{color: '#bbb'}}>*All nearby distances are approximations</small>
         </div>
       </div>
     );
