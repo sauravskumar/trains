@@ -312,17 +312,6 @@ export default class TrainInfo extends Component {
                 </div>
               </div>
             </div>
-            <div className="col-xs-12">
-              <div className="panel panel-default">
-                <ins className="adsbygoogle"
-                     style={{display: 'inline-block', width: '336px', height: '280px'}}
-                     data-ad-client="ca-pub-1698974389938997"
-                     data-ad-slot="2550402463"></ins>
-                <script>
-                  (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-              </div>
-            </div>
           </div>
           {/* <img
            src="http://res.cloudinary.com/atmed/v1476974353/new/300x600"

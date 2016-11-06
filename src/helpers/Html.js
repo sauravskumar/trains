@@ -31,10 +31,10 @@ export default class Html extends Component {
           {head.meta.toComponent()}
           {head.link.toComponent()}
           {head.script.toComponent()}
-          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
           <meta name="google" content="notranslate" />
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"/>
 
-          <link rel="shortcut icon" href="https://res.cloudinary.com/atmed/image/upload/c_scale,h_200,q_100/v1469877963/atmed_umufoy.png"/>
+            <link rel="shortcut icon" href="https://res.cloudinary.com/atmed/image/upload/c_scale,h_200,q_100/v1469877963/atmed_umufoy.png"/>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           {/* styles (will be present only in production with webpack extract text plugin) */}
           {Object.keys(assets.styles).map((style, key) =>

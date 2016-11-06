@@ -55,7 +55,17 @@ export default class TrainsBetween extends Component {
       this.props.onPageSetStatus(404);
     }
   };
-
+  componentDidMount = () => {
+    if (this.props.trainBetweenList) {
+      (adsbygoogle = window.adsbygoogle || []).push({}); //eslint-disable-line
+    }
+  };
+  componentDidUpdate = () => {
+    if (this.props.trainBetweenList) {
+      (adsbygoogle = //eslint-disable-line
+        window.adsbygoogle || []).push({}); //eslint-disable-line
+    }
+  };
   getRandom = (arr, number) => {
     let result = new Array(number), // eslint-disable-line
       len = arr.length,
@@ -152,7 +162,7 @@ export default class TrainsBetween extends Component {
   panelHeading = (param, journey) => {
     const url = param.split('-');
     return (
-      <div className="panel panel-default text-capitalize">
+      <div className="text-capitalize">
         <div className="panel-heading text-center" style={{padding: '0px', margin: '0px'}}>
           <div style={{background: '#4285F4', padding: '1px'}}>
             <h1 style={{fontSize: '18px', color: '#FFFFFF'}}>
@@ -302,24 +312,12 @@ export default class TrainsBetween extends Component {
             <div className="col-xs-12 col-sm-12 text-capitalize">
               {trainBetweenForm()}
               <br/>
-              <div className="panel panel-default">
-                {this.panelHeading(url, trainBetweenList)}
-              </div>
-              <div className="panel panel-default">
-                <div style={{display: 'block', margin: '0 auto'}}>
-                  <ins className="adsbygoogle"
-                       style={{display: 'inline-block', width: '728px', height: '90px'}}
-                       data-ad-client="ca-pub-1698974389938997"
-                       data-ad-slot="4563689260"></ins>
-                  <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                  </script>
-                </div>
-              </div>
-              {/* <div className="panel panel-default">
-               <img
-               src="https://images-eu.ssl-images-amazon.com/images/G/31/associates/build-links/aaxbannerstatic/static_728x90"
-               className="aff-image text-center" style={{display: 'block', margin: '0 auto'}}/></div> */}
+              {this.panelHeading(url, trainBetweenList)}
+              <ins className="adsbygoogle"
+                   style={{display: 'block'}}
+                   data-ad-client="ca-pub-1698974389938997"
+                   data-ad-slot="3086956064"
+                   data-ad-format="auto"/>
               <DesktopLayout trainBetweenList={trainBetweenList}/>
             </div>
             <div className="col-xs-12 ">
@@ -360,6 +358,11 @@ export default class TrainsBetween extends Component {
             <br/>
             <div className="panel panel-default">
               {this.panelHeading(url, trainBetweenList)}
+              <ins className="adsbygoogle"
+                   style={{display: 'block'}}
+                   data-ad-client="ca-pub-1698974389938997"
+                   data-ad-slot="3086956064"
+                   data-ad-format="auto"/>
             </div>
             <MobileLayout trainBetweenList={trainBetweenList}/>
           </div>
